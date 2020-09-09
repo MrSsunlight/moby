@@ -63,32 +63,32 @@ var ErrRedirect = errors.New("unexpected redirect in response")
 // Client is the API client that performs all operations
 // against a docker server.
 type Client struct {
-	// scheme sets the scheme for the client
+	// scheme sets the scheme for the client 客户端方案
 	scheme string
-	// host holds the server address to connect to
+	// host holds the server address to connect to 服务器地址
 	host string
-	// proto holds the client protocol i.e. unix.
+	// proto holds the client protocol i.e. unix. 客户端协议
 	proto string
-	// addr holds the client address.
+	// addr holds the client address. 客户端地址
 	addr string
-	// basePath holds the path to prepend to the requests.
+	// basePath holds the path to prepend to the requests. 前端请求路径
 	basePath string
-	// client used to send and receive http requests.
+	// client used to send and receive http requests. 客户端http请求
 	client *http.Client
-	// version of the server to talk to.
+	// version of the server to talk to. 服务器版本
 	version string
-	// custom http headers configured by users.
+	// custom http headers configured by users. 用户自定义http头配置
 	customHTTPHeaders map[string]string
-	// manualOverride is set to true when the version was set by users.
+	// manualOverride is set to true when the version was set by users. 用户开启版本设置时得开关
 	manualOverride bool
 
 	// negotiateVersion indicates if the client should automatically negotiate
 	// the API version to use when making requests. API version negotiation is
 	// performed on the first request, after which negotiated is set to "true"
-	// so that subsequent requests do not re-negotiate.
+	// so that subsequent requests do not re-negotiate.  版本协商
 	negotiateVersion bool
 
-	// negotiated indicates that API version negotiation took place
+	// negotiated indicates that API version negotiation took place api版本协商
 	negotiated bool
 }
 
@@ -102,6 +102,7 @@ type Client struct {
 // In go 1.8 this 301 will be converted to a GET request, and ends up getting a 404 from the daemon.
 // This behavior change manifests in the client in that before the 301 was not followed and
 // the client did not generate an error, but now results in a message like Error response from daemon: page not found.
+// 定向检查，如果请求是非get返回' ErrRedirect '。否则使用最后一个响应
 func CheckRedirect(req *http.Request, via []*http.Request) error {
 	if via[0].Method == http.MethodGet {
 		return http.ErrUseLastResponse
@@ -116,6 +117,7 @@ func CheckRedirect(req *http.Request, via []*http.Request) error {
 // It won't send any version information if the version number is empty. It is
 // highly recommended that you set a version or your client may break if the
 // server is upgraded.
+// 如果版本号为空，则不会发送任何版本信息。它是强烈建议设置一个版本，否则客户端可能会崩溃
 func NewClientWithOpts(ops ...Opt) (*Client, error) {
 	client, err := defaultHTTPClient(DefaultDockerHost)
 	if err != nil {
@@ -129,6 +131,7 @@ func NewClientWithOpts(ops ...Opt) (*Client, error) {
 		addr:    defaultAddr,
 	}
 
+	// 函参
 	for _, op := range ops {
 		if err := op(c); err != nil {
 			return nil, err
@@ -138,6 +141,7 @@ func NewClientWithOpts(ops ...Opt) (*Client, error) {
 	if _, ok := c.client.Transport.(http.RoundTripper); !ok {
 		return nil, fmt.Errorf("unable to verify TLS configuration, invalid transport %v", c.client.Transport)
 	}
+	// 默认使用http
 	if c.scheme == "" {
 		c.scheme = "http"
 
@@ -257,7 +261,7 @@ func (cli *Client) HTTPClient() *http.Client {
 }
 
 // ParseHostURL parses a url string, validates the string is a host url, and
-// returns the parsed URL
+// returns the parsed URL 主机URL解析
 func ParseHostURL(host string) (*url.URL, error) {
 	protoAddrParts := strings.SplitN(host, "://", 2)
 	if len(protoAddrParts) == 1 {
