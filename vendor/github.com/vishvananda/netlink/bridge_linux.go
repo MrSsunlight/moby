@@ -96,7 +96,7 @@ func (h *Handle) bridgeVlanModify(cmd int, link Link, vid uint16, pvid, untagged
 		flags |= nl.BRIDGE_FLAGS_MASTER
 	}
 	if flags > 0 {
-		nl.NewRtAttrChild(br, nl.IFLA_BRIDGE_FLAGS, nl.Uint16Attr(flags))
+		br.AddRtAttr(nl.IFLA_BRIDGE_FLAGS, nl.Uint16Attr(flags))
 	}
 	vlanInfo := &nl.BridgeVlanInfo{Vid: vid}
 	if pvid {
@@ -105,11 +105,15 @@ func (h *Handle) bridgeVlanModify(cmd int, link Link, vid uint16, pvid, untagged
 	if untagged {
 		vlanInfo.Flags |= nl.BRIDGE_VLAN_INFO_UNTAGGED
 	}
-	nl.NewRtAttrChild(br, nl.IFLA_BRIDGE_VLAN_INFO, vlanInfo.Serialize())
+	br.AddRtAttr(nl.IFLA_BRIDGE_VLAN_INFO, vlanInfo.Serialize())
 	req.AddData(br)
 	_, err := req.Execute(unix.NETLINK_ROUTE, 0)
+<<<<<<< HEAD
 	if err != nil {
 		return err
 	}
 	return nil
+=======
+	return err
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }

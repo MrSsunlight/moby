@@ -24,11 +24,19 @@ import (
 	"net"
 	"time"
 
+<<<<<<< HEAD
+=======
+	"google.golang.org/grpc/backoff"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/credentials"
 	"google.golang.org/grpc/grpclog"
 	"google.golang.org/grpc/internal"
+<<<<<<< HEAD
 	"google.golang.org/grpc/internal/backoff"
+=======
+	internalbackoff "google.golang.org/grpc/internal/backoff"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"google.golang.org/grpc/internal/envconfig"
 	"google.golang.org/grpc/internal/transport"
 	"google.golang.org/grpc/keepalive"
@@ -47,7 +55,11 @@ type dialOptions struct {
 
 	cp          Compressor
 	dc          Decompressor
+<<<<<<< HEAD
 	bs          backoff.Strategy
+=======
+	bs          internalbackoff.Strategy
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	block       bool
 	insecure    bool
 	timeout     time.Duration
@@ -57,9 +69,13 @@ type dialOptions struct {
 	callOptions []CallOption
 	// This is used by v1 balancer dial option WithBalancer to support v1
 	// balancer, and also by WithBalancerName dial option.
+<<<<<<< HEAD
 	balancerBuilder balancer.Builder
 	// This is to support grpclb.
 	resolverBuilder             resolver.Builder
+=======
+	balancerBuilder             balancer.Builder
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	channelzParentID            int64
 	disableServiceConfig        bool
 	disableRetry                bool
@@ -68,6 +84,14 @@ type dialOptions struct {
 	minConnectTimeout           func() time.Duration
 	defaultServiceConfig        *ServiceConfig // defaultServiceConfig is parsed from defaultServiceConfigRawJSON.
 	defaultServiceConfigRawJSON *string
+<<<<<<< HEAD
+=======
+	// This is used by ccResolverWrapper to backoff between successive calls to
+	// resolver.ResolveNow(). The user will have no need to configure this, but
+	// we need to be able to configure this in tests.
+	resolveNowBackoff func(int) time.Duration
+	resolvers         []resolver.Builder
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 // DialOption configures how we set up the connection.
@@ -226,6 +250,7 @@ func WithBalancerName(balancerName string) DialOption {
 	})
 }
 
+<<<<<<< HEAD
 // withResolverBuilder is only for grpclb.
 func withResolverBuilder(b resolver.Builder) DialOption {
 	return newFuncDialOption(func(o *dialOptions) {
@@ -233,6 +258,8 @@ func withResolverBuilder(b resolver.Builder) DialOption {
 	})
 }
 
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 // WithServiceConfig returns a DialOption which has a channel to read the
 // service configuration.
 //
@@ -246,8 +273,33 @@ func WithServiceConfig(c <-chan ServiceConfig) DialOption {
 	})
 }
 
+<<<<<<< HEAD
 // WithBackoffMaxDelay configures the dialer to use the provided maximum delay
 // when backing off after failed connection attempts.
+=======
+// WithConnectParams configures the dialer to use the provided ConnectParams.
+//
+// The backoff configuration specified as part of the ConnectParams overrides
+// all defaults specified in
+// https://github.com/grpc/grpc/blob/master/doc/connection-backoff.md. Consider
+// using the backoff.DefaultConfig as a base, in cases where you want to
+// override only a subset of the backoff configuration.
+//
+// This API is EXPERIMENTAL.
+func WithConnectParams(p ConnectParams) DialOption {
+	return newFuncDialOption(func(o *dialOptions) {
+		o.bs = internalbackoff.Exponential{Config: p.Backoff}
+		o.minConnectTimeout = func() time.Duration {
+			return p.MinConnectTimeout
+		}
+	})
+}
+
+// WithBackoffMaxDelay configures the dialer to use the provided maximum delay
+// when backing off after failed connection attempts.
+//
+// Deprecated: use WithConnectParams instead. Will be supported throughout 1.x.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func WithBackoffMaxDelay(md time.Duration) DialOption {
 	return WithBackoffConfig(BackoffConfig{MaxDelay: md})
 }
@@ -255,19 +307,31 @@ func WithBackoffMaxDelay(md time.Duration) DialOption {
 // WithBackoffConfig configures the dialer to use the provided backoff
 // parameters after connection failures.
 //
+<<<<<<< HEAD
 // Use WithBackoffMaxDelay until more parameters on BackoffConfig are opened up
 // for use.
 func WithBackoffConfig(b BackoffConfig) DialOption {
 	return withBackoff(backoff.Exponential{
 		MaxDelay: b.MaxDelay,
 	})
+=======
+// Deprecated: use WithConnectParams instead. Will be supported throughout 1.x.
+func WithBackoffConfig(b BackoffConfig) DialOption {
+	bc := backoff.DefaultConfig
+	bc.MaxDelay = b.MaxDelay
+	return withBackoff(internalbackoff.Exponential{Config: bc})
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 // withBackoff sets the backoff strategy used for connectRetryNum after a failed
 // connection attempt.
 //
 // This can be exported if arbitrary backoff strategies are allowed by gRPC.
+<<<<<<< HEAD
 func withBackoff(bs backoff.Strategy) DialOption {
+=======
+func withBackoff(bs internalbackoff.Strategy) DialOption {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	return newFuncDialOption(func(o *dialOptions) {
 		o.bs = bs
 	})
@@ -322,8 +386,13 @@ func WithCredentialsBundle(b credentials.Bundle) DialOption {
 // WithTimeout returns a DialOption that configures a timeout for dialing a
 // ClientConn initially. This is valid if and only if WithBlock() is present.
 //
+<<<<<<< HEAD
 // Deprecated: use DialContext and context.WithTimeout instead.  Will be
 // supported throughout 1.x.
+=======
+// Deprecated: use DialContext instead of Dial and context.WithTimeout
+// instead.  Will be supported throughout 1.x.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func WithTimeout(d time.Duration) DialOption {
 	return newFuncDialOption(func(o *dialOptions) {
 		o.timeout = d
@@ -341,7 +410,10 @@ func WithContextDialer(f func(context.Context, string) (net.Conn, error)) DialOp
 }
 
 func init() {
+<<<<<<< HEAD
 	internal.WithResolverBuilder = withResolverBuilder
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	internal.WithHealthCheckFunc = withHealthCheckFunc
 }
 
@@ -455,6 +527,11 @@ func WithAuthority(a string) DialOption {
 // WithChannelzParentID returns a DialOption that specifies the channelz ID of
 // current ClientConn's parent. This function is used in nested channel creation
 // (e.g. grpclb dial).
+<<<<<<< HEAD
+=======
+//
+// This API is EXPERIMENTAL.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func WithChannelzParentID(id int64) DialOption {
 	return newFuncDialOption(func(o *dialOptions) {
 		o.channelzParentID = id
@@ -539,6 +616,10 @@ func defaultDialOptions() dialOptions {
 			WriteBufferSize: defaultWriteBufSize,
 			ReadBufferSize:  defaultReadBufSize,
 		},
+<<<<<<< HEAD
+=======
+		resolveNowBackoff: internalbackoff.DefaultExponential.Backoff,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 }
 
@@ -552,3 +633,28 @@ func withMinConnectDeadline(f func() time.Duration) DialOption {
 		o.minConnectTimeout = f
 	})
 }
+<<<<<<< HEAD
+=======
+
+// withResolveNowBackoff specifies the function that clientconn uses to backoff
+// between successive calls to resolver.ResolveNow().
+//
+// For testing purpose only.
+func withResolveNowBackoff(f func(int) time.Duration) DialOption {
+	return newFuncDialOption(func(o *dialOptions) {
+		o.resolveNowBackoff = f
+	})
+}
+
+// WithResolvers allows a list of resolver implementations to be registered
+// locally with the ClientConn without needing to be globally registered via
+// resolver.Register.  They will be matched against the scheme used for the
+// current Dial only, and will take precedence over the global registry.
+//
+// This API is EXPERIMENTAL.
+func WithResolvers(rs ...resolver.Builder) DialOption {
+	return newFuncDialOption(func(o *dialOptions) {
+		o.resolvers = append(o.resolvers, rs...)
+	})
+}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375

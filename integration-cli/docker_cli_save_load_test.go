@@ -17,10 +17,17 @@ import (
 	"time"
 
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"github.com/opencontainers/go-digest"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
 	"gotest.tools/icmd"
+=======
+	digest "github.com/opencontainers/go-digest"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // save a repo using gz compression and try to load it using stdout
@@ -236,7 +243,7 @@ func (s *DockerSuite) TestSaveRepoWithMultipleImages(c *testing.T) {
 	lines := strings.Split(strings.TrimSpace(out), "\n")
 	var actual []string
 	for _, l := range lines {
-		if regexp.MustCompile("^[a-f0-9]{64}\\.json$").Match([]byte(l)) {
+		if regexp.MustCompile(`^[a-f0-9]{64}\.json$`).Match([]byte(l)) {
 			actual = append(actual, strings.TrimSuffix(l, ".json"))
 		}
 	}

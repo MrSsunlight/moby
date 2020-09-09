@@ -430,6 +430,10 @@ type Winsize struct {
 
 const (
 	AT_FDCWD            = -0x64
+<<<<<<< HEAD
+=======
+	AT_SYMLINK_FOLLOW   = 0x4
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	AT_SYMLINK_NOFOLLOW = 0x2
 )
 

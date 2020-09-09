@@ -19,7 +19,11 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
+<<<<<<< HEAD
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+=======
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 // The canonical error codes for Google APIs.
 //

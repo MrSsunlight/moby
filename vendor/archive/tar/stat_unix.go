@@ -2,7 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 // +build linux darwin dragonfly freebsd openbsd netbsd solaris
+=======
+// +build aix linux darwin dragonfly freebsd openbsd netbsd solaris
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 package tar
 
@@ -34,6 +38,14 @@ func statUnix(fi os.FileInfo, h *Header) error {
 	if h.Typeflag == TypeChar || h.Typeflag == TypeBlock {
 		dev := uint64(sys.Rdev) // May be int32 or uint32
 		switch runtime.GOOS {
+<<<<<<< HEAD
+=======
+		case "aix":
+			var major, minor uint32
+			major = uint32((dev & 0x3fffffff00000000) >> 32)
+			minor = uint32((dev & 0x00000000ffffffff) >> 0)
+			h.Devmajor, h.Devminor = int64(major), int64(minor)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case "linux":
 			// Copied from golang.org/x/sys/unix/dev_linux.go.
 			major := uint32((dev & 0x00000000000fff00) >> 8)

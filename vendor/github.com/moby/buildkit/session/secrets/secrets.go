@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/moby/buildkit/session"
+	"github.com/moby/buildkit/util/grpcerrors"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc/codes"
-	"google.golang.org/grpc/status"
 )
 
 type SecretStore interface {
@@ -21,7 +21,11 @@ func GetSecret(ctx context.Context, c session.Caller, id string) ([]byte, error)
 		ID: id,
 	})
 	if err != nil {
+<<<<<<< HEAD
 		if st, ok := status.FromError(errors.Cause(err)); ok && (st.Code() == codes.Unimplemented || st.Code() == codes.NotFound) {
+=======
+		if code := grpcerrors.Code(err); code == codes.Unimplemented || code == codes.NotFound {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 			return nil, errors.Wrapf(ErrNotFound, "secret %s not found", id)
 		}
 		return nil, errors.WithStack(err)

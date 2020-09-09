@@ -6,7 +6,11 @@ import (
 
 	"github.com/docker/docker/api/types/versions"
 	"github.com/docker/docker/integration-cli/cli"
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestCommitAfterContainerIsDone(c *testing.T) {
@@ -38,7 +42,11 @@ func (s *DockerSuite) TestCommitWithoutPause(c *testing.T) {
 	dockerCmd(c, "inspect", cleanedImageID)
 }
 
+<<<<<<< HEAD
 //test commit a paused container should not unpause it after commit
+=======
+// TestCommitPausedContainer tests that a paused container is not unpaused after being committed
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func (s *DockerSuite) TestCommitPausedContainer(c *testing.T) {
 	testRequires(c, DaemonIsLinux)
 	out, _ := dockerCmd(c, "run", "-i", "-d", "busybox")

@@ -3,13 +3,16 @@ package main
 import (
 	"encoding/json"
 	"fmt"
-	"net"
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/docker/docker/integration-cli/daemon"
 	testdaemon "github.com/docker/docker/internal/test/daemon"
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // ensure docker info succeeds
@@ -56,6 +59,7 @@ func (s *DockerSuite) TestInfoEnsureSucceeds(c *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 // TestInfoFormat tests `docker info --format`
 func (s *DockerSuite) TestInfoFormat(c *testing.T) {
 	out, status := dockerCmd(c, "info", "--format", "{{json .}}")
@@ -127,6 +131,8 @@ func (s *DockerSuite) TestInfoDiscoveryAdvertiseInterfaceName(c *testing.T) {
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf("Cluster Advertise: %s:2375\n", ip.String())))
 }
 
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func (s *DockerSuite) TestInfoDisplaysRunningContainers(c *testing.T) {
 	testRequires(c, DaemonIsLinux)
 
@@ -172,6 +178,7 @@ func (s *DockerSuite) TestInfoDisplaysStoppedContainers(c *testing.T) {
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf(" Running: %d\n", existing["ContainersRunning"])))
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf(" Paused: %d\n", existing["ContainersPaused"])))
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf(" Stopped: %d\n", existing["ContainersStopped"]+1)))
+<<<<<<< HEAD
 }
 
 func (s *DockerSuite) TestInfoDebug(c *testing.T) {
@@ -221,6 +228,8 @@ func (s *DockerDaemonSuite) TestRegistryMirrors(c *testing.T) {
 	assert.Assert(c, strings.Contains(out, "Registry Mirrors:\n"))
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf(" %s", registryMirror1)))
 	assert.Assert(c, strings.Contains(out, fmt.Sprintf(" %s", registryMirror2)))
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func existingContainerStates(c *testing.T) map[string]int {

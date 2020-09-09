@@ -18,6 +18,7 @@ import (
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/daemon"
 	"github.com/docker/docker/integration-cli/environment"
+<<<<<<< HEAD
 	testdaemon "github.com/docker/docker/internal/test/daemon"
 	ienv "github.com/docker/docker/internal/test/environment"
 	"github.com/docker/docker/internal/test/fakestorage"
@@ -26,6 +27,16 @@ import (
 	"github.com/docker/docker/internal/test/suite"
 	"github.com/docker/docker/pkg/reexec"
 	"gotest.tools/assert"
+=======
+	"github.com/docker/docker/internal/test/suite"
+	"github.com/docker/docker/pkg/reexec"
+	testdaemon "github.com/docker/docker/testutil/daemon"
+	ienv "github.com/docker/docker/testutil/environment"
+	"github.com/docker/docker/testutil/fakestorage"
+	"github.com/docker/docker/testutil/fixtures/plugin"
+	"github.com/docker/docker/testutil/registry"
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 const (
@@ -349,6 +360,10 @@ func (s *DockerSwarmSuite) SetUpTest(c *testing.T) {
 }
 
 func (s *DockerSwarmSuite) AddDaemon(c *testing.T, joinSwarm, manager bool) *daemon.Daemon {
+<<<<<<< HEAD
+=======
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	d := daemon.New(c, dockerBinary, dockerdBinary,
 		testdaemon.WithEnvironment(testEnv.Execution),
 		testdaemon.WithSwarmPort(defaultSwarmPort+s.portIndex),

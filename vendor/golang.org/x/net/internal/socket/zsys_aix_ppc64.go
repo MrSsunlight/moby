@@ -53,7 +53,10 @@ type sockaddrInet6 struct {
 const (
 	sizeofIovec   = 0x10
 	sizeofMsghdr  = 0x30
+<<<<<<< HEAD
 	sizeofMmsghdr = 0x38
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	sizeofCmsghdr = 0xc
 
 	sizeofSockaddrInet  = 0x10

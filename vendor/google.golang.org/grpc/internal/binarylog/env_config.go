@@ -43,7 +43,11 @@ import (
 //    Foo.
 //
 // If two configs exist for one certain method or service, the one specified
+<<<<<<< HEAD
 // later overrides the privous config.
+=======
+// later overrides the previous config.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func NewLoggerFromConfigString(s string) Logger {
 	if s == "" {
 		return nil
@@ -74,7 +78,11 @@ func (l *logger) fillMethodLoggerWithConfigString(config string) error {
 			return fmt.Errorf("invalid config: %q, %v", config, err)
 		}
 		if m == "*" {
+<<<<<<< HEAD
 			return fmt.Errorf("invalid config: %q, %v", config, "* not allowd in blacklist config")
+=======
+			return fmt.Errorf("invalid config: %q, %v", config, "* not allowed in blacklist config")
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		}
 		if suffix != "" {
 			return fmt.Errorf("invalid config: %q, %v", config, "header/message limit not allowed in blacklist config")

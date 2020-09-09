@@ -14,9 +14,13 @@ import (
 	"github.com/creack/pty"
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/client"
-	"github.com/docker/docker/internal/test/request"
 	"github.com/docker/docker/pkg/parsers/kernel"
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestUpdateRunningContainer(c *testing.T) {
@@ -108,7 +112,7 @@ func (s *DockerSuite) TestUpdateContainerInvalidValue(c *testing.T) {
 	dockerCmd(c, "run", "-d", "--name", name, "-m", "300M", "busybox", "true")
 	out, _, err := dockerCmdWithError("update", "-m", "2M", name)
 	assert.ErrorContains(c, err, "")
-	expected := "Minimum memory limit allowed is 4MB"
+	expected := "Minimum memory limit allowed is 6MB"
 	assert.Assert(c, strings.Contains(out, expected))
 }
 

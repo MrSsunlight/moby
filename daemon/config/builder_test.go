@@ -5,8 +5,13 @@ import (
 
 	"github.com/docker/docker/api/types/filters"
 	"github.com/google/go-cmp/cmp"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/fs"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/fs"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func TestBuilderGC(t *testing.T) {

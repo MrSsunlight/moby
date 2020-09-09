@@ -17,8 +17,8 @@ import (
 	"github.com/docker/docker/pkg/archive"
 	"github.com/docker/docker/pkg/reexec"
 	"github.com/docker/docker/pkg/stringid"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
 )
 
 var (
@@ -729,9 +729,13 @@ func BenchmarkConcurrentAccess(b *testing.B) {
 
 	numConcurrent := 256
 	// create a bunch of ids
-	var ids []string
+	ids := make([]string, numConcurrent)
 	for i := 0; i < numConcurrent; i++ {
+<<<<<<< HEAD
 		ids = append(ids, stringid.GenerateRandomID())
+=======
+		ids[i] = stringid.GenerateRandomID()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 
 	if err := d.Create(ids[0], "", nil); err != nil {
@@ -743,7 +747,7 @@ func BenchmarkConcurrentAccess(b *testing.B) {
 	}
 
 	parent := ids[1]
-	ids = append(ids[2:])
+	ids = ids[2:]
 
 	chErr := make(chan error, numConcurrent)
 	var outerGroup sync.WaitGroup

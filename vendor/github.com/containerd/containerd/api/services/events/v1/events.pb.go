@@ -11,8 +11,16 @@ import (
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	types "github.com/gogo/protobuf/types"
 	grpc "google.golang.org/grpc"
+<<<<<<< HEAD
 	io "io"
 	math "math"
+=======
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 	time "time"
@@ -28,7 +36,7 @@ var _ = time.Kitchen
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type PublishRequest struct {
 	Topic                string     `protobuf:"bytes,1,opt,name=topic,proto3" json:"topic,omitempty"`
@@ -36,6 +44,7 @@ type PublishRequest struct {
 	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
 	XXX_unrecognized     []byte     `json:"-"`
 	XXX_sizecache        int32      `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *PublishRequest) Reset()      { *m = PublishRequest{} }
@@ -68,6 +77,40 @@ func (m *PublishRequest) XXX_DiscardUnknown() {
 	xxx_messageInfo_PublishRequest.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *PublishRequest) Reset()      { *m = PublishRequest{} }
+func (*PublishRequest) ProtoMessage() {}
+func (*PublishRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43fcd20dc1642376, []int{0}
+}
+func (m *PublishRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PublishRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PublishRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PublishRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PublishRequest.Merge(m, src)
+}
+func (m *PublishRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *PublishRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_PublishRequest.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_PublishRequest proto.InternalMessageInfo
 
 type ForwardRequest struct {
@@ -90,7 +133,11 @@ func (m *ForwardRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, erro
 		return xxx_messageInfo_ForwardRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -129,7 +176,11 @@ func (m *SubscribeRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return xxx_messageInfo_SubscribeRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -156,6 +207,7 @@ type Envelope struct {
 	XXX_NoUnkeyedLiteral struct{}   `json:"-"`
 	XXX_unrecognized     []byte     `json:"-"`
 	XXX_sizecache        int32      `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *Envelope) Reset()      { *m = Envelope{} }
@@ -188,6 +240,40 @@ func (m *Envelope) XXX_DiscardUnknown() {
 	xxx_messageInfo_Envelope.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *Envelope) Reset()      { *m = Envelope{} }
+func (*Envelope) ProtoMessage() {}
+func (*Envelope) Descriptor() ([]byte, []int) {
+	return fileDescriptor_43fcd20dc1642376, []int{3}
+}
+func (m *Envelope) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Envelope) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Envelope.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Envelope) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Envelope.Merge(m, src)
+}
+func (m *Envelope) XXX_Size() int {
+	return m.Size()
+}
+func (m *Envelope) XXX_DiscardUnknown() {
+	xxx_messageInfo_Envelope.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_Envelope proto.InternalMessageInfo
 
 func init() {
@@ -377,6 +463,20 @@ type EventsServer interface {
 	Subscribe(*SubscribeRequest, Events_SubscribeServer) error
 }
 
+// UnimplementedEventsServer can be embedded to have forward compatible implementations.
+type UnimplementedEventsServer struct {
+}
+
+func (*UnimplementedEventsServer) Publish(ctx context.Context, req *PublishRequest) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Publish not implemented")
+}
+func (*UnimplementedEventsServer) Forward(ctx context.Context, req *ForwardRequest) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Forward not implemented")
+}
+func (*UnimplementedEventsServer) Subscribe(req *SubscribeRequest, srv Events_SubscribeServer) error {
+	return status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+}
+
 func RegisterEventsServer(s *grpc.Server, srv EventsServer) {
 	s.RegisterService(&_Events_serviceDesc, srv)
 }
@@ -464,7 +564,7 @@ var _Events_serviceDesc = grpc.ServiceDesc{
 func (m *PublishRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -472,36 +572,52 @@ func (m *PublishRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *PublishRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PublishRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Topic) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(len(m.Topic)))
-		i += copy(dAtA[i:], m.Topic)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Event != nil {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(m.Event.Size()))
-		n1, err := m.Event.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Event.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintEvents(dAtA, i, uint64(size))
 		}
-		i += n1
+		i--
+		dAtA[i] = 0x12
 	}
+	if len(m.Topic) > 0 {
+		i -= len(m.Topic)
+		copy(dAtA[i:], m.Topic)
+		i = encodeVarintEvents(dAtA, i, uint64(len(m.Topic)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ForwardRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -509,30 +625,45 @@ func (m *ForwardRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ForwardRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ForwardRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Envelope != nil {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(m.Envelope.Size()))
-		n2, err := m.Envelope.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n2
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.Envelope != nil {
+		{
+			size, err := m.Envelope.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintEvents(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *SubscribeRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -540,35 +671,42 @@ func (m *SubscribeRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *SubscribeRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SubscribeRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Filters) > 0 {
-		for _, s := range m.Filters {
+		for iNdEx := len(m.Filters) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Filters[iNdEx])
+			copy(dAtA[i:], m.Filters[iNdEx])
+			i = encodeVarintEvents(dAtA, i, uint64(len(m.Filters[iNdEx])))
+			i--
 			dAtA[i] = 0xa
-			i++
-			l = len(s)
-			for l >= 1<<7 {
-				dAtA[i] = uint8(uint64(l)&0x7f | 0x80)
-				l >>= 7
-				i++
-			}
-			dAtA[i] = uint8(l)
-			i++
-			i += copy(dAtA[i:], s)
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *Envelope) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -576,54 +714,82 @@ func (m *Envelope) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Envelope) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Envelope) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+<<<<<<< HEAD
 	dAtA[i] = 0xa
 	i++
 	i = encodeVarintEvents(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.Timestamp)))
 	n3, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Timestamp, dAtA[i:])
 	if err != nil {
 		return 0, err
-	}
-	i += n3
-	if len(m.Namespace) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(len(m.Namespace)))
-		i += copy(dAtA[i:], m.Namespace)
-	}
-	if len(m.Topic) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(len(m.Topic)))
-		i += copy(dAtA[i:], m.Topic)
+=======
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 	if m.Event != nil {
-		dAtA[i] = 0x22
-		i++
-		i = encodeVarintEvents(dAtA, i, uint64(m.Event.Size()))
-		n4, err := m.Event.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Event.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintEvents(dAtA, i, uint64(size))
 		}
-		i += n4
+		i--
+		dAtA[i] = 0x22
 	}
+	if len(m.Topic) > 0 {
+		i -= len(m.Topic)
+		copy(dAtA[i:], m.Topic)
+		i = encodeVarintEvents(dAtA, i, uint64(len(m.Topic)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Namespace) > 0 {
+		i -= len(m.Namespace)
+		copy(dAtA[i:], m.Namespace)
+		i = encodeVarintEvents(dAtA, i, uint64(len(m.Namespace)))
+		i--
+		dAtA[i] = 0x12
+	}
+	n4, err4 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Timestamp, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Timestamp):])
+	if err4 != nil {
+		return 0, err4
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i -= n4
+	i = encodeVarintEvents(dAtA, i, uint64(n4))
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintEvents(dAtA []byte, offset int, v uint64) int {
+	offset -= sovEvents(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *PublishRequest) Size() (n int) {
 	if m == nil {
@@ -706,14 +872,7 @@ func (m *Envelope) Size() (n int) {
 }
 
 func sovEvents(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozEvents(x uint64) (n int) {
 	return sovEvents(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -735,7 +894,11 @@ func (this *ForwardRequest) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ForwardRequest{`,
+<<<<<<< HEAD
 		`Envelope:` + strings.Replace(fmt.Sprintf("%v", this.Envelope), "Envelope", "Envelope", 1) + `,`,
+=======
+		`Envelope:` + strings.Replace(this.Envelope.String(), "Envelope", "Envelope", 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -757,7 +920,11 @@ func (this *Envelope) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&Envelope{`,
+<<<<<<< HEAD
 		`Timestamp:` + strings.Replace(strings.Replace(this.Timestamp.String(), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`Timestamp:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.Timestamp), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`Namespace:` + fmt.Sprintf("%v", this.Namespace) + `,`,
 		`Topic:` + fmt.Sprintf("%v", this.Topic) + `,`,
 		`Event:` + strings.Replace(fmt.Sprintf("%v", this.Event), "Any", "types.Any", 1) + `,`,
@@ -1262,6 +1429,7 @@ func (m *Envelope) Unmarshal(dAtA []byte) error {
 func skipEvents(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -1293,10 +1461,8 @@ func skipEvents(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -1317,6 +1483,7 @@ func skipEvents(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthEvents
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthEvents
 			}
@@ -1353,19 +1520,32 @@ func skipEvents(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupEvents
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthEvents
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthEvents = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowEvents   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthEvents        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowEvents          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupEvents = fmt.Errorf("proto: unexpected end of group")
 )

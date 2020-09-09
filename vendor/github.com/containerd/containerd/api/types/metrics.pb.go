@@ -10,6 +10,10 @@ import (
 	types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 	time "time"
@@ -25,7 +29,11 @@ var _ = time.Kitchen
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
+<<<<<<< HEAD
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+=======
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 type Metric struct {
 	Timestamp            time.Time  `protobuf:"bytes,1,opt,name=timestamp,proto3,stdtime" json:"timestamp"`
@@ -49,7 +57,11 @@ func (m *Metric) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Metric.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -100,7 +112,7 @@ var fileDescriptor_8d594d87edf6e6bc = []byte{
 func (m *Metric) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -108,48 +120,75 @@ func (m *Metric) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Metric) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Metric) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+<<<<<<< HEAD
 	dAtA[i] = 0xa
 	i++
 	i = encodeVarintMetrics(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.Timestamp)))
 	n1, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Timestamp, dAtA[i:])
 	if err != nil {
 		return 0, err
-	}
-	i += n1
-	if len(m.ID) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintMetrics(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+=======
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Data != nil {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintMetrics(dAtA, i, uint64(m.Data.Size()))
-		n2, err := m.Data.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Data.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintMetrics(dAtA, i, uint64(size))
 		}
-		i += n2
+		i--
+		dAtA[i] = 0x1a
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintMetrics(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.Timestamp, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.Timestamp):])
+	if err2 != nil {
+		return 0, err2
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i -= n2
+	i = encodeVarintMetrics(dAtA, i, uint64(n2))
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintMetrics(dAtA []byte, offset int, v uint64) int {
+	offset -= sovMetrics(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *Metric) Size() (n int) {
 	if m == nil {
@@ -174,14 +213,7 @@ func (m *Metric) Size() (n int) {
 }
 
 func sovMetrics(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozMetrics(x uint64) (n int) {
 	return sovMetrics(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -191,7 +223,11 @@ func (this *Metric) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&Metric{`,
+<<<<<<< HEAD
 		`Timestamp:` + strings.Replace(strings.Replace(this.Timestamp.String(), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`Timestamp:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.Timestamp), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`ID:` + fmt.Sprintf("%v", this.ID) + `,`,
 		`Data:` + strings.Replace(fmt.Sprintf("%v", this.Data), "Any", "types.Any", 1) + `,`,
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
@@ -365,6 +401,7 @@ func (m *Metric) Unmarshal(dAtA []byte) error {
 func skipMetrics(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -396,10 +433,8 @@ func skipMetrics(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -420,6 +455,7 @@ func skipMetrics(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthMetrics
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthMetrics
 			}
@@ -456,19 +492,32 @@ func skipMetrics(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupMetrics
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthMetrics
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthMetrics = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowMetrics   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthMetrics        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowMetrics          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupMetrics = fmt.Errorf("proto: unexpected end of group")
 )

@@ -5,10 +5,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/docker/docker/internal/testutil"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/skip"
+	"github.com/docker/docker/testutil"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/skip"
 )
 
 // tagging a named image in a new unprefixed repo should work

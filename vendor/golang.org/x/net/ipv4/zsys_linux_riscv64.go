@@ -57,9 +57,12 @@ const (
 	sysSO_EE_ORIGIN_TXSTATUS     = 0x4
 	sysSO_EE_ORIGIN_TIMESTAMPING = 0x4
 
+<<<<<<< HEAD
 	sysSOL_SOCKET       = 0x1
 	sysSO_ATTACH_FILTER = 0x1a
 
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	sizeofKernelSockaddrStorage = 0x80
 	sizeofSockaddrInet          = 0x10
 	sizeofInetPktinfo           = 0xc
@@ -72,8 +75,11 @@ const (
 	sizeofGroupSourceReq = 0x108
 
 	sizeofICMPFilter = 0x4
+<<<<<<< HEAD
 
 	sizeofSockFprog = 0x10
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 type kernelSockaddrStorage struct {
@@ -137,6 +143,7 @@ type groupSourceReq struct {
 type icmpFilter struct {
 	Data uint32
 }
+<<<<<<< HEAD
 
 type sockFProg struct {
 	Len    uint16
@@ -149,3 +156,5 @@ type sockFilter struct {
 	Jf   uint8
 	K    uint32
 }
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375

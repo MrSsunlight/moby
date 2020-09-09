@@ -15,7 +15,11 @@ import (
 
 	"github.com/docker/docker/pkg/archive"
 	"golang.org/x/sys/unix"
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // Test for CVE-2018-15664

@@ -3,6 +3,7 @@ set -e -o pipefail
 
 source hack/validate/.validate
 
+<<<<<<< HEAD
 
 run_integration_flaky() {
 	new_tests=$(
@@ -20,6 +21,24 @@ run_integration_flaky() {
 	echo "$new_tests"
 	echo "Running stress test for them."
 
+=======
+run_integration_flaky() {
+	new_tests=$(
+		validate_diff --diff-filter=ACMR --unified=0 -- 'integration/*_test.go' \
+			| grep -E '^(\+func Test)(.*)(\*testing\.T\))' || true
+	)
+
+	if [ -z "$new_tests" ]; then
+		echo 'No new tests added to integration.'
+		return
+	fi
+
+	echo
+	echo "Found new integrations tests:"
+	echo "$new_tests"
+	echo "Running stress test for them."
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	(
 		TESTARRAY=$(echo "$new_tests" | sed 's/+func //' | awk -F'\\(' '{print $1}' | tr '\n' '|')
 		# Note: TEST_REPEAT will make the test suite run 5 times, restarting the daemon

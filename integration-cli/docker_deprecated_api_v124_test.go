@@ -9,9 +9,15 @@ import (
 	"testing"
 
 	"github.com/docker/docker/api/types/versions"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func formatV123StartAPIURL(url string) string {
@@ -175,7 +181,7 @@ func (s *DockerSuite) TestDeprecatedStartWithTooLowMemoryLimit(c *testing.T) {
 	} else {
 		assert.Equal(c, res.StatusCode, http.StatusBadRequest)
 	}
-	assert.Assert(c, is.Contains(string(b), "Minimum memory limit allowed is 4MB"))
+	assert.Assert(c, is.Contains(string(b), "Minimum memory limit allowed is 6MB"))
 }
 
 // #14640

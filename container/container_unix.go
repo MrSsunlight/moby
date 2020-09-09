@@ -13,10 +13,10 @@ import (
 	containertypes "github.com/docker/docker/api/types/container"
 	mounttypes "github.com/docker/docker/api/types/mount"
 	swarmtypes "github.com/docker/docker/api/types/swarm"
-	"github.com/docker/docker/pkg/mount"
 	"github.com/docker/docker/pkg/stringid"
 	"github.com/docker/docker/volume"
 	volumemounts "github.com/docker/docker/volume/mounts"
+	"github.com/moby/sys/mount"
 	"github.com/opencontainers/selinux/go-selinux/label"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -189,7 +189,11 @@ func (container *Container) UnmountIpcMount() error {
 	if shmPath == "" {
 		return nil
 	}
+<<<<<<< HEAD
 	if err = mount.Unmount(shmPath); err != nil && !os.IsNotExist(errors.Cause(err)) {
+=======
+	if err = mount.Unmount(shmPath); err != nil && !errors.Is(err, os.ErrNotExist) {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		return err
 	}
 	return nil
@@ -394,7 +398,7 @@ func (container *Container) DetachAndUnmount(volumeEventLog func(name, action st
 // are not supported
 func ignoreUnsupportedXAttrs() fs.CopyDirOpt {
 	xeh := func(dst, src, xattrKey string, err error) error {
-		if errors.Cause(err) != syscall.ENOTSUP {
+		if !errors.Is(err, syscall.ENOTSUP) {
 			return err
 		}
 		return nil

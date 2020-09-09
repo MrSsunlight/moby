@@ -35,7 +35,11 @@ import (
 
 // Server implements `service Health`.
 type Server struct {
+<<<<<<< HEAD
 	mu sync.Mutex
+=======
+	mu sync.RWMutex
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	// If shutdown is true, it's expected all serving status is NOT_SERVING, and
 	// will stay in NOT_SERVING.
 	shutdown bool
@@ -54,8 +58,13 @@ func NewServer() *Server {
 
 // Check implements `service Health`.
 func (s *Server) Check(ctx context.Context, in *healthpb.HealthCheckRequest) (*healthpb.HealthCheckResponse, error) {
+<<<<<<< HEAD
 	s.mu.Lock()
 	defer s.mu.Unlock()
+=======
+	s.mu.RLock()
+	defer s.mu.RUnlock()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	if servingStatus, ok := s.statusMap[in.Service]; ok {
 		return &healthpb.HealthCheckResponse{
 			Status: servingStatus,
@@ -139,7 +148,11 @@ func (s *Server) setServingStatusLocked(service string, servingStatus healthpb.H
 // Shutdown sets all serving status to NOT_SERVING, and configures the server to
 // ignore all future status changes.
 //
+<<<<<<< HEAD
 // This changes serving status for all services. To set status for a perticular
+=======
+// This changes serving status for all services. To set status for a particular
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 // services, call SetServingStatus().
 func (s *Server) Shutdown() {
 	s.mu.Lock()
@@ -153,7 +166,11 @@ func (s *Server) Shutdown() {
 // Resume sets all serving status to SERVING, and configures the server to
 // accept all future status changes.
 //
+<<<<<<< HEAD
 // This changes serving status for all services. To set status for a perticular
+=======
+// This changes serving status for all services. To set status for a particular
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 // services, call SetServingStatus().
 func (s *Server) Resume() {
 	s.mu.Lock()

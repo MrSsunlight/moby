@@ -8,6 +8,10 @@ import (
 	proto "github.com/gogo/protobuf/proto"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 )
@@ -21,7 +25,11 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
+<<<<<<< HEAD
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+=======
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 type SnapshotPrepare struct {
 	Key                  string   `protobuf:"bytes,1,opt,name=key,proto3" json:"key,omitempty"`
@@ -29,6 +37,7 @@ type SnapshotPrepare struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *SnapshotPrepare) Reset()      { *m = SnapshotPrepare{} }
@@ -61,6 +70,40 @@ func (m *SnapshotPrepare) XXX_DiscardUnknown() {
 	xxx_messageInfo_SnapshotPrepare.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *SnapshotPrepare) Reset()      { *m = SnapshotPrepare{} }
+func (*SnapshotPrepare) ProtoMessage() {}
+func (*SnapshotPrepare) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bd6c184d3d9aa5f2, []int{0}
+}
+func (m *SnapshotPrepare) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SnapshotPrepare) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SnapshotPrepare.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SnapshotPrepare) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SnapshotPrepare.Merge(m, src)
+}
+func (m *SnapshotPrepare) XXX_Size() int {
+	return m.Size()
+}
+func (m *SnapshotPrepare) XXX_DiscardUnknown() {
+	xxx_messageInfo_SnapshotPrepare.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_SnapshotPrepare proto.InternalMessageInfo
 
 type SnapshotCommit struct {
@@ -69,6 +112,7 @@ type SnapshotCommit struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *SnapshotCommit) Reset()      { *m = SnapshotCommit{} }
@@ -101,6 +145,40 @@ func (m *SnapshotCommit) XXX_DiscardUnknown() {
 	xxx_messageInfo_SnapshotCommit.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *SnapshotCommit) Reset()      { *m = SnapshotCommit{} }
+func (*SnapshotCommit) ProtoMessage() {}
+func (*SnapshotCommit) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bd6c184d3d9aa5f2, []int{1}
+}
+func (m *SnapshotCommit) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SnapshotCommit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SnapshotCommit.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SnapshotCommit) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SnapshotCommit.Merge(m, src)
+}
+func (m *SnapshotCommit) XXX_Size() int {
+	return m.Size()
+}
+func (m *SnapshotCommit) XXX_DiscardUnknown() {
+	xxx_messageInfo_SnapshotCommit.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_SnapshotCommit proto.InternalMessageInfo
 
 type SnapshotRemove struct {
@@ -108,6 +186,7 @@ type SnapshotRemove struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *SnapshotRemove) Reset()      { *m = SnapshotRemove{} }
@@ -140,6 +219,40 @@ func (m *SnapshotRemove) XXX_DiscardUnknown() {
 	xxx_messageInfo_SnapshotRemove.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *SnapshotRemove) Reset()      { *m = SnapshotRemove{} }
+func (*SnapshotRemove) ProtoMessage() {}
+func (*SnapshotRemove) Descriptor() ([]byte, []int) {
+	return fileDescriptor_bd6c184d3d9aa5f2, []int{2}
+}
+func (m *SnapshotRemove) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *SnapshotRemove) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_SnapshotRemove.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *SnapshotRemove) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_SnapshotRemove.Merge(m, src)
+}
+func (m *SnapshotRemove) XXX_Size() int {
+	return m.Size()
+}
+func (m *SnapshotRemove) XXX_DiscardUnknown() {
+	xxx_messageInfo_SnapshotRemove.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_SnapshotRemove proto.InternalMessageInfo
 
 func init() {
@@ -219,7 +332,7 @@ func (m *SnapshotRemove) Field(fieldpath []string) (string, bool) {
 func (m *SnapshotPrepare) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -227,32 +340,47 @@ func (m *SnapshotPrepare) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *SnapshotPrepare) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SnapshotPrepare) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Key) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
-		i += copy(dAtA[i:], m.Key)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Parent) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Parent)
+		copy(dAtA[i:], m.Parent)
 		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Parent)))
-		i += copy(dAtA[i:], m.Parent)
+		i--
+		dAtA[i] = 0x12
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Key) > 0 {
+		i -= len(m.Key)
+		copy(dAtA[i:], m.Key)
+		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *SnapshotCommit) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -260,32 +388,47 @@ func (m *SnapshotCommit) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *SnapshotCommit) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SnapshotCommit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Key) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
-		i += copy(dAtA[i:], m.Key)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Name) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
 		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+		i--
+		dAtA[i] = 0x12
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Key) > 0 {
+		i -= len(m.Key)
+		copy(dAtA[i:], m.Key)
+		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *SnapshotRemove) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -293,30 +436,46 @@ func (m *SnapshotRemove) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *SnapshotRemove) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *SnapshotRemove) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Key) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
-		i += copy(dAtA[i:], m.Key)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.Key) > 0 {
+		i -= len(m.Key)
+		copy(dAtA[i:], m.Key)
+		i = encodeVarintSnapshot(dAtA, i, uint64(len(m.Key)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintSnapshot(dAtA []byte, offset int, v uint64) int {
+	offset -= sovSnapshot(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *SnapshotPrepare) Size() (n int) {
 	if m == nil {
@@ -375,14 +534,7 @@ func (m *SnapshotRemove) Size() (n int) {
 }
 
 func sovSnapshot(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozSnapshot(x uint64) (n int) {
 	return sovSnapshot(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -755,6 +907,7 @@ func (m *SnapshotRemove) Unmarshal(dAtA []byte) error {
 func skipSnapshot(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -786,10 +939,8 @@ func skipSnapshot(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -810,6 +961,7 @@ func skipSnapshot(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthSnapshot
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthSnapshot
 			}
@@ -846,19 +998,32 @@ func skipSnapshot(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupSnapshot
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthSnapshot
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthSnapshot = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowSnapshot   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthSnapshot        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowSnapshot          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupSnapshot = fmt.Errorf("proto: unexpected end of group")
 )

@@ -2,7 +2,11 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found in the LICENSE file.
 
+<<<<<<< HEAD
 // +build linux dragonfly openbsd solaris
+=======
+// +build aix linux dragonfly openbsd solaris
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 package tar
 

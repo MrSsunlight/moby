@@ -996,6 +996,10 @@ const (
 	NET_RT_MAXID                      = 0x7
 	NET_RT_STATS                      = 0x4
 	NET_RT_TABLE                      = 0x5
+<<<<<<< HEAD
+=======
+	NFDBITS                           = 0x20
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	NOFLSH                            = 0x80000000
 	NOKERNINFO                        = 0x2000000
 	NOTE_ATTRIB                       = 0x8

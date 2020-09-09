@@ -14,16 +14,22 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"github.com/opencontainers/go-digest"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
+=======
+	digest "github.com/opencontainers/go-digest"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 var (
 	remoteRepoName  = "dockercli/busybox-by-dgst"
 	repoName        = fmt.Sprintf("%s/%s", privateRegistryURL, remoteRepoName)
-	pushDigestRegex = regexp.MustCompile("[\\S]+: digest: ([\\S]+) size: [0-9]+")
-	digestRegex     = regexp.MustCompile("Digest: ([\\S]+)")
+	pushDigestRegex = regexp.MustCompile(`[\S]+: digest: ([\S]+) size: [0-9]+`)
+	digestRegex     = regexp.MustCompile(`Digest: ([\S]+)`)
 )
 
 func setupImage(c *testing.T) (digest.Digest, error) {
@@ -175,7 +181,7 @@ func (s *DockerRegistrySuite) TestRemoveImageByDigest(c *testing.T) {
 
 	// try to inspect again - it should error this time
 	_, err = inspectFieldWithError(imageReference, "Id")
-	//unexpected nil err trying to inspect what should be a non-existent image
+	// unexpected nil err trying to inspect what should be a non-existent image
 	assert.ErrorContains(c, err, "No such object")
 }
 
@@ -255,8 +261,7 @@ func (s *DockerRegistrySuite) TestListImagesWithDigests(c *testing.T) {
 	assert.Assert(c, re1.MatchString(out), "expected %q: %s", re1.String(), out)
 	// setup image2
 	digest2, err := setupImageWithTag(c, "tag2")
-	//error setting up image
-	assert.NilError(c, err)
+	assert.NilError(c, err, "error setting up image")
 	imageReference2 := fmt.Sprintf("%s@%s", repoName, digest2)
 	c.Logf("imageReference2 = %s", imageReference2)
 

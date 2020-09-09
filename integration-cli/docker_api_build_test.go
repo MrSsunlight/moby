@@ -14,12 +14,21 @@ import (
 	"testing"
 
 	"github.com/docker/docker/api/types"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/fakecontext"
 	"github.com/docker/docker/internal/test/fakegit"
 	"github.com/docker/docker/internal/test/fakestorage"
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
+=======
+	"github.com/docker/docker/testutil/fakecontext"
+	"github.com/docker/docker/testutil/fakegit"
+	"github.com/docker/docker/testutil/fakestorage"
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestBuildAPIDockerFileRemote(c *testing.T) {
@@ -210,26 +219,21 @@ func (s *DockerSuite) TestBuildAPIUnnormalizedTarPaths(c *testing.T) {
 			Name: "Dockerfile",
 			Size: int64(len(dockerfile)),
 		})
-		//failed to write tar file header
-		assert.NilError(c, err)
+		assert.NilError(c, err, "failed to write tar file header")
 
 		_, err = tw.Write(dockerfile)
-		// failed to write Dockerfile in tar file content
-		assert.NilError(c, err)
+		assert.NilError(c, err, "failed to write Dockerfile in tar file content")
 
 		err = tw.WriteHeader(&tar.Header{
 			Name: "dir/./file",
 			Size: int64(len(fileContents)),
 		})
-		//failed to write tar file header
-		assert.NilError(c, err)
+		assert.NilError(c, err, "failed to write tar file header")
 
 		_, err = tw.Write(fileContents)
-		// failed to write file contents in tar file content
-		assert.NilError(c, err)
+		assert.NilError(c, err, "failed to write file contents in tar file content")
 
-		// failed to close tar archive
-		assert.NilError(c, tw.Close())
+		assert.NilError(c, tw.Close(), "failed to close tar archive")
 
 		res, body, err := request.Post("/build", request.RawContent(ioutil.NopCloser(buffer)), request.ContentType("application/x-tar"))
 		assert.NilError(c, err)

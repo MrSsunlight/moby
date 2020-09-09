@@ -27,7 +27,11 @@ func (f *freelist) hashmapAllocate(txid txid, n int) pgid {
 			f.allocs[pid] = txid
 
 			for i := pgid(0); i < pgid(n); i++ {
+<<<<<<< HEAD
 				delete(f.cache, pid+pgid(i))
+=======
+				delete(f.cache, pid+i)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 			}
 			return pid
 		}

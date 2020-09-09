@@ -11,6 +11,10 @@ import (
 	types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 )
@@ -24,7 +28,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type ContainerCreate struct {
 	ID                   string                   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -33,6 +37,7 @@ type ContainerCreate struct {
 	XXX_NoUnkeyedLiteral struct{}                 `json:"-"`
 	XXX_unrecognized     []byte                   `json:"-"`
 	XXX_sizecache        int32                    `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *ContainerCreate) Reset()      { *m = ContainerCreate{} }
@@ -65,6 +70,40 @@ func (m *ContainerCreate) XXX_DiscardUnknown() {
 	xxx_messageInfo_ContainerCreate.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *ContainerCreate) Reset()      { *m = ContainerCreate{} }
+func (*ContainerCreate) ProtoMessage() {}
+func (*ContainerCreate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_0d1f05b8626f83ea, []int{0}
+}
+func (m *ContainerCreate) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *ContainerCreate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ContainerCreate.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ContainerCreate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ContainerCreate.Merge(m, src)
+}
+func (m *ContainerCreate) XXX_Size() int {
+	return m.Size()
+}
+func (m *ContainerCreate) XXX_DiscardUnknown() {
+	xxx_messageInfo_ContainerCreate.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_ContainerCreate proto.InternalMessageInfo
 
 type ContainerCreate_Runtime struct {
@@ -82,6 +121,7 @@ func (*ContainerCreate_Runtime) Descriptor() ([]byte, []int) {
 }
 func (m *ContainerCreate_Runtime) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
+<<<<<<< HEAD
 }
 func (m *ContainerCreate_Runtime) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
@@ -101,6 +141,27 @@ func (m *ContainerCreate_Runtime) XXX_Merge(src proto.Message) {
 func (m *ContainerCreate_Runtime) XXX_Size() int {
 	return m.Size()
 }
+=======
+}
+func (m *ContainerCreate_Runtime) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_ContainerCreate_Runtime.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *ContainerCreate_Runtime) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_ContainerCreate_Runtime.Merge(m, src)
+}
+func (m *ContainerCreate_Runtime) XXX_Size() int {
+	return m.Size()
+}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func (m *ContainerCreate_Runtime) XXX_DiscardUnknown() {
 	xxx_messageInfo_ContainerCreate_Runtime.DiscardUnknown(m)
 }
@@ -130,7 +191,11 @@ func (m *ContainerUpdate) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return xxx_messageInfo_ContainerUpdate.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -169,7 +234,11 @@ func (m *ContainerDelete) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return xxx_messageInfo_ContainerDelete.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -325,7 +394,7 @@ func (m *ContainerDelete) Field(fieldpath []string) (string, bool) {
 func (m *ContainerCreate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -333,42 +402,59 @@ func (m *ContainerCreate) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ContainerCreate) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ContainerCreate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
-	}
-	if len(m.Image) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.Image)))
-		i += copy(dAtA[i:], m.Image)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Runtime != nil {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(m.Runtime.Size()))
-		n1, err := m.Runtime.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Runtime.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainer(dAtA, i, uint64(size))
 		}
-		i += n1
+		i--
+		dAtA[i] = 0x1a
 	}
+	if len(m.Image) > 0 {
+		i -= len(m.Image)
+		copy(dAtA[i:], m.Image)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.Image)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ContainerCreate_Runtime) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -376,36 +462,52 @@ func (m *ContainerCreate_Runtime) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ContainerCreate_Runtime) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ContainerCreate_Runtime) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Options != nil {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(m.Options.Size()))
-		n2, err := m.Options.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Options.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainer(dAtA, i, uint64(size))
 		}
-		i += n2
+		i--
+		dAtA[i] = 0x12
 	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ContainerUpdate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -413,55 +515,73 @@ func (m *ContainerUpdate) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ContainerUpdate) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ContainerUpdate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
-	}
-	if len(m.Image) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.Image)))
-		i += copy(dAtA[i:], m.Image)
-	}
-	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
-			dAtA[i] = 0x1a
-			i++
-			v := m.Labels[k]
-			mapSize := 1 + len(k) + sovContainer(uint64(len(k))) + 1 + len(v) + sovContainer(uint64(len(v)))
-			i = encodeVarintContainer(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintContainer(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
-			i = encodeVarintContainer(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
-		}
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.SnapshotKey) > 0 {
-		dAtA[i] = 0x22
-		i++
+		i -= len(m.SnapshotKey)
+		copy(dAtA[i:], m.SnapshotKey)
 		i = encodeVarintContainer(dAtA, i, uint64(len(m.SnapshotKey)))
-		i += copy(dAtA[i:], m.SnapshotKey)
+		i--
+		dAtA[i] = 0x22
 	}
+	if len(m.Labels) > 0 {
+		for k := range m.Labels {
+			v := m.Labels[k]
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintContainer(dAtA, i, uint64(len(v)))
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintContainer(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintContainer(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x1a
+		}
+	}
+	if len(m.Image) > 0 {
+		i -= len(m.Image)
+		copy(dAtA[i:], m.Image)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.Image)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ContainerDelete) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -469,30 +589,46 @@ func (m *ContainerDelete) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ContainerDelete) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ContainerDelete) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainer(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintContainer(dAtA []byte, offset int, v uint64) int {
+	offset -= sovContainer(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *ContainerCreate) Size() (n int) {
 	if m == nil {
@@ -587,14 +723,7 @@ func (m *ContainerDelete) Size() (n int) {
 }
 
 func sovContainer(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozContainer(x uint64) (n int) {
 	return sovContainer(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -1309,6 +1438,7 @@ func (m *ContainerDelete) Unmarshal(dAtA []byte) error {
 func skipContainer(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -1340,10 +1470,8 @@ func skipContainer(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -1364,6 +1492,7 @@ func skipContainer(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthContainer
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthContainer
 			}
@@ -1400,19 +1529,32 @@ func skipContainer(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupContainer
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthContainer
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthContainer = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowContainer   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthContainer        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowContainer          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupContainer = fmt.Errorf("proto: unexpected end of group")
 )

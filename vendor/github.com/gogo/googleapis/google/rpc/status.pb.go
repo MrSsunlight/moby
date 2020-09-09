@@ -10,6 +10,10 @@ import (
 	types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 )
@@ -23,7 +27,7 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 // The `Status` type defines a logical error model that is suitable for
 // different programming environments, including REST APIs and RPC APIs. It is
@@ -93,6 +97,7 @@ type Status struct {
 	XXX_NoUnkeyedLiteral struct{}     `json:"-"`
 	XXX_unrecognized     []byte       `json:"-"`
 	XXX_sizecache        int32        `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *Status) Reset()      { *m = Status{} }
@@ -125,6 +130,40 @@ func (m *Status) XXX_DiscardUnknown() {
 	xxx_messageInfo_Status.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *Status) Reset()      { *m = Status{} }
+func (*Status) ProtoMessage() {}
+func (*Status) Descriptor() ([]byte, []int) {
+	return fileDescriptor_24d244abaf643bfe, []int{0}
+}
+func (m *Status) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Status) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Status.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Status) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Status.Merge(m, src)
+}
+func (m *Status) XXX_Size() int {
+	return m.Size()
+}
+func (m *Status) XXX_DiscardUnknown() {
+	xxx_messageInfo_Status.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_Status proto.InternalMessageInfo
 
 func (m *Status) GetCode() int32 {
@@ -295,7 +334,7 @@ func valueToGoStringStatus(v interface{}, typ string) string {
 func (m *Status) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -303,47 +342,65 @@ func (m *Status) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Status) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Status) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Code != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintStatus(dAtA, i, uint64(m.Code))
-	}
-	if len(m.Message) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintStatus(dAtA, i, uint64(len(m.Message)))
-		i += copy(dAtA[i:], m.Message)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Details) > 0 {
-		for _, msg := range m.Details {
-			dAtA[i] = 0x1a
-			i++
-			i = encodeVarintStatus(dAtA, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(dAtA[i:])
-			if err != nil {
-				return 0, err
+		for iNdEx := len(m.Details) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Details[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintStatus(dAtA, i, uint64(size))
 			}
-			i += n
+			i--
+			dAtA[i] = 0x1a
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintStatus(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if m.Code != 0 {
+		i = encodeVarintStatus(dAtA, i, uint64(m.Code))
+		i--
+		dAtA[i] = 0x8
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintStatus(dAtA []byte, offset int, v uint64) int {
+	offset -= sovStatus(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func NewPopulatedStatus(r randyStatus, easy bool) *Status {
 	this := &Status{}
@@ -352,7 +409,7 @@ func NewPopulatedStatus(r randyStatus, easy bool) *Status {
 		this.Code *= -1
 	}
 	this.Message = string(randStringStatus(r))
-	if r.Intn(10) != 0 {
+	if r.Intn(5) != 0 {
 		v1 := r.Intn(5)
 		this.Details = make([]*types.Any, v1)
 		for i := 0; i < v1; i++ {
@@ -463,14 +520,7 @@ func (m *Status) Size() (n int) {
 }
 
 func sovStatus(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozStatus(x uint64) (n int) {
 	return sovStatus(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -479,10 +529,19 @@ func (this *Status) String() string {
 	if this == nil {
 		return "nil"
 	}
+	repeatedStringForDetails := "[]*Any{"
+	for _, f := range this.Details {
+		repeatedStringForDetails += strings.Replace(fmt.Sprintf("%v", f), "Any", "types.Any", 1) + ","
+	}
+	repeatedStringForDetails += "}"
 	s := strings.Join([]string{`&Status{`,
 		`Code:` + fmt.Sprintf("%v", this.Code) + `,`,
 		`Message:` + fmt.Sprintf("%v", this.Message) + `,`,
+<<<<<<< HEAD
 		`Details:` + strings.Replace(fmt.Sprintf("%v", this.Details), "Any", "types.Any", 1) + `,`,
+=======
+		`Details:` + repeatedStringForDetails + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -638,6 +697,7 @@ func (m *Status) Unmarshal(dAtA []byte) error {
 func skipStatus(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -669,10 +729,8 @@ func skipStatus(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -693,6 +751,7 @@ func skipStatus(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthStatus
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthStatus
 			}
@@ -729,19 +788,32 @@ func skipStatus(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupStatus
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthStatus
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthStatus = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowStatus   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthStatus        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowStatus          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupStatus = fmt.Errorf("proto: unexpected end of group")
 )

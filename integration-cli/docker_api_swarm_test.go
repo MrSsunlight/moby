@@ -24,13 +24,19 @@ import (
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/integration-cli/checker"
 	"github.com/docker/docker/integration-cli/daemon"
-	testdaemon "github.com/docker/docker/internal/test/daemon"
-	"github.com/docker/docker/internal/test/request"
+	testdaemon "github.com/docker/docker/testutil/daemon"
+	"github.com/docker/docker/testutil/request"
 	"github.com/docker/swarmkit/ca"
+<<<<<<< HEAD
 	"github.com/pkg/errors"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
 	"gotest.tools/poll"
+=======
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 var defaultReconciliationTimeout = 30 * time.Second
@@ -323,7 +329,11 @@ func (s *DockerSwarmSuite) TestAPISwarmLeaderElection(c *testing.T) {
 			followers = nil
 			for _, d := range nodes {
 				n := d.GetNode(c, d.NodeID(), func(err error) bool {
+<<<<<<< HEAD
 					if strings.Contains(errors.Cause(err).Error(), context.DeadlineExceeded.Error()) || strings.Contains(err.Error(), "swarm does not have a leader") {
+=======
+					if strings.Contains(err.Error(), context.DeadlineExceeded.Error()) || strings.Contains(err.Error(), "swarm does not have a leader") {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 						lastErr = err
 						return true
 					}
@@ -737,7 +747,11 @@ func checkClusterHealth(c *testing.T, cl []*daemon.Daemon, managerCount, workerC
 			info swarm.Info
 		)
 
+<<<<<<< HEAD
 		// check info in a waitAndAssert, because if the cluster doesn't have a leader, `info` will return an error
+=======
+		// check info in a poll.WaitOn(), because if the cluster doesn't have a leader, `info` will return an error
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		checkInfo := func(c *testing.T) (interface{}, string) {
 			client := d.NewClientT(c)
 			daemonInfo, err := client.Info(context.Background())

@@ -9,8 +9,13 @@ import (
 	"testing"
 
 	"github.com/docker/docker/api/types/mount"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/assert/cmp"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 type parseMountRawTestSet struct {

@@ -19,7 +19,10 @@
 package grpc
 
 import (
+<<<<<<< HEAD
 	"context"
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"sync"
 
 	"google.golang.org/grpc/balancer"
@@ -49,7 +52,7 @@ func (bwb *balancerWrapperBuilder) Build(cc balancer.ClientConn, opts balancer.B
 		csEvltr:    &balancer.ConnectivityStateEvaluator{},
 		state:      connectivity.Idle,
 	}
-	cc.UpdateBalancerState(connectivity.Idle, bw)
+	cc.UpdateState(balancer.State{ConnectivityState: connectivity.Idle, Picker: bw})
 	go bw.lbWatcher()
 	return bw
 }
@@ -243,7 +246,7 @@ func (bw *balancerWrapper) HandleSubConnStateChange(sc balancer.SubConn, s conne
 	if bw.state != sa {
 		bw.state = sa
 	}
-	bw.cc.UpdateBalancerState(bw.state, bw)
+	bw.cc.UpdateState(balancer.State{ConnectivityState: bw.state, Picker: bw})
 	if s == connectivity.Shutdown {
 		// Remove state for this sc.
 		delete(bw.connSt, sc)
@@ -275,17 +278,25 @@ func (bw *balancerWrapper) Close() {
 
 // The picker is the balancerWrapper itself.
 // It either blocks or returns error, consistent with v1 balancer Get().
+<<<<<<< HEAD
 func (bw *balancerWrapper) Pick(ctx context.Context, opts balancer.PickOptions) (sc balancer.SubConn, done func(balancer.DoneInfo), err error) {
+=======
+func (bw *balancerWrapper) Pick(info balancer.PickInfo) (result balancer.PickResult, err error) {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	failfast := true // Default failfast is true.
-	if ss, ok := rpcInfoFromContext(ctx); ok {
+	if ss, ok := rpcInfoFromContext(info.Ctx); ok {
 		failfast = ss.failfast
 	}
-	a, p, err := bw.balancer.Get(ctx, BalancerGetOptions{BlockingWait: !failfast})
+	a, p, err := bw.balancer.Get(info.Ctx, BalancerGetOptions{BlockingWait: !failfast})
 	if err != nil {
-		return nil, nil, err
+		return balancer.PickResult{}, toRPCErr(err)
 	}
 	if p != nil {
+<<<<<<< HEAD
 		done = func(balancer.DoneInfo) { p() }
+=======
+		result.Done = func(balancer.DoneInfo) { p() }
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		defer func() {
 			if err != nil {
 				p()
@@ -297,38 +308,68 @@ func (bw *balancerWrapper) Pick(ctx context.Context, opts balancer.PickOptions) 
 	defer bw.mu.Unlock()
 	if bw.pickfirst {
 		// Get the first sc in conns.
+<<<<<<< HEAD
 		for _, sc := range bw.conns {
 			return sc, done, nil
 		}
 		return nil, nil, balancer.ErrNoSubConnAvailable
 	}
 	sc, ok1 := bw.conns[resolver.Address{
+=======
+		for _, result.SubConn = range bw.conns {
+			return result, nil
+		}
+		return balancer.PickResult{}, balancer.ErrNoSubConnAvailable
+	}
+	var ok1 bool
+	result.SubConn, ok1 = bw.conns[resolver.Address{
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		Addr:       a.Addr,
 		Type:       resolver.Backend,
 		ServerName: "",
 		Metadata:   a.Metadata,
 	}]
+<<<<<<< HEAD
 	s, ok2 := bw.connSt[sc]
+=======
+	s, ok2 := bw.connSt[result.SubConn]
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	if !ok1 || !ok2 {
 		// This can only happen due to a race where Get() returned an address
 		// that was subsequently removed by Notify.  In this case we should
 		// retry always.
+<<<<<<< HEAD
 		return nil, nil, balancer.ErrNoSubConnAvailable
 	}
 	switch s.s {
 	case connectivity.Ready, connectivity.Idle:
 		return sc, done, nil
+=======
+		return balancer.PickResult{}, balancer.ErrNoSubConnAvailable
+	}
+	switch s.s {
+	case connectivity.Ready, connectivity.Idle:
+		return result, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	case connectivity.Shutdown, connectivity.TransientFailure:
 		// If the returned sc has been shut down or is in transient failure,
 		// return error, and this RPC will fail or wait for another picker (if
 		// non-failfast).
+<<<<<<< HEAD
 		return nil, nil, balancer.ErrTransientFailure
+=======
+		return balancer.PickResult{}, balancer.ErrTransientFailure
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	default:
 		// For other states (connecting or unknown), the v1 balancer would
 		// traditionally wait until ready and then issue the RPC.  Returning
 		// ErrNoSubConnAvailable will be a slight improvement in that it will
 		// allow the balancer to choose another address in case others are
 		// connected.
+<<<<<<< HEAD
 		return nil, nil, balancer.ErrNoSubConnAvailable
+=======
+		return balancer.PickResult{}, balancer.ErrNoSubConnAvailable
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 }

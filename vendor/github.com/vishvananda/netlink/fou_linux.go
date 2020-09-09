@@ -90,11 +90,15 @@ func (h *Handle) FouAdd(f Fou) error {
 	req.AddRawData(raw)
 
 	_, err = req.Execute(unix.NETLINK_GENERIC, 0)
+<<<<<<< HEAD
 	if err != nil {
 		return err
 	}
 
 	return nil
+=======
+	return err
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func FouDel(f Fou) error {

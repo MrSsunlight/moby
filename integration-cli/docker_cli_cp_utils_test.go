@@ -12,7 +12,11 @@ import (
 	"testing"
 
 	"github.com/docker/docker/pkg/archive"
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 type fileType uint32
@@ -93,6 +97,10 @@ func defaultMkContentCommand() string {
 }
 
 func makeTestContentInDir(c *testing.T, dir string) {
+<<<<<<< HEAD
+=======
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	for _, fd := range defaultFileData {
 		path := filepath.Join(dir, filepath.FromSlash(fd.path))
 		switch fd.filetype {
@@ -119,6 +127,10 @@ type testContainerOptions struct {
 }
 
 func makeTestContainer(c *testing.T, options testContainerOptions) (containerID string) {
+<<<<<<< HEAD
+=======
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	if options.addContent {
 		mkContentCmd := defaultMkContentCommand()
 		if options.command == "" {
@@ -188,25 +200,27 @@ func containerCpPathTrailingSep(containerID string, pathElements ...string) stri
 	return fmt.Sprintf("%s/", containerCpPath(containerID, pathElements...))
 }
 
+<<<<<<< HEAD
 func runDockerCp(c *testing.T, src, dst string, params []string) (err error) {
 	c.Logf("running `docker cp %s %s %s`", strings.Join(params, " "), src, dst)
+=======
+func runDockerCp(c *testing.T, src, dst string) error {
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
-	args := []string{"cp"}
-
-	args = append(args, params...)
-
-	args = append(args, src, dst)
-
-	out, _, err := runCommandWithOutput(exec.Command(dockerBinary, args...))
-	if err != nil {
-		err = fmt.Errorf("error executing `docker cp` command: %s: %s", err, out)
+	args := []string{"cp", src, dst}
+	if out, _, err := runCommandWithOutput(exec.Command(dockerBinary, args...)); err != nil {
+		return fmt.Errorf("error executing `docker cp` command: %s: %s", err, out)
 	}
-
-	return
+	return nil
 }
 
 func startContainerGetOutput(c *testing.T, containerID string) (out string, err error) {
+<<<<<<< HEAD
 	c.Logf("running `docker start -a %s`", containerID)
+=======
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	args := []string{"start", "-a", containerID}
 
@@ -219,6 +233,10 @@ func startContainerGetOutput(c *testing.T, containerID string) (out string, err 
 }
 
 func getTestDir(c *testing.T, label string) (tmpDir string) {
+<<<<<<< HEAD
+=======
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	var err error
 
 	tmpDir, err = ioutil.TempDir("", label)
@@ -240,54 +258,69 @@ func isCpCannotCopyReadOnly(err error) bool {
 	return strings.Contains(err.Error(), "marked read-only")
 }
 
+<<<<<<< HEAD
 func fileContentEquals(c *testing.T, filename, contents string) (err error) {
 	c.Logf("checking that file %q contains %q\n", filename, contents)
+=======
+func fileContentEquals(c *testing.T, filename, contents string) error {
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	fileBytes, err := ioutil.ReadFile(filename)
 	if err != nil {
-		return
+		return err
 	}
 
 	expectedBytes, err := ioutil.ReadAll(strings.NewReader(contents))
 	if err != nil {
-		return
+		return err
 	}
 
 	if !bytes.Equal(fileBytes, expectedBytes) {
-		err = fmt.Errorf("file content not equal - expected %q, got %q", string(expectedBytes), string(fileBytes))
+		return fmt.Errorf("file content not equal - expected %q, got %q", string(expectedBytes), string(fileBytes))
 	}
 
-	return
+	return nil
 }
 
+<<<<<<< HEAD
 func symlinkTargetEquals(c *testing.T, symlink, expectedTarget string) (err error) {
 	c.Logf("checking that the symlink %q points to %q\n", symlink, expectedTarget)
+=======
+func symlinkTargetEquals(c *testing.T, symlink, expectedTarget string) error {
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	actualTarget, err := os.Readlink(symlink)
 	if err != nil {
-		return
+		return err
 	}
 
 	if actualTarget != expectedTarget {
-		err = fmt.Errorf("symlink target points to %q not %q", actualTarget, expectedTarget)
+		return fmt.Errorf("symlink target points to %q not %q", actualTarget, expectedTarget)
 	}
 
-	return
+	return nil
 }
 
+<<<<<<< HEAD
 func containerStartOutputEquals(c *testing.T, containerID, contents string) (err error) {
 	c.Logf("checking that container %q start output contains %q\n", containerID, contents)
+=======
+func containerStartOutputEquals(c *testing.T, containerID, contents string) error {
+	c.Helper()
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	out, err := startContainerGetOutput(c, containerID)
 	if err != nil {
-		return
+		return err
 	}
 
 	if out != contents {
-		err = fmt.Errorf("output contents not equal - expected %q, got %q", contents, out)
+		return fmt.Errorf("output contents not equal - expected %q, got %q", contents, out)
 	}
 
-	return
+	return nil
 }
 
 func defaultVolumes(tmpDir string) []string {

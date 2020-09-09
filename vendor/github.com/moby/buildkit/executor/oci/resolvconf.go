@@ -10,12 +10,19 @@ import (
 	"github.com/docker/libnetwork/resolvconf"
 	"github.com/docker/libnetwork/types"
 	"github.com/moby/buildkit/util/flightcontrol"
+	"github.com/pkg/errors"
 )
 
 var g flightcontrol.Group
 var notFirstRun bool
 var lastNotEmpty bool
 
+<<<<<<< HEAD
+=======
+// overridden by tests
+var resolvconfGet = resolvconf.Get
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 type DNSConfig struct {
 	Nameservers   []string
 	Options       []string
@@ -31,7 +38,7 @@ func GetResolvConf(ctx context.Context, stateDir string, idmap *idtools.Identity
 		if !generate {
 			fi, err := os.Stat(p)
 			if err != nil {
-				if !os.IsNotExist(err) {
+				if !errors.Is(err, os.ErrNotExist) {
 					return "", err
 				}
 				generate = true
@@ -39,7 +46,7 @@ func GetResolvConf(ctx context.Context, stateDir string, idmap *idtools.Identity
 			if !generate {
 				fiMain, err := os.Stat(resolvconf.Path())
 				if err != nil {
-					if !os.IsNotExist(err) {
+					if !errors.Is(err, os.ErrNotExist) {
 						return nil, err
 					}
 					if lastNotEmpty {
@@ -59,9 +66,9 @@ func GetResolvConf(ctx context.Context, stateDir string, idmap *idtools.Identity
 		}
 
 		var dt []byte
-		f, err := resolvconf.Get()
+		f, err := resolvconfGet()
 		if err != nil {
-			if !os.IsNotExist(err) {
+			if !errors.Is(err, os.ErrNotExist) {
 				return "", err
 			}
 		} else {
@@ -88,6 +95,7 @@ func GetResolvConf(ctx context.Context, stateDir string, idmap *idtools.Identity
 			if err != nil {
 				return "", err
 			}
+<<<<<<< HEAD
 		} else {
 			// Logic seems odd here: why are we filtering localhost IPs
 			// only if neither of the DNS configs were specified?
@@ -96,6 +104,14 @@ func GetResolvConf(ctx context.Context, stateDir string, idmap *idtools.Identity
 			if err != nil {
 				return "", err
 			}
+=======
+			dt = f.Content
+		}
+
+		f, err = resolvconf.FilterResolvDNS(dt, true)
+		if err != nil {
+			return "", err
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		}
 
 		tmpPath := p + ".tmp"

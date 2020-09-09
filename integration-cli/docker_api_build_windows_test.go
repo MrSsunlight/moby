@@ -6,10 +6,17 @@ import (
 	"net/http"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/fakecontext"
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
+=======
+	"github.com/docker/docker/testutil/fakecontext"
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestBuildWithRecycleBin(c *testing.T) {

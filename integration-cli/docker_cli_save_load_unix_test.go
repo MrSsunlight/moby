@@ -14,8 +14,13 @@ import (
 
 	"github.com/creack/pty"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // save a repo and try to load it using stdout
@@ -66,7 +71,7 @@ func (s *DockerSuite) TestSaveAndLoadRepoStdout(c *testing.T) {
 	buf := make([]byte, 1024)
 
 	n, err := pty.Read(buf)
-	assert.NilError(c, err) //could not read tty output
+	assert.NilError(c, err, "could not read tty output")
 	assert.Assert(c, strings.Contains(string(buf[:n]), "cowardly refusing"), "help output is not being yielded")
 }
 

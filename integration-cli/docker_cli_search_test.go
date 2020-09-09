@@ -5,7 +5,11 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // search for repos named  "registry" on the central registry
@@ -36,19 +40,19 @@ func (s *DockerSuite) TestSearchCmdOptions(c *testing.T) {
 	outSearchCmd, _ := dockerCmd(c, "search", "busybox")
 	assert.Assert(c, strings.Count(outSearchCmd, "\n") > 3, outSearchCmd)
 
-	outSearchCmdautomated, _ := dockerCmd(c, "search", "--filter", "is-automated=true", "busybox") //The busybox is a busybox base image, not an AUTOMATED image.
+	outSearchCmdautomated, _ := dockerCmd(c, "search", "--filter", "is-automated=true", "busybox") // The busybox is a busybox base image, not an AUTOMATED image.
 	outSearchCmdautomatedSlice := strings.Split(outSearchCmdautomated, "\n")
 	for i := range outSearchCmdautomatedSlice {
 		assert.Assert(c, !strings.HasPrefix(outSearchCmdautomatedSlice[i], "busybox "), "The busybox is not an AUTOMATED image: %s", outSearchCmdautomated)
 	}
 
-	outSearchCmdNotOfficial, _ := dockerCmd(c, "search", "--filter", "is-official=false", "busybox") //The busybox is a busybox base image, official image.
+	outSearchCmdNotOfficial, _ := dockerCmd(c, "search", "--filter", "is-official=false", "busybox") // The busybox is a busybox base image, official image.
 	outSearchCmdNotOfficialSlice := strings.Split(outSearchCmdNotOfficial, "\n")
 	for i := range outSearchCmdNotOfficialSlice {
 		assert.Assert(c, !strings.HasPrefix(outSearchCmdNotOfficialSlice[i], "busybox "), "The busybox is not an OFFICIAL image: %s", outSearchCmdNotOfficial)
 	}
 
-	outSearchCmdOfficial, _ := dockerCmd(c, "search", "--filter", "is-official=true", "busybox") //The busybox is a busybox base image, official image.
+	outSearchCmdOfficial, _ := dockerCmd(c, "search", "--filter", "is-official=true", "busybox") // The busybox is a busybox base image, official image.
 	outSearchCmdOfficialSlice := strings.Split(outSearchCmdOfficial, "\n")
 	assert.Equal(c, len(outSearchCmdOfficialSlice), 3) // 1 header, 1 line, 1 carriage return
 	assert.Assert(c, strings.HasPrefix(outSearchCmdOfficialSlice[1], "busybox "), "The busybox is an OFFICIAL image: %s", outSearchCmdOfficial)

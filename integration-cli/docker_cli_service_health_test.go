@@ -12,9 +12,15 @@ import (
 	"github.com/docker/docker/integration-cli/checker"
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
 	"gotest.tools/poll"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // start a service, and then make its task unhealthy during running

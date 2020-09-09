@@ -11,8 +11,16 @@ import (
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	types "github.com/gogo/protobuf/types"
 	grpc "google.golang.org/grpc"
+<<<<<<< HEAD
 	io "io"
 	math "math"
+=======
+	codes "google.golang.org/grpc/codes"
+	status "google.golang.org/grpc/status"
+	io "io"
+	math "math"
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 	time "time"
@@ -28,7 +36,7 @@ var _ = time.Kitchen
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Container struct {
 	// ID is the user-specified identifier.
@@ -96,7 +104,11 @@ func (m *Container) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_Container.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -138,7 +150,11 @@ func (m *Container_Runtime) XXX_Marshal(b []byte, deterministic bool) ([]byte, e
 		return xxx_messageInfo_Container_Runtime.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -177,7 +193,11 @@ func (m *GetContainerRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte,
 		return xxx_messageInfo_GetContainerRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -216,7 +236,11 @@ func (m *GetContainerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return xxx_messageInfo_GetContainerResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -265,7 +289,11 @@ func (m *ListContainersRequest) XXX_Marshal(b []byte, deterministic bool) ([]byt
 		return xxx_messageInfo_ListContainersRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -304,7 +332,11 @@ func (m *ListContainersResponse) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return xxx_messageInfo_ListContainersResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +375,11 @@ func (m *CreateContainerRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return xxx_messageInfo_CreateContainerRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -382,7 +418,11 @@ func (m *CreateContainerResponse) XXX_Marshal(b []byte, deterministic bool) ([]b
 		return xxx_messageInfo_CreateContainerResponse.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -394,10 +434,18 @@ func (m *CreateContainerResponse) XXX_Merge(src proto.Message) {
 }
 func (m *CreateContainerResponse) XXX_Size() int {
 	return m.Size()
+<<<<<<< HEAD
+}
+func (m *CreateContainerResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_CreateContainerResponse.DiscardUnknown(m)
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 func (m *CreateContainerResponse) XXX_DiscardUnknown() {
 	xxx_messageInfo_CreateContainerResponse.DiscardUnknown(m)
 }
+
+var xxx_messageInfo_CreateContainerResponse proto.InternalMessageInfo
 
 var xxx_messageInfo_CreateContainerResponse proto.InternalMessageInfo
 
@@ -432,7 +480,11 @@ func (m *UpdateContainerRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return xxx_messageInfo_UpdateContainerRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -465,6 +517,30 @@ func (*UpdateContainerResponse) Descriptor() ([]byte, []int) {
 }
 func (m *UpdateContainerResponse) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
+<<<<<<< HEAD
+=======
+}
+func (m *UpdateContainerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_UpdateContainerResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *UpdateContainerResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_UpdateContainerResponse.Merge(m, src)
+}
+func (m *UpdateContainerResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *UpdateContainerResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_UpdateContainerResponse.DiscardUnknown(m)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 func (m *UpdateContainerResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
@@ -490,6 +566,8 @@ func (m *UpdateContainerResponse) XXX_DiscardUnknown() {
 
 var xxx_messageInfo_UpdateContainerResponse proto.InternalMessageInfo
 
+var xxx_messageInfo_UpdateContainerResponse proto.InternalMessageInfo
+
 type DeleteContainerRequest struct {
 	ID                   string   `protobuf:"bytes,1,opt,name=id,proto3" json:"id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
@@ -510,7 +588,11 @@ func (m *DeleteContainerRequest) XXX_Marshal(b []byte, deterministic bool) ([]by
 		return xxx_messageInfo_DeleteContainerRequest.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -549,7 +631,11 @@ func (m *ListContainerMessage) XXX_Marshal(b []byte, deterministic bool) ([]byte
 		return xxx_messageInfo_ListContainerMessage.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -758,6 +844,32 @@ type ContainersServer interface {
 	Create(context.Context, *CreateContainerRequest) (*CreateContainerResponse, error)
 	Update(context.Context, *UpdateContainerRequest) (*UpdateContainerResponse, error)
 	Delete(context.Context, *DeleteContainerRequest) (*types.Empty, error)
+<<<<<<< HEAD
+=======
+}
+
+// UnimplementedContainersServer can be embedded to have forward compatible implementations.
+type UnimplementedContainersServer struct {
+}
+
+func (*UnimplementedContainersServer) Get(ctx context.Context, req *GetContainerRequest) (*GetContainerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Get not implemented")
+}
+func (*UnimplementedContainersServer) List(ctx context.Context, req *ListContainersRequest) (*ListContainersResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method List not implemented")
+}
+func (*UnimplementedContainersServer) ListStream(req *ListContainersRequest, srv Containers_ListStreamServer) error {
+	return status.Errorf(codes.Unimplemented, "method ListStream not implemented")
+}
+func (*UnimplementedContainersServer) Create(ctx context.Context, req *CreateContainerRequest) (*CreateContainerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Create not implemented")
+}
+func (*UnimplementedContainersServer) Update(ctx context.Context, req *UpdateContainerRequest) (*UpdateContainerResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Update not implemented")
+}
+func (*UnimplementedContainersServer) Delete(ctx context.Context, req *DeleteContainerRequest) (*types.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Delete not implemented")
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func RegisterContainersServer(s *grpc.Server, srv ContainersServer) {
@@ -913,7 +1025,7 @@ var _Containers_serviceDesc = grpc.ServiceDesc{
 func (m *Container) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -921,71 +1033,86 @@ func (m *Container) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Container) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Container) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
+	if len(m.Extensions) > 0 {
+		for k := range m.Extensions {
+			v := m.Extensions[k]
+			baseI := i
+			{
+				size, err := (&v).MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintContainers(dAtA, i, uint64(size))
+			}
+			i--
 			dAtA[i] = 0x12
-			i++
-			v := m.Labels[k]
-			mapSize := 1 + len(k) + sovContainers(uint64(len(k))) + 1 + len(v) + sovContainers(uint64(len(v)))
-			i = encodeVarintContainers(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
+			i -= len(k)
+			copy(dAtA[i:], k)
 			i = encodeVarintContainers(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
-			i = encodeVarintContainers(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintContainers(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x52
 		}
 	}
-	if len(m.Image) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.Image)))
-		i += copy(dAtA[i:], m.Image)
+	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.UpdatedAt, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.UpdatedAt):])
+	if err2 != nil {
+		return 0, err2
 	}
-	if m.Runtime != nil {
-		dAtA[i] = 0x22
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(m.Runtime.Size()))
-		n1, err := m.Runtime.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n1
+	i -= n2
+	i = encodeVarintContainers(dAtA, i, uint64(n2))
+	i--
+	dAtA[i] = 0x4a
+	n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.CreatedAt, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.CreatedAt):])
+	if err3 != nil {
+		return 0, err3
 	}
-	if m.Spec != nil {
-		dAtA[i] = 0x2a
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(m.Spec.Size()))
-		n2, err := m.Spec.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n2
+	i -= n3
+	i = encodeVarintContainers(dAtA, i, uint64(n3))
+	i--
+	dAtA[i] = 0x42
+	if len(m.SnapshotKey) > 0 {
+		i -= len(m.SnapshotKey)
+		copy(dAtA[i:], m.SnapshotKey)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.SnapshotKey)))
+		i--
+		dAtA[i] = 0x3a
 	}
 	if len(m.Snapshotter) > 0 {
-		dAtA[i] = 0x32
-		i++
+		i -= len(m.Snapshotter)
+		copy(dAtA[i:], m.Snapshotter)
 		i = encodeVarintContainers(dAtA, i, uint64(len(m.Snapshotter)))
-		i += copy(dAtA[i:], m.Snapshotter)
+		i--
+		dAtA[i] = 0x32
 	}
-	if len(m.SnapshotKey) > 0 {
-		dAtA[i] = 0x3a
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.SnapshotKey)))
-		i += copy(dAtA[i:], m.SnapshotKey)
+	if m.Spec != nil {
+		{
+			size, err := m.Spec.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainers(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x2a
 	}
+<<<<<<< HEAD
 	dAtA[i] = 0x42
 	i++
 	i = encodeVarintContainers(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.CreatedAt)))
@@ -1000,44 +1127,67 @@ func (m *Container) MarshalTo(dAtA []byte) (int, error) {
 	n4, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.UpdatedAt, dAtA[i:])
 	if err != nil {
 		return 0, err
-	}
-	i += n4
-	if len(m.Extensions) > 0 {
-		for k, _ := range m.Extensions {
-			dAtA[i] = 0x52
-			i++
-			v := m.Extensions[k]
-			msgSize := 0
-			if (&v) != nil {
-				msgSize = (&v).Size()
-				msgSize += 1 + sovContainers(uint64(msgSize))
-			}
-			mapSize := 1 + len(k) + sovContainers(uint64(len(k))) + msgSize
-			i = encodeVarintContainers(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintContainers(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
-			i = encodeVarintContainers(dAtA, i, uint64((&v).Size()))
-			n5, err := (&v).MarshalTo(dAtA[i:])
+=======
+	if m.Runtime != nil {
+		{
+			size, err := m.Runtime.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
-			i += n5
+			i -= size
+			i = encodeVarintContainers(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0x22
+	}
+	if len(m.Image) > 0 {
+		i -= len(m.Image)
+		copy(dAtA[i:], m.Image)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.Image)))
+		i--
+		dAtA[i] = 0x1a
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
+	}
+	if len(m.Labels) > 0 {
+		for k := range m.Labels {
+			v := m.Labels[k]
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
+			i = encodeVarintContainers(dAtA, i, uint64(len(v)))
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintContainers(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintContainers(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x12
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *Container_Runtime) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1045,36 +1195,52 @@ func (m *Container_Runtime) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Container_Runtime) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Container_Runtime) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Options != nil {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(m.Options.Size()))
-		n6, err := m.Options.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Options.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainers(dAtA, i, uint64(size))
 		}
-		i += n6
+		i--
+		dAtA[i] = 0x12
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *GetContainerRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1082,26 +1248,40 @@ func (m *GetContainerRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *GetContainerRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *GetContainerResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1109,28 +1289,44 @@ func (m *GetContainerResponse) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *GetContainerResponse) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	dAtA[i] = 0xa
-	i++
-	i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-	n7, err := m.Container.MarshalTo(dAtA[i:])
-	if err != nil {
-		return 0, err
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	{
+		size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintContainers(dAtA, i, uint64(size))
+	}
+<<<<<<< HEAD
 	i += n7
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ListContainersRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1138,35 +1334,42 @@ func (m *ListContainersRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ListContainersRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListContainersRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Filters) > 0 {
-		for _, s := range m.Filters {
+		for iNdEx := len(m.Filters) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.Filters[iNdEx])
+			copy(dAtA[i:], m.Filters[iNdEx])
+			i = encodeVarintContainers(dAtA, i, uint64(len(m.Filters[iNdEx])))
+			i--
 			dAtA[i] = 0xa
-			i++
-			l = len(s)
-			for l >= 1<<7 {
-				dAtA[i] = uint8(uint64(l)&0x7f | 0x80)
-				l >>= 7
-				i++
-			}
-			dAtA[i] = uint8(l)
-			i++
-			i += copy(dAtA[i:], s)
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ListContainersResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1174,32 +1377,47 @@ func (m *ListContainersResponse) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ListContainersResponse) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListContainersResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
+	}
 	if len(m.Containers) > 0 {
-		for _, msg := range m.Containers {
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintContainers(dAtA, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(dAtA[i:])
-			if err != nil {
-				return 0, err
+		for iNdEx := len(m.Containers) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Containers[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintContainers(dAtA, i, uint64(size))
 			}
-			i += n
+			i--
+			dAtA[i] = 0xa
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *CreateContainerRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1207,28 +1425,44 @@ func (m *CreateContainerRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *CreateContainerRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CreateContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	dAtA[i] = 0xa
-	i++
-	i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-	n8, err := m.Container.MarshalTo(dAtA[i:])
-	if err != nil {
-		return 0, err
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	{
+		size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintContainers(dAtA, i, uint64(size))
+	}
+<<<<<<< HEAD
 	i += n8
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *CreateContainerResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1236,28 +1470,44 @@ func (m *CreateContainerResponse) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *CreateContainerResponse) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *CreateContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	dAtA[i] = 0xa
-	i++
-	i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-	n9, err := m.Container.MarshalTo(dAtA[i:])
-	if err != nil {
-		return 0, err
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	{
+		size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintContainers(dAtA, i, uint64(size))
+	}
+<<<<<<< HEAD
 	i += n9
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *UpdateContainerRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1265,38 +1515,55 @@ func (m *UpdateContainerRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *UpdateContainerRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	dAtA[i] = 0xa
-	i++
-	i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-	n10, err := m.Container.MarshalTo(dAtA[i:])
-	if err != nil {
-		return 0, err
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	i += n10
 	if m.UpdateMask != nil {
+		{
+			size, err := m.UpdateMask.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainers(dAtA, i, uint64(size))
+		}
+		i--
 		dAtA[i] = 0x12
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(m.UpdateMask.Size()))
-		n11, err := m.UpdateMask.MarshalTo(dAtA[i:])
+	}
+	{
+		size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
 		if err != nil {
 			return 0, err
 		}
-		i += n11
+		i -= size
+		i = encodeVarintContainers(dAtA, i, uint64(size))
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *UpdateContainerResponse) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1304,28 +1571,44 @@ func (m *UpdateContainerResponse) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *UpdateContainerResponse) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *UpdateContainerResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	dAtA[i] = 0xa
-	i++
-	i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-	n12, err := m.Container.MarshalTo(dAtA[i:])
-	if err != nil {
-		return 0, err
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	{
+		size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
+		if err != nil {
+			return 0, err
+		}
+		i -= size
+		i = encodeVarintContainers(dAtA, i, uint64(size))
+	}
+<<<<<<< HEAD
 	i += n12
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	i--
+	dAtA[i] = 0xa
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *DeleteContainerRequest) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1333,26 +1616,40 @@ func (m *DeleteContainerRequest) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *DeleteContainerRequest) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *DeleteContainerRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintContainers(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ListContainerMessage) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1360,34 +1657,51 @@ func (m *ListContainerMessage) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ListContainerMessage) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ListContainerMessage) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Container != nil {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintContainers(dAtA, i, uint64(m.Container.Size()))
-		n13, err := m.Container.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
-		}
-		i += n13
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if m.Container != nil {
+		{
+			size, err := m.Container.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintContainers(dAtA, i, uint64(size))
+		}
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintContainers(dAtA []byte, offset int, v uint64) int {
+	offset -= sovContainers(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *Container) Size() (n int) {
 	if m == nil {
@@ -1625,14 +1939,7 @@ func (m *ListContainerMessage) Size() (n int) {
 }
 
 func sovContainers(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozContainers(x uint64) (n int) {
 	return sovContainers(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -1669,8 +1976,13 @@ func (this *Container) String() string {
 		`Spec:` + strings.Replace(fmt.Sprintf("%v", this.Spec), "Any", "types.Any", 1) + `,`,
 		`Snapshotter:` + fmt.Sprintf("%v", this.Snapshotter) + `,`,
 		`SnapshotKey:` + fmt.Sprintf("%v", this.SnapshotKey) + `,`,
+<<<<<<< HEAD
 		`CreatedAt:` + strings.Replace(strings.Replace(this.CreatedAt.String(), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
 		`UpdatedAt:` + strings.Replace(strings.Replace(this.UpdatedAt.String(), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`CreatedAt:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.CreatedAt), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+		`UpdatedAt:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.UpdatedAt), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`Extensions:` + mapStringForExtensions + `,`,
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
@@ -1726,8 +2038,17 @@ func (this *ListContainersResponse) String() string {
 	if this == nil {
 		return "nil"
 	}
+	repeatedStringForContainers := "[]Container{"
+	for _, f := range this.Containers {
+		repeatedStringForContainers += strings.Replace(strings.Replace(f.String(), "Container", "Container", 1), `&`, ``, 1) + ","
+	}
+	repeatedStringForContainers += "}"
 	s := strings.Join([]string{`&ListContainersResponse{`,
+<<<<<<< HEAD
 		`Containers:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.Containers), "Container", "Container", 1), `&`, ``, 1) + `,`,
+=======
+		`Containers:` + repeatedStringForContainers + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -1794,7 +2115,11 @@ func (this *ListContainerMessage) String() string {
 		return "nil"
 	}
 	s := strings.Join([]string{`&ListContainerMessage{`,
+<<<<<<< HEAD
 		`Container:` + strings.Replace(fmt.Sprintf("%v", this.Container), "Container", "Container", 1) + `,`,
+=======
+		`Container:` + strings.Replace(this.Container.String(), "Container", "Container", 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -3416,6 +3741,7 @@ func (m *ListContainerMessage) Unmarshal(dAtA []byte) error {
 func skipContainers(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -3447,10 +3773,8 @@ func skipContainers(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -3471,6 +3795,7 @@ func skipContainers(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthContainers
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthContainers
 			}
@@ -3507,19 +3832,32 @@ func skipContainers(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupContainers
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthContainers
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthContainers = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowContainers   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthContainers        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowContainers          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupContainers = fmt.Errorf("proto: unexpected end of group")
 )

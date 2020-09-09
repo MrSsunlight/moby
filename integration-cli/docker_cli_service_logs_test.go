@@ -13,9 +13,15 @@ import (
 
 	"github.com/docker/docker/integration-cli/checker"
 	"github.com/docker/docker/integration-cli/daemon"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
 	"gotest.tools/poll"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 type logMessage struct {
@@ -46,12 +52,11 @@ func (s *DockerSwarmSuite) TestServiceLogs(c *testing.T) {
 	for name, message := range services {
 		out, err := d.Cmd("service", "logs", name)
 		assert.NilError(c, err)
-		c.Logf("log for %q: %q", name, out)
-		assert.Assert(c, strings.Contains(out, message))
+		assert.Assert(c, strings.Contains(out, message), "log for %q: %q", name, out)
 	}
 }
 
-// countLogLines returns a closure that can be used with waitAndAssert to
+// countLogLines returns a closure that can be used with poll.WaitOn() to
 // verify that a minimum number of expected container log messages have been
 // output.
 func countLogLines(d *daemon.Daemon, name string) func(*testing.T) (interface{}, string) {
@@ -178,6 +183,8 @@ func (s *DockerSwarmSuite) TestServiceLogsFollow(c *testing.T) {
 	// Make sure pipe is written to
 	ch := make(chan *logMessage)
 	done := make(chan struct{})
+	stop := make(chan struct{})
+	defer close(stop)
 	go func() {
 		reader := bufio.NewReader(r)
 		for {
@@ -185,6 +192,8 @@ func (s *DockerSwarmSuite) TestServiceLogsFollow(c *testing.T) {
 			msg.data, _, msg.err = reader.ReadLine()
 			select {
 			case ch <- msg:
+			case <-stop:
+				return
 			case <-done:
 				return
 			}

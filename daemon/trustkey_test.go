@@ -6,9 +6,15 @@ import (
 	"path/filepath"
 	"testing"
 
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
 	"gotest.tools/fs"
+=======
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/fs"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // LoadOrCreateTrustKey

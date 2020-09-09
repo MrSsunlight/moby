@@ -11,8 +11,13 @@ import (
 
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/pkg/jsonmessage"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // This used to work, it test a log of PageSize-1 (gh#4851)
@@ -128,7 +133,7 @@ func (s *DockerSuite) TestLogsFollowStopped(c *testing.T) {
 	logsCmd := exec.Command(dockerBinary, "logs", "-f", id)
 	assert.NilError(c, logsCmd.Start())
 
-	errChan := make(chan error)
+	errChan := make(chan error, 1)
 	go func() {
 		errChan <- logsCmd.Wait()
 		close(errChan)

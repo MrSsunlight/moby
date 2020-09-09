@@ -14,11 +14,15 @@ import (
 	"github.com/docker/docker/api/types/filters"
 	"github.com/docker/docker/api/types/versions"
 	"github.com/docker/docker/errdefs"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/fakecontext"
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"github.com/docker/docker/pkg/jsonmessage"
-	"gotest.tools/assert"
-	is "gotest.tools/assert/cmp"
-	"gotest.tools/skip"
+	"github.com/docker/docker/testutil/fakecontext"
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/skip"
 )
 
 func TestBuildWithRemoveAndForceRemove(t *testing.T) {
@@ -170,7 +174,10 @@ func TestBuildMultiStageCopy(t *testing.T) {
 			assert.NilError(t, err)
 
 			out := bytes.NewBuffer(nil)
+<<<<<<< HEAD
 			assert.NilError(t, err)
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 			_, err = io.Copy(out, resp.Body)
 			_ = resp.Body.Close()
 			if err != nil {
@@ -208,19 +215,20 @@ func TestBuildMultiStageParentConfig(t *testing.T) {
 	defer source.Close()
 
 	apiclient := testEnv.APIClient()
+	imgName := strings.ToLower(t.Name())
 	resp, err := apiclient.ImageBuild(ctx,
 		source.AsTarReader(t),
 		types.ImageBuildOptions{
 			Remove:      true,
 			ForceRemove: true,
-			Tags:        []string{"build1"},
+			Tags:        []string{imgName},
 		})
 	assert.NilError(t, err)
 	_, err = io.Copy(ioutil.Discard, resp.Body)
 	resp.Body.Close()
 	assert.NilError(t, err)
 
-	image, _, err := apiclient.ImageInspectWithRaw(ctx, "build1")
+	image, _, err := apiclient.ImageInspectWithRaw(ctx, imgName)
 	assert.NilError(t, err)
 
 	expected := "/foo/sub2"
@@ -235,7 +243,7 @@ func TestBuildMultiStageParentConfig(t *testing.T) {
 func TestBuildLabelWithTargets(t *testing.T) {
 	skip.If(t, versions.LessThan(testEnv.DaemonAPIVersion(), "1.38"), "test added after 1.38")
 	skip.If(t, testEnv.DaemonInfo.OSType == "windows", "FIXME")
-	bldName := "build-a"
+	imgName := strings.ToLower(t.Name() + "-a")
 	testLabels := map[string]string{
 		"foo":  "bar",
 		"dead": "beef",
@@ -261,7 +269,7 @@ func TestBuildLabelWithTargets(t *testing.T) {
 		types.ImageBuildOptions{
 			Remove:      true,
 			ForceRemove: true,
-			Tags:        []string{bldName},
+			Tags:        []string{imgName},
 			Labels:      testLabels,
 			Target:      "target-a",
 		})
@@ -270,7 +278,7 @@ func TestBuildLabelWithTargets(t *testing.T) {
 	resp.Body.Close()
 	assert.NilError(t, err)
 
-	image, _, err := apiclient.ImageInspectWithRaw(ctx, bldName)
+	image, _, err := apiclient.ImageInspectWithRaw(ctx, imgName)
 	assert.NilError(t, err)
 
 	testLabels["label-a"] = "inline-a"
@@ -281,14 +289,14 @@ func TestBuildLabelWithTargets(t *testing.T) {
 	}
 
 	// For `target-b` build
-	bldName = "build-b"
+	imgName = strings.ToLower(t.Name() + "-b")
 	delete(testLabels, "label-a")
 	resp, err = apiclient.ImageBuild(ctx,
 		source.AsTarReader(t),
 		types.ImageBuildOptions{
 			Remove:      true,
 			ForceRemove: true,
-			Tags:        []string{bldName},
+			Tags:        []string{imgName},
 			Labels:      testLabels,
 			Target:      "target-b",
 		})
@@ -297,7 +305,7 @@ func TestBuildLabelWithTargets(t *testing.T) {
 	resp.Body.Close()
 	assert.NilError(t, err)
 
-	image, _, err = apiclient.ImageInspectWithRaw(ctx, bldName)
+	image, _, err = apiclient.ImageInspectWithRaw(ctx, imgName)
 	assert.NilError(t, err)
 
 	testLabels["label-b"] = "inline-b"
@@ -378,7 +386,7 @@ RUN cat somefile`
 
 	imageIDs, err := getImageIDsFromBuild(out.Bytes())
 	assert.NilError(t, err)
-	assert.Check(t, is.Equal(3, len(imageIDs)))
+	assert.Assert(t, is.Equal(3, len(imageIDs)))
 
 	image, _, err := apiclient.ImageInspectWithRaw(context.Background(), imageIDs[2])
 	assert.NilError(t, err)
@@ -582,7 +590,7 @@ func TestBuildPreserveOwnership(t *testing.T) {
 
 	ctx := context.Background()
 
-	dockerfile, err := ioutil.ReadFile("testdata/Dockerfile.testBuildPreserveOwnership")
+	dockerfile, err := ioutil.ReadFile("testdata/Dockerfile." + t.Name())
 	assert.NilError(t, err)
 
 	source := fakecontext.New(t, "", fakecontext.WithDockerfile(string(dockerfile)))
@@ -604,7 +612,6 @@ func TestBuildPreserveOwnership(t *testing.T) {
 			assert.NilError(t, err)
 
 			out := bytes.NewBuffer(nil)
-			assert.NilError(t, err)
 			_, err = io.Copy(out, resp.Body)
 			_ = resp.Body.Close()
 			if err != nil {

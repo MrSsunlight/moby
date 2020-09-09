@@ -10,8 +10,8 @@ import (
 	"testing"
 
 	"github.com/docker/docker/pkg/idtools"
-	"github.com/docker/docker/pkg/mount"
-	"gotest.tools/skip"
+	"github.com/moby/sys/mountinfo"
+	"gotest.tools/v3/skip"
 )
 
 func TestGetAddress(t *testing.T) {
@@ -149,7 +149,7 @@ func TestCreate(t *testing.T) {
 		}
 	}
 
-	r, err = New(rootDir, idtools.Identity{UID: os.Geteuid(), GID: os.Getegid()})
+	_, err = New(rootDir, idtools.Identity{UID: os.Geteuid(), GID: os.Getegid()})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -211,7 +211,7 @@ func TestCreateWithOpts(t *testing.T) {
 		}
 	}()
 
-	mountInfos, err := mount.GetMounts(mount.SingleEntryFilter(dir))
+	mountInfos, err := mountinfo.GetMounts(mountinfo.SingleEntryFilter(dir))
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -253,7 +253,7 @@ func TestCreateWithOpts(t *testing.T) {
 		t.Fatalf("Expected active mount count to be 1, got %d", v.active.count)
 	}
 
-	mounted, err := mount.Mounted(v.path)
+	mounted, err := mountinfo.Mounted(v.path)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -295,7 +295,7 @@ func TestRelaodNoOpts(t *testing.T) {
 		t.Fatal(err)
 	}
 	// make sure a file with `null` (.e.g. empty opts map from older daemon) is ok
-	if err := ioutil.WriteFile(filepath.Join(rootDir, "test2"), []byte("null"), 600); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(rootDir, "test2"), []byte("null"), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -303,7 +303,7 @@ func TestRelaodNoOpts(t *testing.T) {
 		t.Fatal(err)
 	}
 	// make sure an empty opts file doesn't break us too
-	if err := ioutil.WriteFile(filepath.Join(rootDir, "test3"), nil, 600); err != nil {
+	if err := ioutil.WriteFile(filepath.Join(rootDir, "test3"), nil, 0600); err != nil {
 		t.Fatal(err)
 	}
 

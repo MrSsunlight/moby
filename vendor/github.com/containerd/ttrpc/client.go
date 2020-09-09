@@ -338,9 +338,18 @@ func filterCloseErr(err error) error {
 	case strings.Contains(err.Error(), "use of closed network connection"):
 		return ErrClosed
 	default:
+<<<<<<< HEAD
 		// if we have an epipe on a write, we cast to errclosed
 		if oerr, ok := err.(*net.OpError); ok && oerr.Op == "write" {
 			if serr, ok := oerr.Err.(*os.SyscallError); ok && serr.Err == syscall.EPIPE {
+=======
+		// if we have an epipe on a write or econnreset on a read , we cast to errclosed
+		if oerr, ok := err.(*net.OpError); ok && (oerr.Op == "write" || oerr.Op == "read") {
+			serr, sok := oerr.Err.(*os.SyscallError)
+			if sok && ((serr.Err == syscall.EPIPE && oerr.Op == "write") ||
+				(serr.Err == syscall.ECONNRESET && oerr.Op == "read")) {
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 				return ErrClosed
 			}
 		}

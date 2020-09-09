@@ -10,6 +10,10 @@ import (
 	types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 	time "time"
@@ -25,7 +29,7 @@ var _ = time.Kitchen
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
-const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
 type Status int32
 
@@ -78,6 +82,7 @@ type Process struct {
 	XXX_NoUnkeyedLiteral struct{}  `json:"-"`
 	XXX_unrecognized     []byte    `json:"-"`
 	XXX_sizecache        int32     `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *Process) Reset()      { *m = Process{} }
@@ -110,6 +115,40 @@ func (m *Process) XXX_DiscardUnknown() {
 	xxx_messageInfo_Process.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *Process) Reset()      { *m = Process{} }
+func (*Process) ProtoMessage() {}
+func (*Process) Descriptor() ([]byte, []int) {
+	return fileDescriptor_391ef18c8ab0dc16, []int{0}
+}
+func (m *Process) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Process) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Process.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Process) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Process.Merge(m, src)
+}
+func (m *Process) XXX_Size() int {
+	return m.Size()
+}
+func (m *Process) XXX_DiscardUnknown() {
+	xxx_messageInfo_Process.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_Process proto.InternalMessageInfo
 
 type ProcessInfo struct {
@@ -137,7 +176,11 @@ func (m *ProcessInfo) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return xxx_messageInfo_ProcessInfo.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -208,7 +251,7 @@ var fileDescriptor_391ef18c8ab0dc16 = []byte{
 func (m *Process) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -216,65 +259,50 @@ func (m *Process) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *Process) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Process) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.ID) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	n1, err1 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.ExitedAt, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt):])
+	if err1 != nil {
+		return 0, err1
 	}
-	if m.Pid != 0 {
-		dAtA[i] = 0x18
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
-	}
-	if m.Status != 0 {
-		dAtA[i] = 0x20
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Status))
-	}
-	if len(m.Stdin) > 0 {
-		dAtA[i] = 0x2a
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdin)))
-		i += copy(dAtA[i:], m.Stdin)
-	}
-	if len(m.Stdout) > 0 {
-		dAtA[i] = 0x32
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdout)))
-		i += copy(dAtA[i:], m.Stdout)
-	}
-	if len(m.Stderr) > 0 {
-		dAtA[i] = 0x3a
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stderr)))
-		i += copy(dAtA[i:], m.Stderr)
+	i -= n1
+	i = encodeVarintTask(dAtA, i, uint64(n1))
+	i--
+	dAtA[i] = 0x52
+	if m.ExitStatus != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.ExitStatus))
+		i--
+		dAtA[i] = 0x48
 	}
 	if m.Terminal {
-		dAtA[i] = 0x40
-		i++
+		i--
 		if m.Terminal {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
 		}
-		i++
+		i--
+		dAtA[i] = 0x40
 	}
-	if m.ExitStatus != 0 {
-		dAtA[i] = 0x48
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.ExitStatus))
+	if len(m.Stderr) > 0 {
+		i -= len(m.Stderr)
+		copy(dAtA[i:], m.Stderr)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stderr)))
+		i--
+		dAtA[i] = 0x3a
 	}
+<<<<<<< HEAD
 	dAtA[i] = 0x52
 	i++
 	i = encodeVarintTask(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt)))
@@ -287,12 +315,53 @@ func (m *Process) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Stdout) > 0 {
+		i -= len(m.Stdout)
+		copy(dAtA[i:], m.Stdout)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdout)))
+		i--
+		dAtA[i] = 0x32
+	}
+	if len(m.Stdin) > 0 {
+		i -= len(m.Stdin)
+		copy(dAtA[i:], m.Stdin)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdin)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.Status != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.Status))
+		i--
+		dAtA[i] = 0x20
+	}
+	if m.Pid != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x18
+	}
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *ProcessInfo) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -300,39 +369,56 @@ func (m *ProcessInfo) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *ProcessInfo) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *ProcessInfo) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if m.Pid != 0 {
-		dAtA[i] = 0x8
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Info != nil {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Info.Size()))
-		n2, err := m.Info.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+		{
+			size, err := m.Info.MarshalToSizedBuffer(dAtA[:i])
+			if err != nil {
+				return 0, err
+			}
+			i -= size
+			i = encodeVarintTask(dAtA, i, uint64(size))
 		}
-		i += n2
+		i--
+		dAtA[i] = 0x12
 	}
+	if m.Pid != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x8
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintTask(dAtA []byte, offset int, v uint64) int {
+	offset -= sovTask(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *Process) Size() (n int) {
 	if m == nil {
@@ -400,14 +486,7 @@ func (m *ProcessInfo) Size() (n int) {
 }
 
 func sovTask(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozTask(x uint64) (n int) {
 	return sovTask(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -426,7 +505,11 @@ func (this *Process) String() string {
 		`Stderr:` + fmt.Sprintf("%v", this.Stderr) + `,`,
 		`Terminal:` + fmt.Sprintf("%v", this.Terminal) + `,`,
 		`ExitStatus:` + fmt.Sprintf("%v", this.ExitStatus) + `,`,
+<<<<<<< HEAD
 		`ExitedAt:` + strings.Replace(strings.Replace(this.ExitedAt.String(), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`ExitedAt:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.ExitedAt), "Timestamp", "types.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -888,6 +971,7 @@ func (m *ProcessInfo) Unmarshal(dAtA []byte) error {
 func skipTask(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -919,10 +1003,8 @@ func skipTask(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -943,6 +1025,7 @@ func skipTask(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthTask
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthTask
 			}
@@ -979,19 +1062,32 @@ func skipTask(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupTask
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthTask
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthTask = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowTask   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthTask        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowTask          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupTask = fmt.Errorf("proto: unexpected end of group")
 )

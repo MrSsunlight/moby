@@ -8,6 +8,7 @@ import (
 	"strconv"
 	"strings"
 
+<<<<<<< HEAD
 	"github.com/opencontainers/runc/libcontainer/system"
 	"golang.org/x/sys/unix"
 )
@@ -19,6 +20,19 @@ func platformNewStatsCollector(s *Collector) {
 }
 
 const nanoSecondsPerSecond = 1e9
+=======
+	"golang.org/x/sys/unix"
+)
+
+const (
+	// The value comes from `C.sysconf(C._SC_CLK_TCK)`, and
+	// on Linux it's a constant which is safe to be hard coded,
+	// so we can avoid using cgo here. For details, see:
+	// https://github.com/containerd/cgroups/pull/12
+	clockTicksPerSecond  = 100
+	nanoSecondsPerSecond = 1e9
+)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 // getSystemCPUUsage returns the host system's cpu usage in
 // nanoseconds. An error is returned if the format of the underlying
@@ -59,7 +73,7 @@ func (s *Collector) getSystemCPUUsage() (uint64, error) {
 				totalClockTicks += v
 			}
 			return (totalClockTicks * nanoSecondsPerSecond) /
-				s.clockTicksPerSecond, nil
+				clockTicksPerSecond, nil
 		}
 	}
 	return 0, fmt.Errorf("invalid stat format. Error trying to parse the '/proc/stat' file")

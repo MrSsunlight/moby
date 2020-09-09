@@ -11,8 +11,13 @@ import (
 
 	"github.com/docker/docker/api"
 	"github.com/docker/docker/api/types/versions"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestAPIOptionsRoute(c *testing.T) {

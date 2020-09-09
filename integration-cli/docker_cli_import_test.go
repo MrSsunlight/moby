@@ -11,8 +11,13 @@ import (
 	"testing"
 
 	"github.com/docker/docker/integration-cli/cli"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestImportDisplay(c *testing.T) {
@@ -110,7 +115,11 @@ func (s *DockerSuite) TestImportFileWithMessage(c *testing.T) {
 	split := strings.Split(out, "\n")
 
 	assert.Equal(c, len(split), 3, "expected 3 lines from image history")
+<<<<<<< HEAD
 	r := regexp.MustCompile("[\\s]{2,}")
+=======
+	r := regexp.MustCompile(`[\s]{2,}`)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	split = r.Split(split[1], -1)
 
 	assert.Equal(c, message, split[3], "didn't get expected value in commit message")

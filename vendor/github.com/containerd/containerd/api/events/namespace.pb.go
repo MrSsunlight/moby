@@ -9,6 +9,10 @@ import (
 	github_com_gogo_protobuf_sortkeys "github.com/gogo/protobuf/sortkeys"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 )
@@ -22,7 +26,11 @@ var _ = math.Inf
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
+<<<<<<< HEAD
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+=======
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 type NamespaceCreate struct {
 	Name                 string            `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
@@ -30,6 +38,7 @@ type NamespaceCreate struct {
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *NamespaceCreate) Reset()      { *m = NamespaceCreate{} }
@@ -62,6 +71,40 @@ func (m *NamespaceCreate) XXX_DiscardUnknown() {
 	xxx_messageInfo_NamespaceCreate.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *NamespaceCreate) Reset()      { *m = NamespaceCreate{} }
+func (*NamespaceCreate) ProtoMessage() {}
+func (*NamespaceCreate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6cd45d1d5adffe29, []int{0}
+}
+func (m *NamespaceCreate) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceCreate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceCreate.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceCreate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceCreate.Merge(m, src)
+}
+func (m *NamespaceCreate) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceCreate) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceCreate.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_NamespaceCreate proto.InternalMessageInfo
 
 type NamespaceUpdate struct {
@@ -70,6 +113,7 @@ type NamespaceUpdate struct {
 	XXX_NoUnkeyedLiteral struct{}          `json:"-"`
 	XXX_unrecognized     []byte            `json:"-"`
 	XXX_sizecache        int32             `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *NamespaceUpdate) Reset()      { *m = NamespaceUpdate{} }
@@ -102,6 +146,40 @@ func (m *NamespaceUpdate) XXX_DiscardUnknown() {
 	xxx_messageInfo_NamespaceUpdate.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *NamespaceUpdate) Reset()      { *m = NamespaceUpdate{} }
+func (*NamespaceUpdate) ProtoMessage() {}
+func (*NamespaceUpdate) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6cd45d1d5adffe29, []int{1}
+}
+func (m *NamespaceUpdate) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceUpdate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceUpdate.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceUpdate) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceUpdate.Merge(m, src)
+}
+func (m *NamespaceUpdate) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceUpdate) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceUpdate.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_NamespaceUpdate proto.InternalMessageInfo
 
 type NamespaceDelete struct {
@@ -109,6 +187,7 @@ type NamespaceDelete struct {
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
+<<<<<<< HEAD
 }
 
 func (m *NamespaceDelete) Reset()      { *m = NamespaceDelete{} }
@@ -141,6 +220,40 @@ func (m *NamespaceDelete) XXX_DiscardUnknown() {
 	xxx_messageInfo_NamespaceDelete.DiscardUnknown(m)
 }
 
+=======
+}
+
+func (m *NamespaceDelete) Reset()      { *m = NamespaceDelete{} }
+func (*NamespaceDelete) ProtoMessage() {}
+func (*NamespaceDelete) Descriptor() ([]byte, []int) {
+	return fileDescriptor_6cd45d1d5adffe29, []int{2}
+}
+func (m *NamespaceDelete) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *NamespaceDelete) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_NamespaceDelete.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *NamespaceDelete) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_NamespaceDelete.Merge(m, src)
+}
+func (m *NamespaceDelete) XXX_Size() int {
+	return m.Size()
+}
+func (m *NamespaceDelete) XXX_DiscardUnknown() {
+	xxx_messageInfo_NamespaceDelete.DiscardUnknown(m)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 var xxx_messageInfo_NamespaceDelete proto.InternalMessageInfo
 
 func init() {
@@ -238,7 +351,7 @@ func (m *NamespaceDelete) Field(fieldpath []string) (string, bool) {
 func (m *NamespaceCreate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -246,43 +359,59 @@ func (m *NamespaceCreate) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *NamespaceCreate) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceCreate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
-			dAtA[i] = 0x12
-			i++
+		for k := range m.Labels {
 			v := m.Labels[k]
-			mapSize := 1 + len(k) + sovNamespace(uint64(len(k))) + 1 + len(v) + sovNamespace(uint64(len(v)))
-			i = encodeVarintNamespace(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintNamespace(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
 			i = encodeVarintNamespace(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintNamespace(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintNamespace(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x12
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *NamespaceUpdate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -290,43 +419,59 @@ func (m *NamespaceUpdate) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *NamespaceUpdate) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceUpdate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Labels) > 0 {
-		for k, _ := range m.Labels {
-			dAtA[i] = 0x12
-			i++
+		for k := range m.Labels {
 			v := m.Labels[k]
-			mapSize := 1 + len(k) + sovNamespace(uint64(len(k))) + 1 + len(v) + sovNamespace(uint64(len(v)))
-			i = encodeVarintNamespace(dAtA, i, uint64(mapSize))
-			dAtA[i] = 0xa
-			i++
-			i = encodeVarintNamespace(dAtA, i, uint64(len(k)))
-			i += copy(dAtA[i:], k)
-			dAtA[i] = 0x12
-			i++
+			baseI := i
+			i -= len(v)
+			copy(dAtA[i:], v)
 			i = encodeVarintNamespace(dAtA, i, uint64(len(v)))
-			i += copy(dAtA[i:], v)
+			i--
+			dAtA[i] = 0x12
+			i -= len(k)
+			copy(dAtA[i:], k)
+			i = encodeVarintNamespace(dAtA, i, uint64(len(k)))
+			i--
+			dAtA[i] = 0xa
+			i = encodeVarintNamespace(dAtA, i, uint64(baseI-i))
+			i--
+			dAtA[i] = 0x12
 		}
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *NamespaceDelete) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -334,30 +479,46 @@ func (m *NamespaceDelete) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *NamespaceDelete) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *NamespaceDelete) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Name) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
-		i += copy(dAtA[i:], m.Name)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintNamespace(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintNamespace(dAtA []byte, offset int, v uint64) int {
+	offset -= sovNamespace(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *NamespaceCreate) Size() (n int) {
 	if m == nil {
@@ -424,14 +585,7 @@ func (m *NamespaceDelete) Size() (n int) {
 }
 
 func sovNamespace(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozNamespace(x uint64) (n int) {
 	return sovNamespace(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -1014,6 +1168,7 @@ func (m *NamespaceDelete) Unmarshal(dAtA []byte) error {
 func skipNamespace(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -1045,10 +1200,8 @@ func skipNamespace(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -1069,6 +1222,7 @@ func skipNamespace(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthNamespace
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthNamespace
 			}
@@ -1105,19 +1259,32 @@ func skipNamespace(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupNamespace
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthNamespace
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthNamespace = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowNamespace   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthNamespace        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowNamespace          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupNamespace = fmt.Errorf("proto: unexpected end of group")
 )

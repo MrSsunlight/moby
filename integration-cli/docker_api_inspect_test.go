@@ -9,8 +9,13 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/versions/v1p20"
 	"github.com/docker/docker/client"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
+=======
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestInspectAPIContainerResponse(c *testing.T) {

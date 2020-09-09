@@ -175,15 +175,15 @@ func qdiscPayload(req *nl.NetlinkRequest, qdisc Qdisc) error {
 		opt.Peakrate.Rate = uint32(qdisc.Peakrate)
 		opt.Limit = qdisc.Limit
 		opt.Buffer = qdisc.Buffer
-		nl.NewRtAttrChild(options, nl.TCA_TBF_PARMS, opt.Serialize())
+		options.AddRtAttr(nl.TCA_TBF_PARMS, opt.Serialize())
 		if qdisc.Rate >= uint64(1<<32) {
-			nl.NewRtAttrChild(options, nl.TCA_TBF_RATE64, nl.Uint64Attr(qdisc.Rate))
+			options.AddRtAttr(nl.TCA_TBF_RATE64, nl.Uint64Attr(qdisc.Rate))
 		}
 		if qdisc.Peakrate >= uint64(1<<32) {
-			nl.NewRtAttrChild(options, nl.TCA_TBF_PRATE64, nl.Uint64Attr(qdisc.Peakrate))
+			options.AddRtAttr(nl.TCA_TBF_PRATE64, nl.Uint64Attr(qdisc.Peakrate))
 		}
 		if qdisc.Peakrate > 0 {
-			nl.NewRtAttrChild(options, nl.TCA_TBF_PBURST, nl.Uint32Attr(qdisc.Minburst))
+			options.AddRtAttr(nl.TCA_TBF_PBURST, nl.Uint32Attr(qdisc.Minburst))
 		}
 	case *Htb:
 		opt := nl.TcHtbGlob{}
@@ -193,8 +193,12 @@ func qdiscPayload(req *nl.NetlinkRequest, qdisc Qdisc) error {
 		// TODO: Handle Debug properly. For now default to 0
 		opt.Debug = qdisc.Debug
 		opt.DirectPkts = qdisc.DirectPkts
-		nl.NewRtAttrChild(options, nl.TCA_HTB_INIT, opt.Serialize())
-		// nl.NewRtAttrChild(options, nl.TCA_HTB_DIRECT_QLEN, opt.Serialize())
+		options.AddRtAttr(nl.TCA_HTB_INIT, opt.Serialize())
+		// options.AddRtAttr(nl.TCA_HTB_DIRECT_QLEN, opt.Serialize())
+	case *Hfsc:
+		opt := nl.TcHfscOpt{}
+		opt.Defcls = qdisc.Defcls
+		options = nl.NewRtAttr(nl.TCA_OPTIONS, opt.Serialize())
 	case *Netem:
 		opt := nl.TcNetemQopt{}
 		opt.Latency = qdisc.Latency
@@ -211,21 +215,21 @@ func qdiscPayload(req *nl.NetlinkRequest, qdisc Qdisc) error {
 		corr.DupCorr = qdisc.DuplicateCorr
 
 		if corr.DelayCorr > 0 || corr.LossCorr > 0 || corr.DupCorr > 0 {
-			nl.NewRtAttrChild(options, nl.TCA_NETEM_CORR, corr.Serialize())
+			options.AddRtAttr(nl.TCA_NETEM_CORR, corr.Serialize())
 		}
 		// Corruption
 		corruption := nl.TcNetemCorrupt{}
 		corruption.Probability = qdisc.CorruptProb
 		corruption.Correlation = qdisc.CorruptCorr
 		if corruption.Probability > 0 {
-			nl.NewRtAttrChild(options, nl.TCA_NETEM_CORRUPT, corruption.Serialize())
+			options.AddRtAttr(nl.TCA_NETEM_CORRUPT, corruption.Serialize())
 		}
 		// Reorder
 		reorder := nl.TcNetemReorder{}
 		reorder.Probability = qdisc.ReorderProb
 		reorder.Correlation = qdisc.ReorderCorr
 		if reorder.Probability > 0 {
-			nl.NewRtAttrChild(options, nl.TCA_NETEM_REORDER, reorder.Serialize())
+			options.AddRtAttr(nl.TCA_NETEM_REORDER, reorder.Serialize())
 		}
 	case *Ingress:
 		// ingress filters must use the proper handle
@@ -233,6 +237,7 @@ func qdiscPayload(req *nl.NetlinkRequest, qdisc Qdisc) error {
 			return fmt.Errorf("Ingress filters must set Parent to HANDLE_INGRESS")
 		}
 	case *FqCodel:
+<<<<<<< HEAD
 		nl.NewRtAttrChild(options, nl.TCA_FQ_CODEL_ECN, nl.Uint32Attr((uint32(qdisc.ECN))))
 		if qdisc.Limit > 0 {
 			nl.NewRtAttrChild(options, nl.TCA_FQ_CODEL_LIMIT, nl.Uint32Attr((uint32(qdisc.Limit))))
@@ -274,9 +279,56 @@ func qdiscPayload(req *nl.NetlinkRequest, qdisc Qdisc) error {
 		if qdisc.FlowDefaultRate > 0 {
 			nl.NewRtAttrChild(options, nl.TCA_FQ_FLOW_DEFAULT_RATE, nl.Uint32Attr((uint32(qdisc.FlowDefaultRate))))
 		}
+=======
+		options.AddRtAttr(nl.TCA_FQ_CODEL_ECN, nl.Uint32Attr((uint32(qdisc.ECN))))
+		if qdisc.Limit > 0 {
+			options.AddRtAttr(nl.TCA_FQ_CODEL_LIMIT, nl.Uint32Attr((uint32(qdisc.Limit))))
+		}
+		if qdisc.Interval > 0 {
+			options.AddRtAttr(nl.TCA_FQ_CODEL_INTERVAL, nl.Uint32Attr((uint32(qdisc.Interval))))
+		}
+		if qdisc.Flows > 0 {
+			options.AddRtAttr(nl.TCA_FQ_CODEL_FLOWS, nl.Uint32Attr((uint32(qdisc.Flows))))
+		}
+		if qdisc.Quantum > 0 {
+			options.AddRtAttr(nl.TCA_FQ_CODEL_QUANTUM, nl.Uint32Attr((uint32(qdisc.Quantum))))
+		}
+
+	case *Fq:
+		options.AddRtAttr(nl.TCA_FQ_RATE_ENABLE, nl.Uint32Attr((uint32(qdisc.Pacing))))
+
+		if qdisc.Buckets > 0 {
+			options.AddRtAttr(nl.TCA_FQ_BUCKETS_LOG, nl.Uint32Attr((uint32(qdisc.Buckets))))
+		}
+		if qdisc.LowRateThreshold > 0 {
+			options.AddRtAttr(nl.TCA_FQ_LOW_RATE_THRESHOLD, nl.Uint32Attr((uint32(qdisc.LowRateThreshold))))
+		}
+		if qdisc.Quantum > 0 {
+			options.AddRtAttr(nl.TCA_FQ_QUANTUM, nl.Uint32Attr((uint32(qdisc.Quantum))))
+		}
+		if qdisc.InitialQuantum > 0 {
+			options.AddRtAttr(nl.TCA_FQ_INITIAL_QUANTUM, nl.Uint32Attr((uint32(qdisc.InitialQuantum))))
+		}
+		if qdisc.FlowRefillDelay > 0 {
+			options.AddRtAttr(nl.TCA_FQ_FLOW_REFILL_DELAY, nl.Uint32Attr((uint32(qdisc.FlowRefillDelay))))
+		}
+		if qdisc.FlowPacketLimit > 0 {
+			options.AddRtAttr(nl.TCA_FQ_FLOW_PLIMIT, nl.Uint32Attr((uint32(qdisc.FlowPacketLimit))))
+		}
+		if qdisc.FlowMaxRate > 0 {
+			options.AddRtAttr(nl.TCA_FQ_FLOW_MAX_RATE, nl.Uint32Attr((uint32(qdisc.FlowMaxRate))))
+		}
+		if qdisc.FlowDefaultRate > 0 {
+			options.AddRtAttr(nl.TCA_FQ_FLOW_DEFAULT_RATE, nl.Uint32Attr((uint32(qdisc.FlowDefaultRate))))
+		}
+	default:
+		options = nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 
-	req.AddData(options)
+	if options != nil {
+		req.AddData(options)
+	}
 	return nil
 }
 
@@ -348,6 +400,11 @@ func (h *Handle) QdiscList(link Link) ([]Qdisc, error) {
 					qdisc = &Htb{}
 				case "fq":
 					qdisc = &Fq{}
+<<<<<<< HEAD
+=======
+				case "hfsc":
+					qdisc = &Hfsc{}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 				case "fq_codel":
 					qdisc = &FqCodel{}
 				case "netem":
@@ -373,6 +430,10 @@ func (h *Handle) QdiscList(link Link) ([]Qdisc, error) {
 						return nil, err
 					}
 					if err := parseTbfData(qdisc, data); err != nil {
+						return nil, err
+					}
+				case "hfsc":
+					if err := parseHfscData(qdisc, attr.Value); err != nil {
 						return nil, err
 					}
 				case "htb":
@@ -474,6 +535,16 @@ func parseFqCodelData(qdisc Qdisc, data []syscall.NetlinkRouteAttr) error {
 	return nil
 }
 
+<<<<<<< HEAD
+=======
+func parseHfscData(qdisc Qdisc, data []byte) error {
+	Hfsc := qdisc.(*Hfsc)
+	native = nl.NativeEndian()
+	Hfsc.Defcls = native.Uint16(data)
+	return nil
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func parseFqData(qdisc Qdisc, data []syscall.NetlinkRouteAttr) error {
 	native = nl.NativeEndian()
 	fq := qdisc.(*Fq)

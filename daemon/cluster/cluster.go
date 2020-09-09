@@ -45,6 +45,7 @@ import (
 	"net"
 	"os"
 	"path/filepath"
+	"runtime"
 	"sync"
 	"time"
 
@@ -61,14 +62,14 @@ import (
 	"google.golang.org/grpc"
 )
 
-const swarmDirName = "swarm"
-const controlSocket = "control.sock"
-const swarmConnectTimeout = 20 * time.Second
-const swarmRequestTimeout = 20 * time.Second
-const stateFile = "docker-state.json"
-const defaultAddr = "0.0.0.0:2377"
-
 const (
+	swarmDirName                   = "swarm"
+	controlSocket                  = "control.sock"
+	swarmConnectTimeout            = 20 * time.Second
+	swarmRequestTimeout            = 20 * time.Second
+	stateFile                      = "docker-state.json"
+	defaultAddr                    = "0.0.0.0:2377"
+	isWindows                      = runtime.GOOS == "windows"
 	initialReconnectDelay          = 100 * time.Millisecond
 	maxReconnectDelay              = 30 * time.Second
 	contextPrefix                  = "com.docker.swarm"
@@ -187,8 +188,11 @@ func (c *Cluster) Start() error {
 	}
 	c.nr = nr
 
+	timer := time.NewTimer(swarmConnectTimeout)
+	defer timer.Stop()
+
 	select {
-	case <-time.After(swarmConnectTimeout):
+	case <-timer.C:
 		logrus.Error("swarm component could not be started before timeout was reached")
 	case err := <-nr.Ready():
 		if err != nil {
@@ -349,7 +353,7 @@ func (c *Cluster) currentNodeState() nodeState {
 // Call with read lock.
 func (c *Cluster) errNoManager(st nodeState) error {
 	if st.swarmNode == nil {
-		if errors.Cause(st.err) == errSwarmLocked {
+		if errors.Is(st.err, errSwarmLocked) {
 			return errSwarmLocked
 		}
 		if st.err == errSwarmCertificatesExpired {

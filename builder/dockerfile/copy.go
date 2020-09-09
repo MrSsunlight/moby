@@ -559,8 +559,16 @@ func copyFile(archiver Archiver, source, dest *copyEndpoint, identity *idtools.I
 		// Normal containers
 		if identity == nil {
 			// Use system.MkdirAll here, which is a custom version of os.MkdirAll
+<<<<<<< HEAD
 			// modified for use on Windows to handle volume GUID paths (\\?\{dae8d3ac-b9a1-11e9-88eb-e8554b2ba1db}\path\)
 			if err := system.MkdirAll(filepath.Dir(dest.path), 0755, ""); err != nil {
+=======
+			// modified for use on Windows to handle volume GUID paths. These paths
+			// are of the form \\?\Volume{<GUID>}\<path>. An example would be:
+			// \\?\Volume{dae8d3ac-b9a1-11e9-88eb-e8554b2ba1db}\bin\busybox.exe
+
+			if err := system.MkdirAll(filepath.Dir(dest.path), 0755); err != nil {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 				return err
 			}
 		} else {
@@ -588,7 +596,7 @@ func endsInSlash(driver containerfs.Driver, path string) bool {
 func isExistingDirectory(point *copyEndpoint) (bool, error) {
 	destStat, err := point.driver.Stat(point.path)
 	switch {
-	case os.IsNotExist(err):
+	case errors.Is(err, os.ErrNotExist):
 		return false, nil
 	case err != nil:
 		return false, err

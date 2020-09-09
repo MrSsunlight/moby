@@ -179,6 +179,7 @@ func (r *routeRegexp) Match(req *http.Request, match *RouteMatch) bool {
 			if i := strings.Index(host, ":"); i != -1 {
 				host = host[:i]
 			}
+<<<<<<< HEAD
 		}
 		return r.regexp.MatchString(host)
 	} else {
@@ -188,14 +189,28 @@ func (r *routeRegexp) Match(req *http.Request, match *RouteMatch) bool {
 		path := req.URL.Path
 		if r.options.useEncodedPath {
 			path = req.URL.EscapedPath()
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		}
-		return r.regexp.MatchString(path)
+		return r.regexp.MatchString(host)
 	}
+<<<<<<< HEAD
+=======
+
+	if r.regexpType == regexpTypeQuery {
+		return r.matchQueryString(req)
+	}
+	path := req.URL.Path
+	if r.options.useEncodedPath {
+		path = req.URL.EscapedPath()
+	}
+	return r.regexp.MatchString(path)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 // url builds a URL part using the given values.
 func (r *routeRegexp) url(values map[string]string) (string, error) {
-	urlValues := make([]interface{}, len(r.varsN))
+	urlValues := make([]interface{}, len(r.varsN), len(r.varsN))
 	for k, v := range r.varsN {
 		value, ok := values[v]
 		if !ok {
@@ -230,12 +245,49 @@ func (r *routeRegexp) getURLQuery(req *http.Request) string {
 		return ""
 	}
 	templateKey := strings.SplitN(r.template, "=", 2)[0]
-	for key, vals := range req.URL.Query() {
-		if key == templateKey && len(vals) > 0 {
-			return key + "=" + vals[0]
-		}
+	val, ok := findFirstQueryKey(req.URL.RawQuery, templateKey)
+	if ok {
+		return templateKey + "=" + val
 	}
 	return ""
+}
+
+// findFirstQueryKey returns the same result as (*url.URL).Query()[key][0].
+// If key was not found, empty string and false is returned.
+func findFirstQueryKey(rawQuery, key string) (value string, ok bool) {
+	query := []byte(rawQuery)
+	for len(query) > 0 {
+		foundKey := query
+		if i := bytes.IndexAny(foundKey, "&;"); i >= 0 {
+			foundKey, query = foundKey[:i], foundKey[i+1:]
+		} else {
+			query = query[:0]
+		}
+		if len(foundKey) == 0 {
+			continue
+		}
+		var value []byte
+		if i := bytes.IndexByte(foundKey, '='); i >= 0 {
+			foundKey, value = foundKey[:i], foundKey[i+1:]
+		}
+		if len(foundKey) < len(key) {
+			// Cannot possibly be key.
+			continue
+		}
+		keyString, err := url.QueryUnescape(string(foundKey))
+		if err != nil {
+			continue
+		}
+		if keyString != key {
+			continue
+		}
+		valueString, err := url.QueryUnescape(string(value))
+		if err != nil {
+			continue
+		}
+		return valueString, true
+	}
+	return "", false
 }
 
 func (r *routeRegexp) matchQueryString(req *http.Request) bool {

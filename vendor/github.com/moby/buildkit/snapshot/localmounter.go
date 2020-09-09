@@ -1,12 +1,9 @@
 package snapshot
 
 import (
-	"io/ioutil"
-	"os"
 	"sync"
 
 	"github.com/containerd/containerd/mount"
-	"github.com/pkg/errors"
 )
 
 type Mounter interface {
@@ -32,6 +29,7 @@ type localMounter struct {
 	mountable Mountable
 	target    string
 	release   func() error
+<<<<<<< HEAD
 }
 
 func (lm *localMounter) Mount() (string, error) {
@@ -71,4 +69,6 @@ func (lm *localMounter) Mount() (string, error) {
 	}
 	lm.target = dir
 	return dir, nil
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }

@@ -20,6 +20,22 @@ const (
 	CapStatFile                apicaps.CapID = "statfile"
 	CapImportCaches            apicaps.CapID = "importcaches"
 
+<<<<<<< HEAD
+=======
+	// CapProtoRefArray is a capability to return arrays of refs instead of single
+	// refs. This capability is only for the wire format change and shouldn't be
+	// used in frontends for feature detection.
+	CapProtoRefArray apicaps.CapID = "proto.refarray"
+
+	// CapReferenceOutput is a capability to use a reference of a solved result as
+	// an llb.Output.
+	CapReferenceOutput apicaps.CapID = "reference.output"
+
+	// CapFrontendInputs is a capability to request frontend inputs from the
+	// LLBBridge GRPC server.
+	CapFrontendInputs apicaps.CapID = "frontend.inputs"
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	// CapGatewaySolveMetadata can be used to check if solve calls from gateway reliably return metadata
 	CapGatewaySolveMetadata apicaps.CapID = "gateway.solve.metadata"
 )
@@ -97,6 +113,30 @@ func init() {
 	})
 
 	Caps.Init(apicaps.Cap{
+<<<<<<< HEAD
+=======
+		ID:      CapProtoRefArray,
+		Name:    "wire format ref arrays",
+		Enabled: true,
+		Status:  apicaps.CapStatusExperimental,
+	})
+
+	Caps.Init(apicaps.Cap{
+		ID:      CapReferenceOutput,
+		Name:    "reference output",
+		Enabled: true,
+		Status:  apicaps.CapStatusExperimental,
+	})
+
+	Caps.Init(apicaps.Cap{
+		ID:      CapFrontendInputs,
+		Name:    "frontend inputs",
+		Enabled: true,
+		Status:  apicaps.CapStatusExperimental,
+	})
+
+	Caps.Init(apicaps.Cap{
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		ID:      CapGatewaySolveMetadata,
 		Name:    "gateway metadata",
 		Enabled: true,

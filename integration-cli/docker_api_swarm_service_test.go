@@ -16,11 +16,19 @@ import (
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/cli/build"
 	"github.com/docker/docker/integration-cli/daemon"
+<<<<<<< HEAD
 	testdaemon "github.com/docker/docker/internal/test/daemon"
 	"golang.org/x/sys/unix"
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
 	"gotest.tools/poll"
+=======
+	testdaemon "github.com/docker/docker/testutil/daemon"
+	"golang.org/x/sys/unix"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func setPortConfig(portConfig []swarm.PortConfig) testdaemon.ServiceConstructor {
@@ -356,7 +364,7 @@ func (s *DockerSwarmSuite) TestAPISwarmServiceConstraintRole(c *testing.T) {
 		node := daemons[0].GetNode(c, task.NodeID)
 		assert.Equal(c, node.Spec.Role, swarm.NodeRoleWorker)
 	}
-	//remove service
+	// remove service
 	daemons[0].RemoveService(c, id)
 
 	// create service
@@ -370,7 +378,7 @@ func (s *DockerSwarmSuite) TestAPISwarmServiceConstraintRole(c *testing.T) {
 		node := daemons[0].GetNode(c, task.NodeID)
 		assert.Equal(c, node.Spec.Role, swarm.NodeRoleManager)
 	}
-	//remove service
+	// remove service
 	daemons[0].RemoveService(c, id)
 
 	// create service
@@ -423,7 +431,7 @@ func (s *DockerSwarmSuite) TestAPISwarmServiceConstraintLabel(c *testing.T) {
 	for _, task := range tasks {
 		assert.Assert(c, task.NodeID == nodes[0].ID)
 	}
-	//remove service
+	// remove service
 	daemons[0].RemoveService(c, id)
 
 	// create service
@@ -436,7 +444,7 @@ func (s *DockerSwarmSuite) TestAPISwarmServiceConstraintLabel(c *testing.T) {
 	for _, task := range tasks {
 		assert.Assert(c, task.NodeID != nodes[0].ID)
 	}
-	//remove service
+	// remove service
 	daemons[0].RemoveService(c, id)
 
 	constraints = []string{"node.labels.security==medium"}
@@ -450,7 +458,7 @@ func (s *DockerSwarmSuite) TestAPISwarmServiceConstraintLabel(c *testing.T) {
 	for _, task := range tasks {
 		assert.Assert(c, task.NodeID == "")
 	}
-	//remove service
+	// remove service
 	daemons[0].RemoveService(c, id)
 
 	// multiple constraints

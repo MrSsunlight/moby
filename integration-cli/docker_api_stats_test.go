@@ -16,8 +16,13 @@ import (
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/versions"
 	"github.com/docker/docker/client"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 var expectedNetworkInterfaceStats = strings.Split("rx_bytes rx_dropped rx_errors rx_packets tx_bytes tx_dropped tx_errors tx_packets", " ")

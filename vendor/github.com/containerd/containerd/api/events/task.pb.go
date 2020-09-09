@@ -11,6 +11,10 @@ import (
 	github_com_gogo_protobuf_types "github.com/gogo/protobuf/types"
 	io "io"
 	math "math"
+<<<<<<< HEAD
+=======
+	math_bits "math/bits"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	reflect "reflect"
 	strings "strings"
 	time "time"
@@ -26,7 +30,11 @@ var _ = time.Kitchen
 // is compatible with the proto package it is being compiled against.
 // A compilation error at this line likely means your copy of the
 // proto package needs to be updated.
+<<<<<<< HEAD
 const _ = proto.GoGoProtoPackageIsVersion2 // please upgrade the proto package
+=======
+const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 type TaskCreate struct {
 	ContainerID          string         `protobuf:"bytes,1,opt,name=container_id,json=containerId,proto3" json:"container_id,omitempty"`
@@ -53,7 +61,11 @@ func (m *TaskCreate) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskCreate.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -93,7 +105,11 @@ func (m *TaskStart) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskStart.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -138,7 +154,11 @@ func (m *TaskDelete) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskDelete.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -180,7 +200,11 @@ func (m *TaskIO) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskIO.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -223,7 +247,11 @@ func (m *TaskExit) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskExit.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -262,7 +290,11 @@ func (m *TaskOOM) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskOOM.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -302,7 +334,11 @@ func (m *TaskExecAdded) XXX_Marshal(b []byte, deterministic bool) ([]byte, error
 		return xxx_messageInfo_TaskExecAdded.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -343,7 +379,11 @@ func (m *TaskExecStarted) XXX_Marshal(b []byte, deterministic bool) ([]byte, err
 		return xxx_messageInfo_TaskExecStarted.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -382,7 +422,11 @@ func (m *TaskPaused) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return xxx_messageInfo_TaskPaused.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -421,7 +465,11 @@ func (m *TaskResumed) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) 
 		return xxx_messageInfo_TaskResumed.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -461,7 +509,11 @@ func (m *TaskCheckpointed) XXX_Marshal(b []byte, deterministic bool) ([]byte, er
 		return xxx_messageInfo_TaskCheckpointed.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
+<<<<<<< HEAD
 		n, err := m.MarshalTo(b)
+=======
+		n, err := m.MarshalToSizedBuffer(b)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return nil, err
 		}
@@ -741,7 +793,7 @@ func (m *TaskCheckpointed) Field(fieldpath []string) (string, bool) {
 func (m *TaskCreate) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -749,65 +801,85 @@ func (m *TaskCreate) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskCreate) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskCreate) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.Bundle) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Bundle)))
-		i += copy(dAtA[i:], m.Bundle)
+	if m.Pid != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x30
 	}
-	if len(m.Rootfs) > 0 {
-		for _, msg := range m.Rootfs {
-			dAtA[i] = 0x1a
-			i++
-			i = encodeVarintTask(dAtA, i, uint64(msg.Size()))
-			n, err := msg.MarshalTo(dAtA[i:])
+	if len(m.Checkpoint) > 0 {
+		i -= len(m.Checkpoint)
+		copy(dAtA[i:], m.Checkpoint)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Checkpoint)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.IO != nil {
+		{
+			size, err := m.IO.MarshalToSizedBuffer(dAtA[:i])
 			if err != nil {
 				return 0, err
 			}
-			i += n
+			i -= size
+			i = encodeVarintTask(dAtA, i, uint64(size))
 		}
-	}
-	if m.IO != nil {
+		i--
 		dAtA[i] = 0x22
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.IO.Size()))
-		n1, err := m.IO.MarshalTo(dAtA[i:])
-		if err != nil {
-			return 0, err
+	}
+	if len(m.Rootfs) > 0 {
+		for iNdEx := len(m.Rootfs) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Rootfs[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintTask(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0x1a
 		}
-		i += n1
 	}
-	if len(m.Checkpoint) > 0 {
-		dAtA[i] = 0x2a
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Checkpoint)))
-		i += copy(dAtA[i:], m.Checkpoint)
+	if len(m.Bundle) > 0 {
+		i -= len(m.Bundle)
+		copy(dAtA[i:], m.Bundle)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Bundle)))
+		i--
+		dAtA[i] = 0x12
 	}
-	if m.Pid != 0 {
-		dAtA[i] = 0x30
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskStart) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -815,31 +887,45 @@ func (m *TaskStart) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskStart) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskStart) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Pid != 0 {
-		dAtA[i] = 0x10
-		i++
 		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x10
 	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskDelete) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -847,50 +933,74 @@ func (m *TaskDelete) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskDelete) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskDelete) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if m.Pid != 0 {
-		dAtA[i] = 0x10
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0x2a
 	}
+	n2, err2 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.ExitedAt, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt):])
+	if err2 != nil {
+		return 0, err2
+	}
+	i -= n2
+	i = encodeVarintTask(dAtA, i, uint64(n2))
+	i--
+	dAtA[i] = 0x22
 	if m.ExitStatus != 0 {
-		dAtA[i] = 0x18
-		i++
 		i = encodeVarintTask(dAtA, i, uint64(m.ExitStatus))
+		i--
+		dAtA[i] = 0x18
 	}
+<<<<<<< HEAD
 	dAtA[i] = 0x22
 	i++
 	i = encodeVarintTask(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt)))
 	n2, err := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.ExitedAt, dAtA[i:])
 	if err != nil {
 		return 0, err
+=======
+	if m.Pid != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x10
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
-	i += n2
-	if len(m.ID) > 0 {
-		dAtA[i] = 0x2a
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskIO) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -898,48 +1008,64 @@ func (m *TaskIO) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskIO) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskIO) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.Stdin) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdin)))
-		i += copy(dAtA[i:], m.Stdin)
-	}
-	if len(m.Stdout) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdout)))
-		i += copy(dAtA[i:], m.Stdout)
-	}
-	if len(m.Stderr) > 0 {
-		dAtA[i] = 0x1a
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.Stderr)))
-		i += copy(dAtA[i:], m.Stderr)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Terminal {
-		dAtA[i] = 0x20
-		i++
+		i--
 		if m.Terminal {
 			dAtA[i] = 1
 		} else {
 			dAtA[i] = 0
 		}
-		i++
+		i--
+		dAtA[i] = 0x20
 	}
+	if len(m.Stderr) > 0 {
+		i -= len(m.Stderr)
+		copy(dAtA[i:], m.Stderr)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stderr)))
+		i--
+		dAtA[i] = 0x1a
+	}
+	if len(m.Stdout) > 0 {
+		i -= len(m.Stdout)
+		copy(dAtA[i:], m.Stdout)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdout)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.Stdin) > 0 {
+		i -= len(m.Stdin)
+		copy(dAtA[i:], m.Stdin)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.Stdin)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskExit) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -947,32 +1073,45 @@ func (m *TaskExit) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskExit) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskExit) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
-	if len(m.ID) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
-		i += copy(dAtA[i:], m.ID)
+	n3, err3 := github_com_gogo_protobuf_types.StdTimeMarshalTo(m.ExitedAt, dAtA[i-github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt):])
+	if err3 != nil {
+		return 0, err3
+	}
+	i -= n3
+	i = encodeVarintTask(dAtA, i, uint64(n3))
+	i--
+	dAtA[i] = 0x2a
+	if m.ExitStatus != 0 {
+		i = encodeVarintTask(dAtA, i, uint64(m.ExitStatus))
+		i--
+		dAtA[i] = 0x20
 	}
 	if m.Pid != 0 {
-		dAtA[i] = 0x18
-		i++
 		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x18
 	}
-	if m.ExitStatus != 0 {
-		dAtA[i] = 0x20
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(m.ExitStatus))
+	if len(m.ID) > 0 {
+		i -= len(m.ID)
+		copy(dAtA[i:], m.ID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ID)))
+		i--
+		dAtA[i] = 0x12
 	}
+<<<<<<< HEAD
 	dAtA[i] = 0x2a
 	i++
 	i = encodeVarintTask(dAtA, i, uint64(github_com_gogo_protobuf_types.SizeOfStdTime(m.ExitedAt)))
@@ -985,12 +1124,22 @@ func (m *TaskExit) MarshalTo(dAtA []byte) (int, error) {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskOOM) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -998,26 +1147,40 @@ func (m *TaskOOM) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskOOM) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskOOM) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskExecAdded) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1025,32 +1188,47 @@ func (m *TaskExecAdded) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskExecAdded) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskExecAdded) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.ExecID) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.ExecID)
+		copy(dAtA[i:], m.ExecID)
 		i = encodeVarintTask(dAtA, i, uint64(len(m.ExecID)))
-		i += copy(dAtA[i:], m.ExecID)
+		i--
+		dAtA[i] = 0x12
 	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskExecStarted) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1058,37 +1236,52 @@ func (m *TaskExecStarted) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskExecStarted) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskExecStarted) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
-	}
-	if len(m.ExecID) > 0 {
-		dAtA[i] = 0x12
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ExecID)))
-		i += copy(dAtA[i:], m.ExecID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if m.Pid != 0 {
-		dAtA[i] = 0x18
-		i++
 		i = encodeVarintTask(dAtA, i, uint64(m.Pid))
+		i--
+		dAtA[i] = 0x18
 	}
+	if len(m.ExecID) > 0 {
+		i -= len(m.ExecID)
+		copy(dAtA[i:], m.ExecID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ExecID)))
+		i--
+		dAtA[i] = 0x12
+	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskPaused) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1096,26 +1289,40 @@ func (m *TaskPaused) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskPaused) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskPaused) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskResumed) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1123,26 +1330,40 @@ func (m *TaskResumed) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskResumed) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskResumed) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (m *TaskCheckpointed) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
-	n, err := m.MarshalTo(dAtA)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
 	if err != nil {
 		return nil, err
 	}
@@ -1150,36 +1371,53 @@ func (m *TaskCheckpointed) Marshal() (dAtA []byte, err error) {
 }
 
 func (m *TaskCheckpointed) MarshalTo(dAtA []byte) (int, error) {
-	var i int
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *TaskCheckpointed) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
 	_ = i
 	var l int
 	_ = l
-	if len(m.ContainerID) > 0 {
-		dAtA[i] = 0xa
-		i++
-		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
-		i += copy(dAtA[i:], m.ContainerID)
+	if m.XXX_unrecognized != nil {
+		i -= len(m.XXX_unrecognized)
+		copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	if len(m.Checkpoint) > 0 {
-		dAtA[i] = 0x12
-		i++
+		i -= len(m.Checkpoint)
+		copy(dAtA[i:], m.Checkpoint)
 		i = encodeVarintTask(dAtA, i, uint64(len(m.Checkpoint)))
-		i += copy(dAtA[i:], m.Checkpoint)
+		i--
+		dAtA[i] = 0x12
 	}
+	if len(m.ContainerID) > 0 {
+		i -= len(m.ContainerID)
+		copy(dAtA[i:], m.ContainerID)
+		i = encodeVarintTask(dAtA, i, uint64(len(m.ContainerID)))
+		i--
+		dAtA[i] = 0xa
+	}
+<<<<<<< HEAD
 	if m.XXX_unrecognized != nil {
 		i += copy(dAtA[i:], m.XXX_unrecognized)
 	}
 	return i, nil
+=======
+	return len(dAtA) - i, nil
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func encodeVarintTask(dAtA []byte, offset int, v uint64) int {
+	offset -= sovTask(v)
+	base := offset
 	for v >= 1<<7 {
 		dAtA[offset] = uint8(v&0x7f | 0x80)
 		v >>= 7
 		offset++
 	}
 	dAtA[offset] = uint8(v)
-	return offset + 1
+	return base
 }
 func (m *TaskCreate) Size() (n int) {
 	if m == nil {
@@ -1432,14 +1670,7 @@ func (m *TaskCheckpointed) Size() (n int) {
 }
 
 func sovTask(x uint64) (n int) {
-	for {
-		n++
-		x >>= 7
-		if x == 0 {
-			break
-		}
-	}
-	return n
+	return (math_bits.Len64(x|1) + 6) / 7
 }
 func sozTask(x uint64) (n int) {
 	return sovTask(uint64((x << 1) ^ uint64((int64(x) >> 63))))
@@ -1448,11 +1679,21 @@ func (this *TaskCreate) String() string {
 	if this == nil {
 		return "nil"
 	}
+	repeatedStringForRootfs := "[]*Mount{"
+	for _, f := range this.Rootfs {
+		repeatedStringForRootfs += strings.Replace(fmt.Sprintf("%v", f), "Mount", "types.Mount", 1) + ","
+	}
+	repeatedStringForRootfs += "}"
 	s := strings.Join([]string{`&TaskCreate{`,
 		`ContainerID:` + fmt.Sprintf("%v", this.ContainerID) + `,`,
 		`Bundle:` + fmt.Sprintf("%v", this.Bundle) + `,`,
+<<<<<<< HEAD
 		`Rootfs:` + strings.Replace(fmt.Sprintf("%v", this.Rootfs), "Mount", "types.Mount", 1) + `,`,
 		`IO:` + strings.Replace(fmt.Sprintf("%v", this.IO), "TaskIO", "TaskIO", 1) + `,`,
+=======
+		`Rootfs:` + repeatedStringForRootfs + `,`,
+		`IO:` + strings.Replace(this.IO.String(), "TaskIO", "TaskIO", 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`Checkpoint:` + fmt.Sprintf("%v", this.Checkpoint) + `,`,
 		`Pid:` + fmt.Sprintf("%v", this.Pid) + `,`,
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
@@ -1480,7 +1721,11 @@ func (this *TaskDelete) String() string {
 		`ContainerID:` + fmt.Sprintf("%v", this.ContainerID) + `,`,
 		`Pid:` + fmt.Sprintf("%v", this.Pid) + `,`,
 		`ExitStatus:` + fmt.Sprintf("%v", this.ExitStatus) + `,`,
+<<<<<<< HEAD
 		`ExitedAt:` + strings.Replace(strings.Replace(this.ExitedAt.String(), "Timestamp", "types1.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`ExitedAt:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.ExitedAt), "Timestamp", "types1.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`ID:` + fmt.Sprintf("%v", this.ID) + `,`,
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
@@ -1510,7 +1755,11 @@ func (this *TaskExit) String() string {
 		`ID:` + fmt.Sprintf("%v", this.ID) + `,`,
 		`Pid:` + fmt.Sprintf("%v", this.Pid) + `,`,
 		`ExitStatus:` + fmt.Sprintf("%v", this.ExitStatus) + `,`,
+<<<<<<< HEAD
 		`ExitedAt:` + strings.Replace(strings.Replace(this.ExitedAt.String(), "Timestamp", "types1.Timestamp", 1), `&`, ``, 1) + `,`,
+=======
+		`ExitedAt:` + strings.Replace(strings.Replace(fmt.Sprintf("%v", this.ExitedAt), "Timestamp", "types1.Timestamp", 1), `&`, ``, 1) + `,`,
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		`XXX_unrecognized:` + fmt.Sprintf("%v", this.XXX_unrecognized) + `,`,
 		`}`,
 	}, "")
@@ -3120,6 +3369,7 @@ func (m *TaskCheckpointed) Unmarshal(dAtA []byte) error {
 func skipTask(dAtA []byte) (n int, err error) {
 	l := len(dAtA)
 	iNdEx := 0
+	depth := 0
 	for iNdEx < l {
 		var wire uint64
 		for shift := uint(0); ; shift += 7 {
@@ -3151,10 +3401,8 @@ func skipTask(dAtA []byte) (n int, err error) {
 					break
 				}
 			}
-			return iNdEx, nil
 		case 1:
 			iNdEx += 8
-			return iNdEx, nil
 		case 2:
 			var length int
 			for shift := uint(0); ; shift += 7 {
@@ -3175,6 +3423,7 @@ func skipTask(dAtA []byte) (n int, err error) {
 				return 0, ErrInvalidLengthTask
 			}
 			iNdEx += length
+<<<<<<< HEAD
 			if iNdEx < 0 {
 				return 0, ErrInvalidLengthTask
 			}
@@ -3211,19 +3460,32 @@ func skipTask(dAtA []byte) (n int, err error) {
 				}
 			}
 			return iNdEx, nil
+=======
+		case 3:
+			depth++
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		case 4:
-			return iNdEx, nil
+			if depth == 0 {
+				return 0, ErrUnexpectedEndOfGroupTask
+			}
+			depth--
 		case 5:
 			iNdEx += 4
-			return iNdEx, nil
 		default:
 			return 0, fmt.Errorf("proto: illegal wireType %d", wireType)
 		}
+		if iNdEx < 0 {
+			return 0, ErrInvalidLengthTask
+		}
+		if depth == 0 {
+			return iNdEx, nil
+		}
 	}
-	panic("unreachable")
+	return 0, io.ErrUnexpectedEOF
 }
 
 var (
-	ErrInvalidLengthTask = fmt.Errorf("proto: negative length found during unmarshaling")
-	ErrIntOverflowTask   = fmt.Errorf("proto: integer overflow")
+	ErrInvalidLengthTask        = fmt.Errorf("proto: negative length found during unmarshaling")
+	ErrIntOverflowTask          = fmt.Errorf("proto: integer overflow")
+	ErrUnexpectedEndOfGroupTask = fmt.Errorf("proto: unexpected end of group")
 )

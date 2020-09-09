@@ -18,9 +18,9 @@ import (
 	"github.com/docker/docker/api/types/versions/v1p20"
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/daemon"
-	testdaemon "github.com/docker/docker/internal/test/daemon"
 	"github.com/docker/docker/pkg/stringid"
 	"github.com/docker/docker/runconfig"
+	testdaemon "github.com/docker/docker/testutil/daemon"
 	"github.com/docker/libnetwork/driverapi"
 	remoteapi "github.com/docker/libnetwork/drivers/remote/api"
 	"github.com/docker/libnetwork/ipamapi"
@@ -28,8 +28,8 @@ import (
 	"github.com/docker/libnetwork/netlabel"
 	"github.com/vishvananda/netlink"
 	"golang.org/x/sys/unix"
-	"gotest.tools/assert"
-	"gotest.tools/icmd"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
 )
 
 const dummyNetworkDriver = "dummy-network-driver"
@@ -1377,9 +1377,9 @@ func (s *DockerNetworkSuite) TestDockerNetworkConnectLinkLocalIP(c *testing.T) {
 	assertNwIsAvailable(c, "n0")
 
 	// run a container with incorrect link-local address
-	_, _, err := dockerCmdWithError("run", "--link-local-ip", "169.253.5.5", "busybox", "top")
+	_, _, err := dockerCmdWithError("run", "--link-local-ip", "169.253.5.5", "busybox", "true")
 	assert.ErrorContains(c, err, "")
-	_, _, err = dockerCmdWithError("run", "--link-local-ip", "2001:db8::89", "busybox", "top")
+	_, _, err = dockerCmdWithError("run", "--link-local-ip", "2001:db8::89", "busybox", "true")
 	assert.ErrorContains(c, err, "")
 
 	// run two containers with link-local ip on the test network
@@ -1537,7 +1537,11 @@ func (s *DockerSuite) TestUserDefinedNetworkConnectDisconnectAlias(c *testing.T)
 	assert.NilError(c, err)
 
 	// verify the alias option is rejected when running on predefined network
+<<<<<<< HEAD
 	out, _, err := dockerCmdWithError("run", "--rm", "--name=any", "--net-alias=any", "busybox:glibc", "top")
+=======
+	out, _, err := dockerCmdWithError("run", "--rm", "--name=any", "--net-alias=any", "busybox:glibc", "true")
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	assert.Assert(c, err != nil, "out: %s", out)
 	assert.Assert(c, strings.Contains(out, runconfig.ErrUnsupportedNetworkAndAlias.Error()))
 	// verify the alias option is rejected when connecting to predefined network
@@ -1574,7 +1578,7 @@ func (s *DockerSuite) TestEmbeddedDNSInvalidInput(c *testing.T) {
 	dockerCmd(c, "network", "create", "-d", "bridge", "nw1")
 
 	// Sending garbage to embedded DNS shouldn't crash the daemon
-	dockerCmd(c, "run", "-i", "--net=nw1", "--name=c1", "debian:jessie", "bash", "-c", "echo InvalidQuery > /dev/udp/127.0.0.11/53")
+	dockerCmd(c, "run", "-i", "--net=nw1", "--name=c1", "debian:buster", "bash", "-c", "echo InvalidQuery > /dev/udp/127.0.0.11/53")
 }
 
 func (s *DockerSuite) TestDockerNetworkConnectFailsNoInspectChange(c *testing.T) {

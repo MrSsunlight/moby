@@ -28,9 +28,13 @@ import (
 )
 
 var (
+<<<<<<< HEAD
 	// WithResolverBuilder is exported by dialoptions.go
 	WithResolverBuilder interface{} // func (resolver.Builder) grpc.DialOption
 	// WithHealthCheckFunc is not exported by dialoptions.go
+=======
+	// WithHealthCheckFunc is set by dialoptions.go
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	WithHealthCheckFunc interface{} // func (HealthChecker) DialOption
 	// HealthCheckFunc is used to provide client-side LB channel health checking
 	HealthCheckFunc HealthChecker
@@ -39,14 +43,26 @@ var (
 	// KeepaliveMinPingTime is the minimum ping interval.  This must be 10s by
 	// default, but tests may wish to set it lower for convenience.
 	KeepaliveMinPingTime = 10 * time.Second
+<<<<<<< HEAD
 	// ParseServiceConfig is a function to parse JSON service configs into
 	// opaque data structures.
 	ParseServiceConfig func(sc string) (interface{}, error)
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	// StatusRawProto is exported by status/status.go. This func returns a
 	// pointer to the wrapped Status proto for a given status.Status without a
 	// call to proto.Clone(). The returned Status proto should not be mutated by
 	// the caller.
 	StatusRawProto interface{} // func (*status.Status) *spb.Status
+<<<<<<< HEAD
+=======
+	// NewRequestInfoContext creates a new context based on the argument context attaching
+	// the passed in RequestInfo to the new context.
+	NewRequestInfoContext interface{} // func(context.Context, credentials.RequestInfo) context.Context
+	// ParseServiceConfigForTesting is for creating a fake
+	// ClientConn for resolver testing only
+	ParseServiceConfigForTesting interface{} // func(string) *serviceconfig.ParseResult
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // HealthChecker defines the signature of the client-side LB channel health checking function.
@@ -57,7 +73,11 @@ var (
 //
 // The health checking protocol is defined at:
 // https://github.com/grpc/grpc/blob/master/doc/health-checking.md
+<<<<<<< HEAD
 type HealthChecker func(ctx context.Context, newStream func(string) (interface{}, error), setConnectivityState func(connectivity.State), serviceName string) error
+=======
+type HealthChecker func(ctx context.Context, newStream func(string) (interface{}, error), setConnectivityState func(connectivity.State, error), serviceName string) error
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 const (
 	// CredsBundleModeFallback switches GoogleDefaultCreds to fallback mode.

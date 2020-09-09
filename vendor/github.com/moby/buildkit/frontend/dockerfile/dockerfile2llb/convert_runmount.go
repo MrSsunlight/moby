@@ -3,6 +3,10 @@
 package dockerfile2llb
 
 import (
+<<<<<<< HEAD
+=======
+	"context"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"fmt"
 	"os"
 	"path"
@@ -132,7 +136,11 @@ func dispatchRunMounts(d *dispatchState, c *instructions.RunCommand, sources []*
 		}
 		target := mount.Target
 		if !filepath.IsAbs(filepath.Clean(mount.Target)) {
-			target = filepath.Join("/", d.state.GetDir(), mount.Target)
+			dir, err := d.state.GetDir(context.TODO())
+			if err != nil {
+				return nil, err
+			}
+			target = filepath.Join("/", dir, mount.Target)
 		}
 		if target == "/" {
 			return nil, errors.Errorf("invalid mount target %q", target)

@@ -19,4 +19,8 @@
 package grpc
 
 // Version is the current grpc version.
+<<<<<<< HEAD:vendor/google.golang.org/grpc/version.go
 const Version = "1.23.1"
+=======
+const Version = "1.27.1"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375:vendor/google.golang.org/grpc/version.go

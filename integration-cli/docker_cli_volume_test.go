@@ -15,8 +15,13 @@ import (
 	"github.com/docker/docker/api/types/network"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestVolumeCLICreate(c *testing.T) {
@@ -578,7 +583,7 @@ func (s *DockerSuite) TestDuplicateMountpointsForVolumesFromAndMounts(c *testing
 			},
 		},
 	}
-	_, err = cli.ContainerCreate(context.Background(), &config, &hostConfig, &network.NetworkingConfig{}, "app")
+	_, err = cli.ContainerCreate(context.Background(), &config, &hostConfig, &network.NetworkingConfig{}, nil, "app")
 
 	assert.NilError(c, err)
 

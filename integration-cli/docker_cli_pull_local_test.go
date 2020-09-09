@@ -15,9 +15,15 @@ import (
 	"github.com/docker/distribution/manifest/manifestlist"
 	"github.com/docker/distribution/manifest/schema2"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"github.com/opencontainers/go-digest"
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	digest "github.com/opencontainers/go-digest"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // testPullImageWithAliases pulls a specific image tag and verifies that any aliases (i.e., other
@@ -82,8 +88,8 @@ func testConcurrentPullWholeRepo(c *testing.T) {
 	dockerCmd(c, args...)
 
 	// Run multiple re-pulls concurrently
-	results := make(chan error)
 	numPulls := 3
+	results := make(chan error, numPulls)
 
 	for i := 0; i != numPulls; i++ {
 		go func() {
@@ -107,11 +113,19 @@ func testConcurrentPullWholeRepo(c *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func (s *DockerRegistrySuite) testConcurrentPullWholeRepo(c *testing.T) {
 	testConcurrentPullWholeRepo(c)
 }
 
 func (s *DockerSchema1RegistrySuite) testConcurrentPullWholeRepo(c *testing.T) {
+=======
+func (s *DockerRegistrySuite) TestConcurrentPullWholeRepo(c *testing.T) {
+	testConcurrentPullWholeRepo(c)
+}
+
+func (s *DockerSchema1RegistrySuite) TestConcurrentPullWholeRepo(c *testing.T) {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	testConcurrentPullWholeRepo(c)
 }
 
@@ -120,8 +134,8 @@ func testConcurrentFailingPull(c *testing.T) {
 	repoName := fmt.Sprintf("%v/dockercli/busybox", privateRegistryURL)
 
 	// Run multiple pulls concurrently
-	results := make(chan error)
 	numPulls := 3
+	results := make(chan error, numPulls)
 
 	for i := 0; i != numPulls; i++ {
 		go func() {
@@ -138,11 +152,19 @@ func testConcurrentFailingPull(c *testing.T) {
 	}
 }
 
+<<<<<<< HEAD
 func (s *DockerRegistrySuite) testConcurrentFailingPull(c *testing.T) {
 	testConcurrentFailingPull(c)
 }
 
 func (s *DockerSchema1RegistrySuite) testConcurrentFailingPull(c *testing.T) {
+=======
+func (s *DockerRegistrySuite) TestConcurrentFailingPull(c *testing.T) {
+	testConcurrentFailingPull(c)
+}
+
+func (s *DockerSchema1RegistrySuite) TestConcurrentFailingPull(c *testing.T) {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	testConcurrentFailingPull(c)
 }
 
@@ -170,7 +192,7 @@ func testConcurrentPullMultipleTags(c *testing.T) {
 	dockerCmd(c, args...)
 
 	// Re-pull individual tags, in parallel
-	results := make(chan error)
+	results := make(chan error, len(repos))
 
 	for _, repo := range repos {
 		go func(repo string) {

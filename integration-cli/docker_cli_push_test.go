@@ -13,8 +13,13 @@ import (
 
 	"github.com/docker/distribution/reference"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // Pushing an image to a private registry.
@@ -50,6 +55,7 @@ func testPushUntagged(c *testing.T) {
 }
 
 func (s *DockerRegistrySuite) TestPushUntagged(c *testing.T) {
+<<<<<<< HEAD
 	testPushUntagged(c)
 }
 
@@ -57,6 +63,15 @@ func (s *DockerSchema1RegistrySuite) TestPushUntagged(c *testing.T) {
 	testPushUntagged(c)
 }
 
+=======
+	testPushUntagged(c)
+}
+
+func (s *DockerSchema1RegistrySuite) TestPushUntagged(c *testing.T) {
+	testPushUntagged(c)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func testPushBadTag(c *testing.T) {
 	repoName := fmt.Sprintf("%v/dockercli/busybox:latest", privateRegistryURL)
 	expected := "does not exist"
@@ -80,15 +95,13 @@ func testPushMultipleTags(c *testing.T) {
 	repoTag2 := fmt.Sprintf("%v/dockercli/busybox:t2", privateRegistryURL)
 	// tag the image and upload it to the private registry
 	dockerCmd(c, "tag", "busybox", repoTag1)
-
 	dockerCmd(c, "tag", "busybox", repoTag2)
-
 	dockerCmd(c, "push", repoName)
 
-	// Ensure layer list is equivalent for repoTag1 and repoTag2
-	out1, _ := dockerCmd(c, "pull", repoTag1)
-
 	imageAlreadyExists := ": Image already exists"
+
+	// Ensure layer list is equivalent for repoTag1 and repoTag2
+	out1, _ := dockerCmd(c, "push", repoTag1)
 	var out1Lines []string
 	for _, outputLine := range strings.Split(out1, "\n") {
 		if strings.Contains(outputLine, imageAlreadyExists) {
@@ -96,21 +109,21 @@ func testPushMultipleTags(c *testing.T) {
 		}
 	}
 
-	out2, _ := dockerCmd(c, "pull", repoTag2)
-
+	out2, _ := dockerCmd(c, "push", repoTag2)
 	var out2Lines []string
 	for _, outputLine := range strings.Split(out2, "\n") {
 		if strings.Contains(outputLine, imageAlreadyExists) {
-			out1Lines = append(out1Lines, outputLine)
+			out2Lines = append(out2Lines, outputLine)
 		}
 	}
-	assert.Equal(c, len(out2Lines), len(out1Lines))
-
-	for i := range out1Lines {
-		assert.Equal(c, out1Lines[i], out2Lines[i])
-	}
+	assert.DeepEqual(c, out1Lines, out2Lines)
 }
 
+func (s *DockerRegistrySuite) TestPushMultipleTags(c *testing.T) {
+	testPushMultipleTags(c)
+}
+
+<<<<<<< HEAD
 func (s *DockerRegistrySuite) TestPushMultipleTags(c *testing.T) {
 	testPushMultipleTags(c)
 }
@@ -119,6 +132,12 @@ func (s *DockerSchema1RegistrySuite) TestPushMultipleTags(c *testing.T) {
 	testPushMultipleTags(c)
 }
 
+=======
+func (s *DockerSchema1RegistrySuite) TestPushMultipleTags(c *testing.T) {
+	testPushMultipleTags(c)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func testPushEmptyLayer(c *testing.T) {
 	repoName := fmt.Sprintf("%v/dockercli/emptylayer", privateRegistryURL)
 	emptyTarball, err := ioutil.TempFile("", "empty_tarball")
@@ -169,7 +188,7 @@ func testConcurrentPush(c *testing.T) {
 	}
 
 	// Push tags, in parallel
-	results := make(chan error)
+	results := make(chan error, len(repos))
 
 	for _, repo := range repos {
 		go func(repo string) {

@@ -1,5 +1,6 @@
-# Rootless mode (Experimental)
+Moved to https://docs.docker.com/engine/security/rootless/
 
+<<<<<<< HEAD
 The rootless mode allows running `dockerd` as an unprivileged user, using `user_namespaces(7)`, `mount_namespaces(7)`, `network_namespaces(7)`.
 
 No SETUID/SETCAP binary is required except `newuidmap` and `newgidmap`.
@@ -189,3 +190,6 @@ These network stacks run in userspace and might have performance overhead. See [
 Optionally, you can use `lxc-user-nic` instead for the best performance.
 To use `lxc-user-nic`, you need to edit [`/etc/lxc/lxc-usernet`](https://github.com/rootless-containers/rootlesskit/tree/v0.6.0#--netlxc-user-nic-experimental) and set `$DOCKERD_ROOTLESS_ROOTLESSKIT_NET=lxc-user-nic`.
 
+=======
+<!-- do not remove this file, as there is a lot of links to https://github.com/moby/moby/blob/master/docs/rootless.md -->
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375

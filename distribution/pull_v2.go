@@ -32,7 +32,7 @@ import (
 	"github.com/docker/docker/pkg/system"
 	refstore "github.com/docker/docker/reference"
 	"github.com/docker/docker/registry"
-	"github.com/opencontainers/go-digest"
+	digest "github.com/opencontainers/go-digest"
 	specs "github.com/opencontainers/image-spec/specs-go/v1"
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
@@ -174,7 +174,7 @@ func (ld *v2LayerDescriptor) Download(ctx context.Context, progressOutput progre
 			return nil, 0, xfer.DoNotRetry{Err: err}
 		}
 	} else {
-		offset, err = ld.tmpFile.Seek(0, os.SEEK_END)
+		offset, err = ld.tmpFile.Seek(0, io.SeekEnd)
 		if err != nil {
 			logrus.Debugf("error seeking to end of download file: %v", err)
 			offset = 0
@@ -201,7 +201,7 @@ func (ld *v2LayerDescriptor) Download(ctx context.Context, progressOutput progre
 	}
 
 	if offset != 0 {
-		_, err := layerDownload.Seek(offset, os.SEEK_SET)
+		_, err := layerDownload.Seek(offset, io.SeekStart)
 		if err != nil {
 			if err := ld.truncateDownloadFile(); err != nil {
 				return nil, 0, xfer.DoNotRetry{Err: err}
@@ -209,7 +209,7 @@ func (ld *v2LayerDescriptor) Download(ctx context.Context, progressOutput progre
 			return nil, 0, err
 		}
 	}
-	size, err := layerDownload.Seek(0, os.SEEK_END)
+	size, err := layerDownload.Seek(0, io.SeekEnd)
 	if err != nil {
 		// Seek failed, perhaps because there was no Content-Length
 		// header. This shouldn't fail the download, because we can
@@ -227,7 +227,7 @@ func (ld *v2LayerDescriptor) Download(ctx context.Context, progressOutput progre
 		// Restore the seek offset either at the beginning of the
 		// stream, or just after the last byte we have from previous
 		// attempts.
-		_, err = layerDownload.Seek(offset, os.SEEK_SET)
+		_, err = layerDownload.Seek(offset, io.SeekStart)
 		if err != nil {
 			return nil, 0, err
 		}
@@ -273,7 +273,7 @@ func (ld *v2LayerDescriptor) Download(ctx context.Context, progressOutput progre
 
 	logrus.Debugf("Downloaded %s to tempfile %s", ld.ID(), tmpFile.Name())
 
-	_, err = tmpFile.Seek(0, os.SEEK_SET)
+	_, err = tmpFile.Seek(0, io.SeekStart)
 	if err != nil {
 		tmpFile.Close()
 		if err := os.Remove(tmpFile.Name()); err != nil {
@@ -311,7 +311,7 @@ func (ld *v2LayerDescriptor) truncateDownloadFile() error {
 	// Need a new hash context since we will be redoing the download
 	ld.verifier = nil
 
-	if _, err := ld.tmpFile.Seek(0, os.SEEK_SET); err != nil {
+	if _, err := ld.tmpFile.Seek(0, io.SeekStart); err != nil {
 		logrus.Errorf("error seeking to beginning of download file: %v", err)
 		return err
 	}

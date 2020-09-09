@@ -18,10 +18,17 @@ import (
 
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/cli/build"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/fakecontext"
 	"github.com/docker/go-units"
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"github.com/docker/docker/testutil/fakecontext"
+	units "github.com/docker/go-units"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestBuildResourceConstraintsAreUsed(c *testing.T) {

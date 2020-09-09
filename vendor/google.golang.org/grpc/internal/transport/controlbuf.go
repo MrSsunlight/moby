@@ -107,8 +107,8 @@ func (*registerStream) isTransportResponseFrame() bool { return false }
 type headerFrame struct {
 	streamID   uint32
 	hf         []hpack.HeaderField
-	endStream  bool                       // Valid on server side.
-	initStream func(uint32) (bool, error) // Used only on the client side.
+	endStream  bool               // Valid on server side.
+	initStream func(uint32) error // Used only on the client side.
 	onWrite    func()
 	wq         *writeQuota    // write quota for the stream created.
 	cleanup    *cleanupStream // Valid on the server side.
@@ -607,6 +607,7 @@ func (l *loopyWriter) headerHandler(h *headerFrame) error {
 		if !ok {
 			warningf("transport: loopy doesn't recognize the stream: %d", h.streamID)
 			return nil
+<<<<<<< HEAD:vendor/google.golang.org/grpc/internal/transport/controlbuf.go
 		}
 		// Case 1.A: Server is responding back with headers.
 		if !h.endStream {
@@ -619,6 +620,20 @@ func (l *loopyWriter) headerHandler(h *headerFrame) error {
 			str.itl.enqueue(h)
 			return nil
 		}
+=======
+		}
+		// Case 1.A: Server is responding back with headers.
+		if !h.endStream {
+			return l.writeHeader(h.streamID, h.endStream, h.hf, h.onWrite)
+		}
+		// else:  Case 1.B: Server wants to close stream.
+
+		if str.state != empty { // either active or waiting on stream quota.
+			// add it str's list of items.
+			str.itl.enqueue(h)
+			return nil
+		}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375:vendor/google.golang.org/grpc/internal/transport/controlbuf.go
 		if err := l.writeHeader(h.streamID, h.endStream, h.hf, h.onWrite); err != nil {
 			return err
 		}
@@ -637,21 +652,17 @@ func (l *loopyWriter) headerHandler(h *headerFrame) error {
 
 func (l *loopyWriter) originateStream(str *outStream) error {
 	hdr := str.itl.dequeue().(*headerFrame)
-	sendPing, err := hdr.initStream(str.id)
-	if err != nil {
+	if err := hdr.initStream(str.id); err != nil {
 		if err == ErrConnClosing {
 			return err
 		}
 		// Other errors(errStreamDrain) need not close transport.
 		return nil
 	}
-	if err = l.writeHeader(str.id, hdr.endStream, hdr.hf, hdr.onWrite); err != nil {
+	if err := l.writeHeader(str.id, hdr.endStream, hdr.hf, hdr.onWrite); err != nil {
 		return err
 	}
 	l.estdStreams[str.id] = str
-	if sendPing {
-		return l.pingHandler(&ping{data: [8]byte{}})
-	}
 	return nil
 }
 

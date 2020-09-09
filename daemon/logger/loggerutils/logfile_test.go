@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 	"time"
@@ -13,8 +14,35 @@ import (
 	"github.com/docker/docker/daemon/logger"
 	"github.com/docker/docker/pkg/pubsub"
 	"github.com/docker/docker/pkg/tailfile"
-	"gotest.tools/assert"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/poll"
 )
+
+type testDecoder struct {
+	rdr     io.Reader
+	scanner *bufio.Scanner
+}
+
+func (d *testDecoder) Decode() (*logger.Message, error) {
+	if d.scanner == nil {
+		d.scanner = bufio.NewScanner(d.rdr)
+	}
+	if !d.scanner.Scan() {
+		return nil, d.scanner.Err()
+	}
+	// some comment
+	return &logger.Message{Line: d.scanner.Bytes(), Timestamp: time.Now()}, nil
+}
+
+func (d *testDecoder) Reset(rdr io.Reader) {
+	d.rdr = rdr
+	d.scanner = bufio.NewScanner(rdr)
+}
+
+func (d *testDecoder) Close() {
+	d.rdr = nil
+	d.scanner = nil
+}
 
 func TestTailFiles(t *testing.T) {
 	s1 := strings.NewReader("Hello.\nMy name is Inigo Montoya.\n")
@@ -23,27 +51,18 @@ func TestTailFiles(t *testing.T) {
 
 	files := []SizeReaderAt{s1, s2, s3}
 	watcher := logger.NewLogWatcher()
-	createDecoder := func(r io.Reader) func() (*logger.Message, error) {
-		scanner := bufio.NewScanner(r)
-		return func() (*logger.Message, error) {
-			if !scanner.Scan() {
-				return nil, scanner.Err()
-			}
-			// some comment
-			return &logger.Message{Line: scanner.Bytes(), Timestamp: time.Now()}, nil
-		}
-	}
 
 	tailReader := func(ctx context.Context, r SizeReaderAt, lines int) (io.Reader, int, error) {
 		return tailfile.NewTailReader(ctx, r, lines)
 	}
+	dec := &testDecoder{}
 
 	for desc, config := range map[string]logger.ReadConfig{} {
 		t.Run(desc, func(t *testing.T) {
 			started := make(chan struct{})
 			go func() {
 				close(started)
-				tailFiles(files, watcher, createDecoder, tailReader, config)
+				tailFiles(files, watcher, dec, tailReader, config)
 			}()
 			<-started
 		})
@@ -53,7 +72,7 @@ func TestTailFiles(t *testing.T) {
 	started := make(chan struct{})
 	go func() {
 		close(started)
-		tailFiles(files, watcher, createDecoder, tailReader, config)
+		tailFiles(files, watcher, dec, tailReader, config)
 	}()
 	<-started
 
@@ -78,6 +97,15 @@ func TestTailFiles(t *testing.T) {
 	}
 }
 
+type dummyDecoder struct{}
+
+func (dummyDecoder) Decode() (*logger.Message, error) {
+	return &logger.Message{}, nil
+}
+
+func (dummyDecoder) Close()          {}
+func (dummyDecoder) Reset(io.Reader) {}
+
 func TestFollowLogsConsumerGone(t *testing.T) {
 	lw := logger.NewLogWatcher()
 
@@ -88,16 +116,12 @@ func TestFollowLogsConsumerGone(t *testing.T) {
 		os.Remove(f.Name())
 	}()
 
-	makeDecoder := func(rdr io.Reader) func() (*logger.Message, error) {
-		return func() (*logger.Message, error) {
-			return &logger.Message{}, nil
-		}
-	}
+	dec := dummyDecoder{}
 
 	followLogsDone := make(chan struct{})
 	var since, until time.Time
 	go func() {
-		followLogs(f, lw, make(chan interface{}), makeDecoder, since, until)
+		followLogs(f, lw, make(chan interface{}), dec, since, until)
 		close(followLogsDone)
 	}()
 
@@ -119,6 +143,18 @@ func TestFollowLogsConsumerGone(t *testing.T) {
 	}
 }
 
+type dummyWrapper struct {
+	dummyDecoder
+	fn func() error
+}
+
+func (d *dummyWrapper) Decode() (*logger.Message, error) {
+	if err := d.fn(); err != nil {
+		return nil, err
+	}
+	return d.dummyDecoder.Decode()
+}
+
 func TestFollowLogsProducerGone(t *testing.T) {
 	lw := logger.NewLogWatcher()
 
@@ -127,25 +163,25 @@ func TestFollowLogsProducerGone(t *testing.T) {
 	defer os.Remove(f.Name())
 
 	var sent, received, closed int
-	makeDecoder := func(rdr io.Reader) func() (*logger.Message, error) {
-		return func() (*logger.Message, error) {
-			if closed == 1 {
-				closed++
-				t.Logf("logDecode() closed after sending %d messages\n", sent)
-				return nil, io.EOF
-			} else if closed > 1 {
-				t.Fatal("logDecode() called after closing!")
-				return nil, io.EOF
-			}
+	dec := &dummyWrapper{fn: func() error {
+		switch closed {
+		case 0:
 			sent++
-			return &logger.Message{}, nil
+			return nil
+		case 1:
+			closed++
+			t.Logf("logDecode() closed after sending %d messages\n", sent)
+			return io.EOF
+		default:
+			t.Fatal("logDecode() called after closing!")
+			return io.EOF
 		}
-	}
+	}}
 	var since, until time.Time
 
 	followLogsDone := make(chan struct{})
 	go func() {
-		followLogs(f, lw, make(chan interface{}), makeDecoder, since, until)
+		followLogs(f, lw, make(chan interface{}), dec, since, until)
 		close(followLogsDone)
 	}()
 
@@ -225,6 +261,7 @@ func TestCheckCapacityAndRotate(t *testing.T) {
 	defer l.Close()
 
 	assert.NilError(t, l.WriteLogEntry(&logger.Message{Line: []byte("hello world!")}))
+<<<<<<< HEAD
 
 	dStringer := dirStringer{dir}
 
@@ -240,6 +277,17 @@ func TestCheckCapacityAndRotate(t *testing.T) {
 	assert.NilError(t, err, dStringer)
 	_, err = os.Stat(f.Name() + ".2.gz")
 	assert.NilError(t, err, dStringer)
+=======
+	_, err = os.Stat(f.Name() + ".1")
+	assert.Assert(t, os.IsNotExist(err), dirStringer{dir})
+
+	assert.NilError(t, l.WriteLogEntry(&logger.Message{Line: []byte("hello world!")}))
+	poll.WaitOn(t, checkFileExists(f.Name()+".1.gz"), poll.WithDelay(time.Millisecond), poll.WithTimeout(30*time.Second))
+
+	assert.NilError(t, l.WriteLogEntry(&logger.Message{Line: []byte("hello world!")}))
+	poll.WaitOn(t, checkFileExists(f.Name()+".1.gz"), poll.WithDelay(time.Millisecond), poll.WithTimeout(30*time.Second))
+	poll.WaitOn(t, checkFileExists(f.Name()+".2.gz"), poll.WithDelay(time.Millisecond), poll.WithTimeout(30*time.Second))
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	// Now let's simulate a failed rotation where the file was able to be closed but something else happened elsewhere
 	// down the line.
@@ -265,3 +313,21 @@ func (d dirStringer) String() string {
 	}
 	return s.String()
 }
+<<<<<<< HEAD
+=======
+
+func checkFileExists(name string) poll.Check {
+	return func(t poll.LogT) poll.Result {
+		_, err := os.Stat(name)
+		switch {
+		case err == nil:
+			return poll.Success()
+		case os.IsNotExist(err):
+			return poll.Continue("waiting for %s to exist", name)
+		default:
+			t.Logf("%s", dirStringer{filepath.Dir(name)})
+			return poll.Error(err)
+		}
+	}
+}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375

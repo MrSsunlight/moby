@@ -11,8 +11,13 @@ import (
 
 	"github.com/docker/docker/api/types"
 	"github.com/docker/docker/api/types/container"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func checkValidGraphDriver(c *testing.T, name string) {
@@ -42,8 +47,13 @@ func (s *DockerSuite) TestInspectInt64(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectDefault(c *testing.T) {
+<<<<<<< HEAD
 	//Both the container and image are named busybox. docker inspect will fetch the container JSON.
 	//If the container JSON is not available, it will go for the image JSON.
+=======
+	// Both the container and image are named busybox. docker inspect will fetch the container JSON.
+	// If the container JSON is not available, it will go for the image JSON.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	out, _ := dockerCmd(c, "run", "--name=busybox", "-d", "busybox", "true")
 	containerID := strings.TrimSpace(out)
@@ -78,8 +88,13 @@ func (s *DockerSuite) TestInspectStatus(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectTypeFlagContainer(c *testing.T) {
+<<<<<<< HEAD
 	//Both the container and image are named busybox. docker inspect will fetch container
 	//JSON State.Running field. If the field is true, it's a container.
+=======
+	// Both the container and image are named busybox. docker inspect will fetch container
+	// JSON State.Running field. If the field is true, it's a container.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	runSleepingContainer(c, "--name=busybox", "-d")
 
 	formatStr := "--format={{.State.Running}}"
@@ -88,9 +103,15 @@ func (s *DockerSuite) TestInspectTypeFlagContainer(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectTypeFlagWithNoContainer(c *testing.T) {
+<<<<<<< HEAD
 	//Run this test on an image named busybox. docker inspect will try to fetch container
 	//JSON. Since there is no container named busybox and --type=container, docker inspect will
 	//not try to get the image JSON. It will throw an error.
+=======
+	// Run this test on an image named busybox. docker inspect will try to fetch container
+	// JSON. Since there is no container named busybox and --type=container, docker inspect will
+	// not try to get the image JSON. It will throw an error.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	dockerCmd(c, "run", "-d", "busybox", "true")
 
@@ -100,9 +121,15 @@ func (s *DockerSuite) TestInspectTypeFlagWithNoContainer(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectTypeFlagWithImage(c *testing.T) {
+<<<<<<< HEAD
 	//Both the container and image are named busybox. docker inspect will fetch image
 	//JSON as --type=image. if there is no image with name busybox, docker inspect
 	//will throw an error.
+=======
+	// Both the container and image are named busybox. docker inspect will fetch image
+	// JSON as --type=image. if there is no image with name busybox, docker inspect
+	// will throw an error.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	dockerCmd(c, "run", "--name=busybox", "-d", "busybox", "true")
 
@@ -112,8 +139,13 @@ func (s *DockerSuite) TestInspectTypeFlagWithImage(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectTypeFlagWithInvalidValue(c *testing.T) {
+<<<<<<< HEAD
 	//Both the container and image are named busybox. docker inspect will fail
 	//as --type=foobar is not a valid value for the flag.
+=======
+	// Both the container and image are named busybox. docker inspect will fail
+	// as --type=foobar is not a valid value for the flag.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	dockerCmd(c, "run", "--name=busybox", "-d", "busybox", "true")
 
@@ -295,9 +327,14 @@ func (s *DockerSuite) TestInspectLogConfigNoType(c *testing.T) {
 }
 
 func (s *DockerSuite) TestInspectNoSizeFlagContainer(c *testing.T) {
+<<<<<<< HEAD
 
 	//Both the container and image are named busybox. docker inspect will fetch container
 	//JSON SizeRw and SizeRootFs field. If there is no flag --size/-s, there are no size fields.
+=======
+	// Both the container and image are named busybox. docker inspect will fetch container
+	// JSON SizeRw and SizeRootFs field. If there is no flag --size/-s, there are no size fields.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	runSleepingContainer(c, "--name=busybox", "-d")
 

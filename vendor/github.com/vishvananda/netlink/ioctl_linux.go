@@ -56,6 +56,7 @@ type ethtoolSset struct {
 	data     [1]uint32
 }
 
+<<<<<<< HEAD
 // ethtoolGstrings is string set for data tagging
 type ethtoolGstrings struct {
 	cmd       uint32
@@ -68,6 +69,12 @@ type ethtoolStats struct {
 	cmd    uint32
 	nStats uint32
 	data   [1]uint64
+=======
+type ethtoolStats struct {
+	cmd    uint32
+	nStats uint32
+	// Followed by nStats * []uint64.
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 // newIocltSlaveReq returns filled IfreqSlave with proper interface names

@@ -25,6 +25,8 @@ import (
 	"google.golang.org/grpc/balancer"
 	"google.golang.org/grpc/connectivity"
 	"google.golang.org/grpc/grpclog"
+	"google.golang.org/grpc/internal/buffer"
+	"google.golang.org/grpc/internal/grpcsync"
 	"google.golang.org/grpc/resolver"
 )
 
@@ -32,6 +34,7 @@ import (
 type scStateUpdate struct {
 	sc    balancer.SubConn
 	state connectivity.State
+<<<<<<< HEAD
 }
 
 // scStateUpdateBuffer is an unbounded channel for scStateChangeTuple.
@@ -80,16 +83,27 @@ func (b *scStateUpdateBuffer) load() {
 // scStateChangeTuple onto the channel if there is any.
 func (b *scStateUpdateBuffer) get() <-chan *scStateUpdate {
 	return b.c
+=======
+	err   error
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 // ccBalancerWrapper is a wrapper on top of cc for balancers.
 // It implements balancer.ClientConn interface.
 type ccBalancerWrapper struct {
+<<<<<<< HEAD
 	cc               *ClientConn
 	balancer         balancer.Balancer
 	stateChangeQueue *scStateUpdateBuffer
 	ccUpdateCh       chan *balancer.ClientConnState
 	done             chan struct{}
+=======
+	cc         *ClientConn
+	balancerMu sync.Mutex // synchronizes calls to the balancer
+	balancer   balancer.Balancer
+	scBuffer   *buffer.Unbounded
+	done       *grpcsync.Event
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
 	mu       sync.Mutex
 	subConns map[*acBalancerWrapper]struct{}
@@ -97,11 +111,18 @@ type ccBalancerWrapper struct {
 
 func newCCBalancerWrapper(cc *ClientConn, b balancer.Builder, bopts balancer.BuildOptions) *ccBalancerWrapper {
 	ccb := &ccBalancerWrapper{
+<<<<<<< HEAD
 		cc:               cc,
 		stateChangeQueue: newSCStateUpdateBuffer(),
 		ccUpdateCh:       make(chan *balancer.ClientConnState, 1),
 		done:             make(chan struct{}),
 		subConns:         make(map[*acBalancerWrapper]struct{}),
+=======
+		cc:       cc,
+		scBuffer: buffer.NewUnbounded(),
+		done:     grpcsync.NewEvent(),
+		subConns: make(map[*acBalancerWrapper]struct{}),
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 	go ccb.watcher()
 	ccb.balancer = b.Build(ccb, bopts)
@@ -113,14 +134,12 @@ func newCCBalancerWrapper(cc *ClientConn, b balancer.Builder, bopts balancer.Bui
 func (ccb *ccBalancerWrapper) watcher() {
 	for {
 		select {
-		case t := <-ccb.stateChangeQueue.get():
-			ccb.stateChangeQueue.load()
-			select {
-			case <-ccb.done:
-				ccb.balancer.Close()
-				return
-			default:
+		case t := <-ccb.scBuffer.Get():
+			ccb.scBuffer.Load()
+			if ccb.done.HasFired() {
+				break
 			}
+<<<<<<< HEAD
 			if ub, ok := ccb.balancer.(balancer.V2Balancer); ok {
 				ub.UpdateSubConnState(t.sc, balancer.SubConnState{ConnectivityState: t.state})
 			} else {
@@ -139,10 +158,20 @@ func (ccb *ccBalancerWrapper) watcher() {
 				ccb.balancer.HandleResolvedAddrs(s.ResolverState.Addresses, nil)
 			}
 		case <-ccb.done:
+=======
+			ccb.balancerMu.Lock()
+			su := t.(*scStateUpdate)
+			if ub, ok := ccb.balancer.(balancer.V2Balancer); ok {
+				ub.UpdateSubConnState(su.sc, balancer.SubConnState{ConnectivityState: su.state, ConnectionError: su.err})
+			} else {
+				ccb.balancer.HandleSubConnStateChange(su.sc, su.state)
+			}
+			ccb.balancerMu.Unlock()
+		case <-ccb.done.Done():
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		}
 
-		select {
-		case <-ccb.done:
+		if ccb.done.HasFired() {
 			ccb.balancer.Close()
 			ccb.mu.Lock()
 			scs := ccb.subConns
@@ -151,19 +180,22 @@ func (ccb *ccBalancerWrapper) watcher() {
 			for acbw := range scs {
 				ccb.cc.removeAddrConn(acbw.getAddrConn(), errConnDrain)
 			}
+<<<<<<< HEAD
 			ccb.UpdateBalancerState(connectivity.Connecting, nil)
+=======
+			ccb.UpdateState(balancer.State{ConnectivityState: connectivity.Connecting, Picker: nil})
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 			return
-		default:
 		}
 		ccb.cc.firstResolveEvent.Fire()
 	}
 }
 
 func (ccb *ccBalancerWrapper) close() {
-	close(ccb.done)
+	ccb.done.Fire()
 }
 
-func (ccb *ccBalancerWrapper) handleSubConnStateChange(sc balancer.SubConn, s connectivity.State) {
+func (ccb *ccBalancerWrapper) handleSubConnStateChange(sc balancer.SubConn, s connectivity.State, err error) {
 	// When updating addresses for a SubConn, if the address in use is not in
 	// the new addresses, the old ac will be tearDown() and a new ac will be
 	// created. tearDown() generates a state change with Shutdown state, we
@@ -174,12 +206,14 @@ func (ccb *ccBalancerWrapper) handleSubConnStateChange(sc balancer.SubConn, s co
 	if sc == nil {
 		return
 	}
-	ccb.stateChangeQueue.put(&scStateUpdate{
+	ccb.scBuffer.Put(&scStateUpdate{
 		sc:    sc,
 		state: s,
+		err:   err,
 	})
 }
 
+<<<<<<< HEAD
 func (ccb *ccBalancerWrapper) updateClientConnState(ccs *balancer.ClientConnState) {
 	if ccb.cc.curBalancerName != grpclbName {
 		// Filter any grpclb addresses since we don't have the grpclb balancer.
@@ -198,6 +232,24 @@ func (ccb *ccBalancerWrapper) updateClientConnState(ccs *balancer.ClientConnStat
 	default:
 	}
 	ccb.ccUpdateCh <- ccs
+=======
+func (ccb *ccBalancerWrapper) updateClientConnState(ccs *balancer.ClientConnState) error {
+	ccb.balancerMu.Lock()
+	defer ccb.balancerMu.Unlock()
+	if ub, ok := ccb.balancer.(balancer.V2Balancer); ok {
+		return ub.UpdateClientConnState(*ccs)
+	}
+	ccb.balancer.HandleResolvedAddrs(ccs.ResolverState.Addresses, nil)
+	return nil
+}
+
+func (ccb *ccBalancerWrapper) resolverError(err error) {
+	if ub, ok := ccb.balancer.(balancer.V2Balancer); ok {
+		ccb.balancerMu.Lock()
+		ub.ResolverError(err)
+		ccb.balancerMu.Unlock()
+	}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }
 
 func (ccb *ccBalancerWrapper) NewSubConn(addrs []resolver.Address, opts balancer.NewSubConnOptions) (balancer.SubConn, error) {
@@ -248,9 +300,27 @@ func (ccb *ccBalancerWrapper) UpdateBalancerState(s connectivity.State, p balanc
 	// updated, and then call the "ready" picker after the picker gets updated.
 	ccb.cc.blockingpicker.updatePicker(p)
 	ccb.cc.csMgr.updateState(s)
+<<<<<<< HEAD
+=======
 }
 
-func (ccb *ccBalancerWrapper) ResolveNow(o resolver.ResolveNowOption) {
+func (ccb *ccBalancerWrapper) UpdateState(s balancer.State) {
+	ccb.mu.Lock()
+	defer ccb.mu.Unlock()
+	if ccb.subConns == nil {
+		return
+	}
+	// Update picker before updating state.  Even though the ordering here does
+	// not matter, it can lead to multiple calls of Pick in the common start-up
+	// case where we wait for ready and then perform an RPC.  If the picker is
+	// updated later, we could call the "connecting" picker when the state is
+	// updated, and then call the "ready" picker after the picker gets updated.
+	ccb.cc.blockingpicker.updatePickerV2(s.Picker)
+	ccb.cc.csMgr.updateState(s.ConnectivityState)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
+}
+
+func (ccb *ccBalancerWrapper) ResolveNow(o resolver.ResolveNowOptions) {
 	ccb.cc.resolveNow(o)
 }
 

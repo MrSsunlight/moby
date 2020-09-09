@@ -34,7 +34,11 @@ type Logger interface {
 }
 
 // binLogger is the global binary logger for the binary. One of this should be
+<<<<<<< HEAD
 // built at init time from the configuration (environment varialbe or flags).
+=======
+// built at init time from the configuration (environment variable or flags).
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 //
 // It is used to get a methodLogger for each individual method.
 var binLogger Logger
@@ -98,7 +102,11 @@ func (l *logger) setDefaultMethodLogger(ml *methodLoggerConfig) error {
 // New methodLogger with same service overrides the old one.
 func (l *logger) setServiceMethodLogger(service string, ml *methodLoggerConfig) error {
 	if _, ok := l.services[service]; ok {
+<<<<<<< HEAD
 		return fmt.Errorf("conflicting rules for service %v found", service)
+=======
+		return fmt.Errorf("conflicting service rules for service %v found", service)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 	if l.services == nil {
 		l.services = make(map[string]*methodLoggerConfig)
@@ -112,10 +120,17 @@ func (l *logger) setServiceMethodLogger(service string, ml *methodLoggerConfig) 
 // New methodLogger with same method overrides the old one.
 func (l *logger) setMethodMethodLogger(method string, ml *methodLoggerConfig) error {
 	if _, ok := l.blacklist[method]; ok {
+<<<<<<< HEAD
 		return fmt.Errorf("conflicting rules for method %v found", method)
 	}
 	if _, ok := l.methods[method]; ok {
 		return fmt.Errorf("conflicting rules for method %v found", method)
+=======
+		return fmt.Errorf("conflicting blacklist rules for method %v found", method)
+	}
+	if _, ok := l.methods[method]; ok {
+		return fmt.Errorf("conflicting method rules for method %v found", method)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 	if l.methods == nil {
 		l.methods = make(map[string]*methodLoggerConfig)
@@ -127,10 +142,17 @@ func (l *logger) setMethodMethodLogger(method string, ml *methodLoggerConfig) er
 // Set blacklist method for "-service/method".
 func (l *logger) setBlacklist(method string) error {
 	if _, ok := l.blacklist[method]; ok {
+<<<<<<< HEAD
 		return fmt.Errorf("conflicting rules for method %v found", method)
 	}
 	if _, ok := l.methods[method]; ok {
 		return fmt.Errorf("conflicting rules for method %v found", method)
+=======
+		return fmt.Errorf("conflicting blacklist rules for method %v found", method)
+	}
+	if _, ok := l.methods[method]; ok {
+		return fmt.Errorf("conflicting method rules for method %v found", method)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 	if l.blacklist == nil {
 		l.blacklist = make(map[string]struct{})

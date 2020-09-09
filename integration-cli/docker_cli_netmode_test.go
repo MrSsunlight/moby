@@ -5,7 +5,11 @@ import (
 	"testing"
 
 	"github.com/docker/docker/runconfig"
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // GH14530. Validates combinations of --net= with other options

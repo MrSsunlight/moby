@@ -3,7 +3,10 @@ package imageutil
 import (
 	"context"
 	"encoding/json"
+<<<<<<< HEAD
 	"fmt"
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"sync"
 	"time"
 
@@ -13,6 +16,10 @@ import (
 	"github.com/containerd/containerd/platforms"
 	"github.com/containerd/containerd/reference"
 	"github.com/containerd/containerd/remotes"
+<<<<<<< HEAD
+=======
+	"github.com/containerd/containerd/remotes/docker"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"github.com/moby/buildkit/util/leaseutil"
 	digest "github.com/opencontainers/go-digest"
 	specs "github.com/opencontainers/image-spec/specs-go/v1"
@@ -50,7 +57,11 @@ func Config(ctx context.Context, str string, resolver remotes.Resolver, cache Co
 	}
 
 	if leaseManager != nil {
+<<<<<<< HEAD
 		ctx2, done, err := leaseutil.WithLease(ctx, leaseManager, leases.WithExpiration(5*time.Minute))
+=======
+		ctx2, done, err := leaseutil.WithLease(ctx, leaseManager, leases.WithExpiration(5*time.Minute), leaseutil.MakeTemporary)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		if err != nil {
 			return "", nil, errors.WithStack(err)
 		}
@@ -94,12 +105,18 @@ func Config(ctx context.Context, str string, resolver remotes.Resolver, cache Co
 	}
 
 	children := childrenConfigHandler(cache, platform)
+<<<<<<< HEAD
 	if m, ok := cache.(content.Manager); ok {
 		children = SetChildrenLabelsNonBlobs(m, children)
 	}
 
 	handlers := []images.Handler{
 		fetchWithoutRoot(remotes.FetchHandler(cache, fetcher)),
+=======
+
+	handlers := []images.Handler{
+		remotes.FetchHandler(cache, fetcher),
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		children,
 	}
 	if err := images.Dispatch(ctx, images.Handlers(handlers...), nil, desc); err != nil {
@@ -116,16 +133,6 @@ func Config(ctx context.Context, str string, resolver remotes.Resolver, cache Co
 	}
 
 	return desc.Digest, dt, nil
-}
-
-func fetchWithoutRoot(fetch images.HandlerFunc) images.HandlerFunc {
-	return func(ctx context.Context, desc specs.Descriptor) ([]specs.Descriptor, error) {
-		if desc.Annotations == nil {
-			desc.Annotations = map[string]string{}
-		}
-		desc.Annotations["buildkit/noroot"] = "true"
-		return fetch(ctx, desc)
-	}
 }
 
 func childrenConfigHandler(provider content.Provider, platform platforms.MatchComparer) images.HandlerFunc {
@@ -166,7 +173,7 @@ func childrenConfigHandler(provider content.Provider, platform platforms.MatchCo
 			} else {
 				descs = append(descs, index.Manifests...)
 			}
-		case images.MediaTypeDockerSchema2Config, specs.MediaTypeImageConfig:
+		case images.MediaTypeDockerSchema2Config, specs.MediaTypeImageConfig, docker.LegacyConfigMediaType:
 			// childless data types.
 			return nil, nil
 		default:

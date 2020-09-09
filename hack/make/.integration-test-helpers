@@ -7,7 +7,11 @@
 #
 
 if [ -z "${MAKEDIR}" ]; then
+<<<<<<< HEAD
 	MAKEDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+=======
+	MAKEDIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	export MAKEDIR
 fi
 source "${MAKEDIR}/.go-autogen"
@@ -46,7 +50,11 @@ setup_integration_test_filter() {
 
 setup_integration_test_filter
 if [ -z "${TEST_SKIP_INTEGRATION}" ] && [ -z "${TEST_INTEGRATION_DIR}" ]; then
+<<<<<<< HEAD
 	integration_api_dirs="$(go list -test -f '{{- if ne .ForTest "" -}}{{- .Dir -}}{{- end -}}'  ./integration/...)"
+=======
+	integration_api_dirs="$(go list -test -f '{{- if ne .ForTest "" -}}{{- .Dir -}}{{- end -}}' ./integration/...)"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 else
 	integration_api_dirs="${TEST_INTEGRATION_DIR}"
 fi
@@ -147,6 +155,7 @@ test_env() {
 			DOCKER_HOST="$DOCKER_HOST" \
 			DOCKER_REMAP_ROOT="$DOCKER_REMAP_ROOT" \
 			DOCKER_REMOTE_DAEMON="$DOCKER_REMOTE_DAEMON" \
+			DOCKER_ROOTLESS="$DOCKER_ROOTLESS" \
 			DOCKERFILE="$DOCKERFILE" \
 			GOPATH="$GOPATH" \
 			GOTRACEBACK=all \
@@ -163,8 +172,8 @@ error_on_leaked_containerd_shims() {
 		return
 	fi
 
-	leftovers=$(ps -ax -o pid,cmd |
-	            awk '$2 == "containerd-shim" && $4 ~ /.*\/bundles\/.*\/test-integration/ { print $1 }')
+	leftovers=$(ps -ax -o pid,cmd \
+		| awk '$2 == "containerd-shim" && $4 ~ /.*\/bundles\/.*\/test-integration/ { print $1 }')
 	if [ -n "$leftovers" ]; then
 		ps aux
 		# shellcheck disable=SC2086
@@ -190,6 +199,10 @@ set_platform_timeout() {
 		# - remove last character (usually 'm' from '10m')
 		# - multiply by testcount
 		# - add last character back
+<<<<<<< HEAD
 		TIMEOUT=$((${TIMEOUT::-1} * ${TEST_REPEAT}))${TIMEOUT:$((${#TIMEOUT}-1)):1}
+=======
+		TIMEOUT=$((${TIMEOUT::-1} * ${TEST_REPEAT}))${TIMEOUT:$((${#TIMEOUT} - 1)):1}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	fi
 }

@@ -12,7 +12,11 @@
 #
 set -eu -o pipefail
 
+<<<<<<< HEAD
 BUILDFLAGS=( -tags 'netgo seccomp libdm_no_deferred_remove' )
+=======
+BUILDFLAGS=(-tags 'netgo seccomp libdm_no_deferred_remove')
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 TESTFLAGS+=" -test.timeout=${TIMEOUT:-5m}"
 TESTDIRS="${TESTDIRS:-./...}"
 exclude_paths='/vendor/|/integration'

@@ -16,9 +16,15 @@ import (
 	"github.com/docker/docker/api/types/versions"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/integration-cli/checker"
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
 	"gotest.tools/poll"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // Regression test for #9414

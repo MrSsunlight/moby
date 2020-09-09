@@ -13,9 +13,15 @@ import (
 
 	"github.com/docker/docker/integration-cli/cli/build"
 	"github.com/docker/docker/pkg/stringid"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	is "gotest.tools/assert/cmp"
 	"gotest.tools/icmd"
+=======
+	"gotest.tools/v3/assert"
+	is "gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/icmd"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestImagesEnsureImageIsListed(c *testing.T) {
@@ -202,7 +208,7 @@ func (s *DockerSuite) TestImagesFilterSpaceTrimCase(c *testing.T) {
 		"dangling = true",
 	}
 
-	imageListings := make([][]string, 5, 5)
+	imageListings := make([][]string, 5)
 	for idx, filter := range filters {
 		out, _ := dockerCmd(c, "images", "-q", "-f", filter)
 		listing := strings.Split(out, "\n")
@@ -242,10 +248,17 @@ func (s *DockerSuite) TestImagesEnsureDanglingImageOnlyListedOnce(c *testing.T) 
 	assert.Equal(c, strings.Count(out, imageID), 1)
 
 	out, _ = dockerCmd(c, "images", "-q", "-f", "dangling=false")
+<<<<<<< HEAD
 	//dangling=false would not include dangling images
 	assert.Assert(c, !strings.Contains(out, imageID))
 	out, _ = dockerCmd(c, "images")
 	//docker images still include dangling images
+=======
+	// dangling=false would not include dangling images
+	assert.Assert(c, !strings.Contains(out, imageID))
+	out, _ = dockerCmd(c, "images")
+	// docker images still include dangling images
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	assert.Assert(c, strings.Contains(out, imageID))
 }
 

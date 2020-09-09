@@ -9,7 +9,6 @@ import (
 	"context"
 	"fmt"
 	"io/ioutil"
-	"math/rand"
 	"net"
 	"net/url"
 	"os"
@@ -20,13 +19,15 @@ import (
 	"sync"
 	"time"
 
+	"github.com/docker/docker/pkg/fileutils"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/backoff"
 
 	"github.com/containerd/containerd"
 	"github.com/containerd/containerd/defaults"
 	"github.com/containerd/containerd/pkg/dialer"
 	"github.com/containerd/containerd/remotes/docker"
-	"github.com/docker/distribution/reference"
+	"github.com/containerd/containerd/sys"
 	"github.com/docker/docker/api/types"
 	containertypes "github.com/docker/docker/api/types/container"
 	"github.com/docker/docker/api/types/swarm"
@@ -40,8 +41,8 @@ import (
 	"github.com/docker/docker/daemon/logger"
 	"github.com/docker/docker/daemon/network"
 	"github.com/docker/docker/errdefs"
+	bkconfig "github.com/moby/buildkit/cmd/buildkitd/config"
 	"github.com/moby/buildkit/util/resolver"
-	"github.com/moby/buildkit/util/tracing"
 	"github.com/sirupsen/logrus"
 
 	// register graph drivers
@@ -56,7 +57,6 @@ import (
 	"github.com/docker/docker/pkg/idtools"
 	"github.com/docker/docker/pkg/locker"
 	"github.com/docker/docker/pkg/plugingetter"
-	"github.com/docker/docker/pkg/sysinfo"
 	"github.com/docker/docker/pkg/system"
 	"github.com/docker/docker/pkg/truncindex"
 	"github.com/docker/docker/plugin"
@@ -73,7 +73,9 @@ import (
 )
 
 // ContainersNamespace is the name of the namespace used for users containers
-const ContainersNamespace = "moby"
+const (
+	ContainersNamespace = "moby"
+)
 
 var (
 	errSystemNotSupported = errors.New("the Docker daemon is not supported on this platform")
@@ -149,58 +151,57 @@ func (daemon *Daemon) Features() *map[string]bool {
 	return &daemon.configStore.Features
 }
 
-// NewResolveOptionsFunc returns a call back function to resolve "registry-mirrors" and
-// "insecure-registries" for buildkit
-func (daemon *Daemon) NewResolveOptionsFunc() resolver.ResolveOptionsFunc {
-	return func(ref string) docker.ResolverOptions {
-		var (
-			registryKey = "docker.io"
-			mirrors     = make([]string, len(daemon.configStore.Mirrors))
-			m           = map[string]resolver.RegistryConf{}
-		)
-		// must trim "https://" or "http://" prefix
-		for i, v := range daemon.configStore.Mirrors {
-			if uri, err := url.Parse(v); err == nil {
-				v = uri.Host
-			}
-			mirrors[i] = v
+// RegistryHosts returns registry configuration in containerd resolvers format
+func (daemon *Daemon) RegistryHosts() docker.RegistryHosts {
+	var (
+		registryKey = "docker.io"
+		mirrors     = make([]string, len(daemon.configStore.Mirrors))
+		m           = map[string]bkconfig.RegistryConfig{}
+	)
+	// must trim "https://" or "http://" prefix
+	for i, v := range daemon.configStore.Mirrors {
+		if uri, err := url.Parse(v); err == nil {
+			v = uri.Host
 		}
-		// set "registry-mirrors"
-		m[registryKey] = resolver.RegistryConf{Mirrors: mirrors}
-		// set "insecure-registries"
-		for _, v := range daemon.configStore.InsecureRegistries {
-			if uri, err := url.Parse(v); err == nil {
-				v = uri.Host
-			}
-			m[v] = resolver.RegistryConf{
-				PlainHTTP: true,
-			}
-		}
-		def := docker.ResolverOptions{
-			Client: tracing.DefaultClient,
-		}
-
-		parsed, err := reference.ParseNormalizedNamed(ref)
-		if err != nil {
-			return def
-		}
-		host := reference.Domain(parsed)
-
-		c, ok := m[host]
-		if !ok {
-			return def
-		}
-
-		if len(c.Mirrors) > 0 {
-			def.Host = func(string) (string, error) {
-				return c.Mirrors[rand.Intn(len(c.Mirrors))], nil
-			}
-		}
-
-		def.PlainHTTP = c.PlainHTTP
-
-		return def
+		mirrors[i] = v
 	}
+	// set mirrors for default registry
+	m[registryKey] = bkconfig.RegistryConfig{Mirrors: mirrors}
+
+	for _, v := range daemon.configStore.InsecureRegistries {
+		u, err := url.Parse(v)
+		c := bkconfig.RegistryConfig{}
+		if err == nil {
+			v = u.Host
+			t := true
+			if u.Scheme == "http" {
+				c.PlainHTTP = &t
+			} else {
+				c.Insecure = &t
+			}
+		}
+		m[v] = c
+	}
+
+	for k, v := range m {
+		if d, err := registry.HostCertsDir(k); err == nil {
+			v.TLSConfigDir = []string{d}
+			m[k] = v
+		}
+	}
+
+	certsDir := registry.CertsDir()
+	if fis, err := ioutil.ReadDir(certsDir); err == nil {
+		for _, fi := range fis {
+			if _, ok := m[fi.Name()]; !ok {
+				m[fi.Name()] = bkconfig.RegistryConfig{
+					TLSConfigDir: []string{filepath.Join(certsDir, fi.Name())},
+				}
+			}
+		}
+	}
+
+	return resolver.NewRegistryConfig(m)
 }
 
 func (daemon *Daemon) restore() error {
@@ -340,10 +341,11 @@ func (daemon *Daemon) restore() error {
 					return
 				}
 			} else if !daemon.configStore.LiveRestoreEnabled {
-				if err := daemon.kill(c, c.StopSignal()); err != nil && !errdefs.IsNotFound(err) {
+				if err := daemon.shutdownContainer(c); err != nil && !errdefs.IsNotFound(err) {
 					logrus.WithError(err).WithField("container", c.ID).Error("error shutting down container")
 					return
 				}
+				c.ResetRestartManager(false)
 			}
 
 			if c.IsRunning() || c.IsPaused() {
@@ -486,12 +488,14 @@ func (daemon *Daemon) restore() error {
 			// ignore errors here as this is a best effort to wait for children to be
 			//   running before we try to start the container
 			children := daemon.children(c)
-			timeout := time.After(5 * time.Second)
+			timeout := time.NewTimer(5 * time.Second)
+			defer timeout.Stop()
+
 			for _, child := range children {
 				if notifier, exists := restartContainers[child]; exists {
 					select {
 					case <-notifier:
-					case <-timeout:
+					case <-timeout.C:
 					}
 				}
 			}
@@ -609,6 +613,7 @@ func (daemon *Daemon) waitForNetworks(c *container.Container) {
 	if daemon.discoveryWatcher == nil {
 		return
 	}
+
 	// Make sure if the container has a network that requires discovery that the discovery service is available before starting
 	for netName := range c.NetworkSettings.Networks {
 		// If we get `ErrNoSuchNetwork` here, we can assume that it is due to discovery not being ready
@@ -617,13 +622,19 @@ func (daemon *Daemon) waitForNetworks(c *container.Container) {
 			if _, ok := err.(libnetwork.ErrNoSuchNetwork); !ok {
 				continue
 			}
+
 			// use a longish timeout here due to some slowdowns in libnetwork if the k/v store is on anything other than --net=host
 			// FIXME: why is this slow???
+			dur := 60 * time.Second
+			timer := time.NewTimer(dur)
+
 			logrus.Debugf("Container %s waiting for network to be ready", c.Name)
 			select {
 			case <-daemon.discoveryWatcher.ReadyCh():
-			case <-time.After(60 * time.Second):
+			case <-timer.C:
 			}
+			timer.Stop()
+
 			return
 		}
 	}
@@ -673,10 +684,14 @@ func (daemon *Daemon) DaemonLeavesCluster() {
 	// This is called also on graceful daemon shutdown. We need to
 	// wait, because the ingress release has to happen before the
 	// network controller is stopped.
+
 	if done, err := daemon.ReleaseIngress(); err == nil {
+		timeout := time.NewTimer(5 * time.Second)
+		defer timeout.Stop()
+
 		select {
 		case <-done:
-		case <-time.After(5 * time.Second):
+		case <-timeout.C:
 			logrus.Warn("timeout while waiting for ingress network removal")
 		}
 	} else {
@@ -752,13 +767,13 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	if err != nil {
 		return nil, fmt.Errorf("Unable to get the TempDir under %s: %s", config.Root, err)
 	}
-	realTmp, err := getRealPath(tmp)
+	realTmp, err := fileutils.ReadSymlinkedDirectory(tmp)
 	if err != nil {
 		return nil, fmt.Errorf("Unable to get the full path to the TempDir (%s): %s", tmp, err)
 	}
-	if runtime.GOOS == "windows" {
+	if isWindows {
 		if _, err := os.Stat(realTmp); err != nil && os.IsNotExist(err) {
-			if err := system.MkdirAll(realTmp, 0700, ""); err != nil {
+			if err := system.MkdirAll(realTmp, 0700); err != nil {
 				return nil, fmt.Errorf("Unable to create the TempDir (%s): %s", realTmp, err)
 			}
 		}
@@ -773,6 +788,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 		PluginStore: pluginStore,
 		startupDone: make(chan struct{}),
 	}
+
 	// Ensure the daemon is properly shutdown if there is a failure during
 	// initialization
 	defer func() {
@@ -820,15 +836,15 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	// Create the directory where we'll store the runtime scripts (i.e. in
 	// order to support runtimeArgs)
 	daemonRuntimes := filepath.Join(config.Root, "runtimes")
-	if err := system.MkdirAll(daemonRuntimes, 0700, ""); err != nil {
+	if err := system.MkdirAll(daemonRuntimes, 0700); err != nil {
 		return nil, err
 	}
 	if err := d.loadRuntimes(); err != nil {
 		return nil, err
 	}
 
-	if runtime.GOOS == "windows" {
-		if err := system.MkdirAll(filepath.Join(config.Root, "credentialspecs"), 0, ""); err != nil {
+	if isWindows {
+		if err := system.MkdirAll(filepath.Join(config.Root, "credentialspecs"), 0); err != nil {
 			return nil, err
 		}
 	}
@@ -841,7 +857,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	// initialization of the layerstore through driver priority order for example.
 	d.graphDrivers = make(map[string]string)
 	layerStores := make(map[string]layer.Store)
-	if runtime.GOOS == "windows" {
+	if isWindows {
 		d.graphDrivers[runtime.GOOS] = "windowsfilter"
 		if system.LCOWSupported() {
 			d.graphDrivers["linux"] = "lcow"
@@ -865,6 +881,11 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	}
 	registerMetricsPluginCallback(d.PluginStore, metricsSockPath)
 
+	backoffConfig := backoff.DefaultConfig
+	backoffConfig.MaxDelay = 3 * time.Second
+	connParams := grpc.ConnectParams{
+		Backoff: backoffConfig,
+	}
 	gopts := []grpc.DialOption{
 		// WithBlock makes sure that the following containerd request
 		// is reliable.
@@ -885,8 +906,8 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 		grpc.WithBlock(),
 
 		grpc.WithInsecure(),
-		grpc.WithBackoffMaxDelay(3 * time.Second),
-		grpc.WithDialer(dialer.Dialer),
+		grpc.WithConnectParams(connParams),
+		grpc.WithContextDialer(dialer.ContextDialer),
 
 		// TODO(stevvooe): We may need to allow configuration of this on the client.
 		grpc.WithDefaultCallOptions(grpc.MaxCallRecvMsgSize(defaults.DefaultMaxRecvMsgSize)),
@@ -911,7 +932,15 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 			}
 		}
 
+<<<<<<< HEAD
 		return pluginexec.New(ctx, getPluginExecRoot(config.Root), pluginCli, config.ContainerdPluginNamespace, m)
+=======
+		var rt types.Runtime
+		if runtime := config.GetRuntime(config.GetDefaultRuntimeName()); runtime != nil {
+			rt = *runtime
+		}
+		return pluginexec.New(ctx, getPluginExecRoot(config.Root), pluginCli, config.ContainerdPluginNamespace, m, rt)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	}
 
 	// Plugin system initialization should happen before restore. Do not change order.
@@ -965,8 +994,8 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	}
 
 	lgrMap := make(map[string]image.LayerGetReleaser)
-	for os, ls := range layerStores {
-		lgrMap[os] = ls
+	for los, ls := range layerStores {
+		lgrMap[los] = ls
 	}
 	imageStore, err := image.NewImageStore(ifs, lgrMap)
 	if err != nil {
@@ -985,7 +1014,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 
 	trustDir := filepath.Join(config.Root, "trust")
 
-	if err := system.MkdirAll(trustDir, 0700, ""); err != nil {
+	if err := system.MkdirAll(trustDir, 0700); err != nil {
 		return nil, err
 	}
 
@@ -1016,10 +1045,10 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 		return nil, err
 	}
 
-	sysInfo := sysinfo.New(false)
+	sysInfo := d.RawSysInfo(false)
 	// Check if Devices cgroup is mounted, it is hard requirement for container security,
 	// on Linux.
-	if runtime.GOOS == "linux" && !sysInfo.CgroupDevicesEnabled {
+	if runtime.GOOS == "linux" && !sysInfo.CgroupDevicesEnabled && !sys.RunningInUserNS() {
 		return nil, errors.New("Devices cgroup isn't mounted")
 	}
 
@@ -1052,6 +1081,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 		LayerStores:               layerStores,
 		MaxConcurrentDownloads:    *config.MaxConcurrentDownloads,
 		MaxConcurrentUploads:      *config.MaxConcurrentUploads,
+		MaxDownloadAttempts:       *config.MaxDownloadAttempts,
 		ReferenceStore:            rs,
 		RegistryService:           registryService,
 		TrustKey:                  trustKey,
@@ -1069,8 +1099,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 	}
 	close(d.startupDone)
 
-	// FIXME: this method never returns an error
-	info, _ := d.SystemInfo()
+	info := d.SystemInfo()
 
 	engineInfo.WithValues(
 		dockerversion.Version,
@@ -1080,6 +1109,7 @@ func NewDaemon(ctx context.Context, config *config.Config, pluginStore *plugin.S
 		info.KernelVersion,
 		info.OperatingSystem,
 		info.OSType,
+		info.OSVersion,
 		info.ID,
 	).Set(1)
 	engineCpus.Set(float64(info.NCPU))
@@ -1451,7 +1481,7 @@ func CreateDaemonRoot(config *config.Config) error {
 	if _, err := os.Stat(config.Root); err != nil && os.IsNotExist(err) {
 		realRoot = config.Root
 	} else {
-		realRoot, err = getRealPath(config.Root)
+		realRoot, err = fileutils.ReadSymlinkedDirectory(config.Root)
 		if err != nil {
 			return fmt.Errorf("Unable to get the full path to root (%s): %s", config.Root, err)
 		}

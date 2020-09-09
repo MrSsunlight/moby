@@ -176,6 +176,13 @@ type Netem struct {
 	CorruptCorr   uint32
 }
 
+func (netem *Netem) String() string {
+	return fmt.Sprintf(
+		"{Latency: %v, Limit: %v, Loss: %v, Gap: %v, Duplicate: %v, Jitter: %v}",
+		netem.Latency, netem.Limit, netem.Loss, netem.Gap, netem.Duplicate, netem.Jitter,
+	)
+}
+
 func (qdisc *Netem) Attrs() *QdiscAttrs {
 	return &qdisc.QdiscAttrs
 }
@@ -231,6 +238,36 @@ func (qdisc *GenericQdisc) Type() string {
 	return qdisc.QdiscType
 }
 
+<<<<<<< HEAD
+=======
+type Hfsc struct {
+	QdiscAttrs
+	Defcls uint16
+}
+
+func NewHfsc(attrs QdiscAttrs) *Hfsc {
+	return &Hfsc{
+		QdiscAttrs: attrs,
+		Defcls:     1,
+	}
+}
+
+func (hfsc *Hfsc) Attrs() *QdiscAttrs {
+	return &hfsc.QdiscAttrs
+}
+
+func (hfsc *Hfsc) Type() string {
+	return "hfsc"
+}
+
+func (hfsc *Hfsc) String() string {
+	return fmt.Sprintf(
+		"{%v -- default: %d}",
+		hfsc.Attrs(), hfsc.Defcls,
+	)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 // Fq is a classless packet scheduler meant to be mostly used for locally generated traffic.
 type Fq struct {
 	QdiscAttrs
@@ -249,6 +286,16 @@ type Fq struct {
 	LowRateThreshold uint32
 }
 
+<<<<<<< HEAD
+=======
+func (fq *Fq) String() string {
+	return fmt.Sprintf(
+		"{PacketLimit: %v, FlowPacketLimit: %v, Quantum: %v, InitialQuantum: %v, Pacing: %v, FlowDefaultRate: %v, FlowMaxRate: %v, Buckets: %v, FlowRefillDelay: %v,  LowRateThreshold: %v}",
+		fq.PacketLimit, fq.FlowPacketLimit, fq.Quantum, fq.InitialQuantum, fq.Pacing, fq.FlowDefaultRate, fq.FlowMaxRate, fq.Buckets, fq.FlowRefillDelay, fq.LowRateThreshold,
+	)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func NewFq(attrs QdiscAttrs) *Fq {
 	return &Fq{
 		QdiscAttrs: attrs,
@@ -276,6 +323,16 @@ type FqCodel struct {
 	// There are some more attributes here, but support for them seems not ubiquitous
 }
 
+<<<<<<< HEAD
+=======
+func (fqcodel *FqCodel) String() string {
+	return fmt.Sprintf(
+		"{%v -- Target: %v, Limit: %v, Interval: %v, ECM: %v, Flows: %v, Quantum: %v}",
+		fqcodel.Attrs(), fqcodel.Target, fqcodel.Limit, fqcodel.Interval, fqcodel.ECN, fqcodel.Flows, fqcodel.Quantum,
+	)
+}
+
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func NewFqCodel(attrs QdiscAttrs) *FqCodel {
 	return &FqCodel{
 		QdiscAttrs: attrs,

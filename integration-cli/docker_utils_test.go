@@ -19,10 +19,17 @@ import (
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/integration-cli/cli"
 	"github.com/docker/docker/integration-cli/daemon"
+<<<<<<< HEAD
 	"gotest.tools/assert"
 	"gotest.tools/assert/cmp"
 	"gotest.tools/icmd"
 	"gotest.tools/poll"
+=======
+	"gotest.tools/v3/assert"
+	"gotest.tools/v3/assert/cmp"
+	"gotest.tools/v3/icmd"
+	"gotest.tools/v3/poll"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func deleteImages(images ...string) error {
@@ -174,6 +181,7 @@ func inspectMountPointJSON(j, destination string) (types.MountPoint, error) {
 	return *m, nil
 }
 
+<<<<<<< HEAD
 // Deprecated: use cli.Inspect
 func inspectImage(c *testing.T, name, filter string) string {
 	c.Helper()
@@ -188,6 +196,8 @@ func inspectImage(c *testing.T, name, filter string) string {
 	return strings.TrimSpace(result.Combined())
 }
 
+=======
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 func getIDByName(c *testing.T, name string) string {
 	c.Helper()
 	id, err := inspectFieldWithError(name, "Id")
@@ -447,11 +457,19 @@ func pollCheck(t *testing.T, f checkF, compare func(x interface{}) assert.BoolOr
 		case bool:
 			if r {
 				return poll.Success()
+<<<<<<< HEAD
 			}
 		case cmp.Comparison:
 			if r().Success() {
 				return poll.Success()
 			}
+=======
+			}
+		case cmp.Comparison:
+			if r().Success() {
+				return poll.Success()
+			}
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 		default:
 			panic(fmt.Errorf("pollCheck: type %T not implemented", r))
 		}

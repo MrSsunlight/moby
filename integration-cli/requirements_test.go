@@ -9,6 +9,7 @@ import (
 	"os/exec"
 	"strconv"
 	"strings"
+	"testing"
 	"time"
 
 	"github.com/docker/docker/api/types"
@@ -16,7 +17,7 @@ import (
 	"github.com/docker/docker/api/types/versions"
 	"github.com/docker/docker/client"
 	"github.com/docker/docker/integration-cli/requirement"
-	"github.com/docker/docker/internal/test/registry"
+	"github.com/docker/docker/testutil/registry"
 )
 
 func ArchitectureIsNot(arch string) bool {
@@ -190,6 +191,12 @@ func TODOBuildkit() bool {
 
 // testRequires checks if the environment satisfies the requirements
 // for the test to run or skips the tests.
+<<<<<<< HEAD
 func testRequires(c interface{}, requirements ...requirement.Test) {
 	requirement.Is(c.(requirement.SkipT), requirements...)
+=======
+func testRequires(t *testing.T, requirements ...requirement.Test) {
+	t.Helper()
+	requirement.Is(t, requirements...)
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 }

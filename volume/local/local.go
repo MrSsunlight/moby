@@ -16,8 +16,9 @@ import (
 	"github.com/docker/docker/daemon/names"
 	"github.com/docker/docker/errdefs"
 	"github.com/docker/docker/pkg/idtools"
-	"github.com/docker/docker/pkg/mount"
 	"github.com/docker/docker/volume"
+	"github.com/moby/sys/mount"
+	"github.com/moby/sys/mountinfo"
 	"github.com/pkg/errors"
 )
 
@@ -172,7 +173,7 @@ func (r *Root) Create(name string, opts map[string]string) (volume.Volume, error
 		if err != nil {
 			return nil, err
 		}
-		if err = ioutil.WriteFile(filepath.Join(filepath.Dir(path), "opts.json"), b, 600); err != nil {
+		if err = ioutil.WriteFile(filepath.Join(filepath.Dir(path), "opts.json"), b, 0600); err != nil {
 			return nil, errdefs.System(errors.Wrap(err, "error while persisting volume options"))
 		}
 	}
@@ -335,7 +336,7 @@ func (v *localVolume) Unmount(id string) error {
 func (v *localVolume) unmount() error {
 	if v.opts != nil {
 		if err := mount.Unmount(v.path); err != nil {
-			if mounted, mErr := mount.Mounted(v.path); mounted || mErr != nil {
+			if mounted, mErr := mountinfo.Mounted(v.path); mounted || mErr != nil {
 				return errdefs.System(err)
 			}
 		}

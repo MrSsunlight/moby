@@ -9,7 +9,11 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"gotest.tools/assert"
+=======
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 func (s *DockerSuite) TestPortList(c *testing.T) {
@@ -173,33 +177,37 @@ func assertPortList(c *testing.T, out string, expected []string) error {
 	return nil
 }
 
+<<<<<<< HEAD
 func assertPortRange(c *testing.T, out string, expectedTcp, expectedUdp []int) error {
+=======
+func assertPortRange(c *testing.T, out string, expectedTCP, expectedUDP []int) error {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	lines := strings.Split(strings.Trim(out, "\n "), "\n")
 
-	var validTcp, validUdp bool
+	var validTCP, validUDP bool
 	for _, l := range lines {
 		// 80/tcp -> 0.0.0.0:8015
 		port, err := strconv.Atoi(strings.Split(l, ":")[1])
 		if err != nil {
 			return err
 		}
-		if strings.Contains(l, "tcp") && expectedTcp != nil {
-			if port < expectedTcp[0] || port > expectedTcp[1] {
-				return fmt.Errorf("tcp port (%d) not in range expected range %d-%d", port, expectedTcp[0], expectedTcp[1])
+		if strings.Contains(l, "tcp") && expectedTCP != nil {
+			if port < expectedTCP[0] || port > expectedTCP[1] {
+				return fmt.Errorf("tcp port (%d) not in range expected range %d-%d", port, expectedTCP[0], expectedTCP[1])
 			}
-			validTcp = true
+			validTCP = true
 		}
-		if strings.Contains(l, "udp") && expectedUdp != nil {
-			if port < expectedUdp[0] || port > expectedUdp[1] {
-				return fmt.Errorf("udp port (%d) not in range expected range %d-%d", port, expectedUdp[0], expectedUdp[1])
+		if strings.Contains(l, "udp") && expectedUDP != nil {
+			if port < expectedUDP[0] || port > expectedUDP[1] {
+				return fmt.Errorf("udp port (%d) not in range expected range %d-%d", port, expectedUDP[0], expectedUDP[1])
 			}
-			validUdp = true
+			validUDP = true
 		}
 	}
-	if !validTcp {
+	if !validTCP {
 		return fmt.Errorf("tcp port not found")
 	}
-	if !validUdp {
+	if !validUDP {
 		return fmt.Errorf("udp port not found")
 	}
 	return nil

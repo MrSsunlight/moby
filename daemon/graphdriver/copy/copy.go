@@ -11,9 +11,9 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/containerd/containerd/sys"
 	"github.com/docker/docker/pkg/pools"
 	"github.com/docker/docker/pkg/system"
-	rsystem "github.com/opencontainers/runc/libcontainer/system"
 	"golang.org/x/sys/unix"
 )
 
@@ -133,9 +133,6 @@ func DirCopy(srcDir, dstDir string, copyMode Mode, copyXattrs bool) error {
 		}
 
 		dstPath := filepath.Join(dstDir, relPath)
-		if err != nil {
-			return err
-		}
 
 		stat, ok := f.Sys().(*syscall.Stat_t)
 		if !ok {
@@ -146,7 +143,11 @@ func DirCopy(srcDir, dstDir string, copyMode Mode, copyXattrs bool) error {
 
 		switch mode := f.Mode(); {
 		case mode.IsRegular():
+<<<<<<< HEAD
 			//the type is 32bit on mips
+=======
+			// the type is 32bit on mips
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 			id := fileID{dev: uint64(stat.Dev), ino: stat.Ino} // nolint: unconvert
 			if copyMode == Hardlink {
 				isHardlink = true
@@ -187,7 +188,7 @@ func DirCopy(srcDir, dstDir string, copyMode Mode, copyXattrs bool) error {
 			}
 
 		case mode&os.ModeDevice != 0:
-			if rsystem.RunningInUserNS() {
+			if sys.RunningInUserNS() {
 				// cannot create a device if running in user namespace
 				return nil
 			}

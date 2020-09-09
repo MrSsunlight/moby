@@ -3,7 +3,11 @@ set -e -u -o pipefail
 
 ARCH=$(uname -m)
 if [ "$ARCH" = "x86_64" ]; then
+<<<<<<< HEAD
   ARCH="amd64"
+=======
+	ARCH="amd64"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 fi
 
 export DOCKER_ENGINE_GOARCH=${DOCKER_ENGINE_GOARCH:-${ARCH}}
@@ -13,8 +17,9 @@ export DOCKER_ENGINE_GOARCH=${DOCKER_ENGINE_GOARCH:-${ARCH}}
 : ${TESTDEBUG:=}
 
 integration_api_dirs=${TEST_INTEGRATION_DIR:-"$(
-	find /tests/integration -type d |
-	grep -vE '(^/tests/integration($|/internal)|/testdata)')"}
+	find /tests/integration -type d \
+		| grep -vE '(^/tests/integration($|/internal)|/testdata)'
+)"}
 
 run_test_integration() {
 	set_platform_timeout

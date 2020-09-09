@@ -6,8 +6,13 @@ import (
 	"strings"
 	"testing"
 
+<<<<<<< HEAD
 	"github.com/docker/docker/internal/test/request"
 	"gotest.tools/assert"
+=======
+	"github.com/docker/docker/testutil/request"
+	"gotest.tools/v3/assert"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 )
 
 // #19100 This is a deprecated feature test, it should be removed in Docker 1.12

@@ -15,7 +15,11 @@ import (
 	dockerreference "github.com/docker/docker/reference"
 	"github.com/docker/docker/registry"
 	"github.com/docker/libtrust"
+<<<<<<< HEAD
 	"github.com/opencontainers/go-digest"
+=======
+	digest "github.com/opencontainers/go-digest"
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 	"github.com/pkg/errors"
 	"github.com/sirupsen/logrus"
 )
@@ -38,6 +42,7 @@ type ImageServiceConfig struct {
 	LayerStores               map[string]layer.Store
 	MaxConcurrentDownloads    int
 	MaxConcurrentUploads      int
+	MaxDownloadAttempts       int
 	ReferenceStore            dockerreference.Store
 	RegistryService           registry.Service
 	TrustKey                  libtrust.PrivateKey
@@ -47,10 +52,11 @@ type ImageServiceConfig struct {
 func NewImageService(config ImageServiceConfig) *ImageService {
 	logrus.Debugf("Max Concurrent Downloads: %d", config.MaxConcurrentDownloads)
 	logrus.Debugf("Max Concurrent Uploads: %d", config.MaxConcurrentUploads)
+	logrus.Debugf("Max Download Attempts: %d", config.MaxDownloadAttempts)
 	return &ImageService{
 		containers:                config.ContainerStore,
 		distributionMetadataStore: config.DistributionMetadataStore,
-		downloadManager:           xfer.NewLayerDownloadManager(config.LayerStores, config.MaxConcurrentDownloads),
+		downloadManager:           xfer.NewLayerDownloadManager(config.LayerStores, config.MaxConcurrentDownloads, xfer.WithMaxDownloadAttempts(config.MaxDownloadAttempts)),
 		eventsService:             config.EventsService,
 		imageStore:                config.ImageStore,
 		layerStores:               config.LayerStores,
@@ -182,7 +188,7 @@ func (i *ImageService) GraphDriverForOS(os string) string {
 func (i *ImageService) ReleaseLayer(rwlayer layer.RWLayer, containerOS string) error {
 	metadata, err := i.layerStores[containerOS].ReleaseRWLayer(rwlayer)
 	layer.LogReleaseMetadata(metadata)
-	if err != nil && err != layer.ErrMountDoesNotExist && !os.IsNotExist(errors.Cause(err)) {
+	if err != nil && !errors.Is(err, layer.ErrMountDoesNotExist) && !errors.Is(err, os.ErrNotExist) {
 		return errors.Wrapf(err, "driver %q failed to remove root filesystem",
 			i.layerStores[containerOS].DriverName())
 	}

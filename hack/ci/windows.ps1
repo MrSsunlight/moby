@@ -161,7 +161,11 @@ Function Nuke-Everything {
             }
 
             $allImages  = $(docker images --format "{{.Repository}}#{{.ID}}")
+<<<<<<< HEAD
             $toRemove   = ($allImages | Select-String -NotMatch "servercore","nanoserver","docker")
+=======
+            $toRemove   = ($allImages | Select-String -NotMatch "servercore","nanoserver","docker","busybox")
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
             $imageCount = ($toRemove | Measure-Object -line).Lines
 
             if ($imageCount -gt 0) {
@@ -447,6 +451,8 @@ Try {
     $errorActionPreference='Stop'
     New-Item -ItemType Directory "$env:TEMP" -ErrorAction SilentlyContinue | Out-Null
     New-Item -ItemType Directory "$env:TEMP\userprofile" -ErrorAction SilentlyContinue  | Out-Null
+    New-Item -ItemType Directory "$env:TEMP\testresults" -ErrorAction SilentlyContinue  | Out-Null
+    New-Item -ItemType Directory "$env:TEMP\testresults\unittests" -ErrorAction SilentlyContinue  | Out-Null
     New-Item -ItemType Directory "$env:TEMP\localappdata" -ErrorAction SilentlyContinue | Out-Null
     New-Item -ItemType Directory "$env:TEMP\binary" -ErrorAction SilentlyContinue | Out-Null
     New-Item -ItemType Directory "$env:TEMP\installer" -ErrorAction SilentlyContinue | Out-Null
@@ -525,6 +531,12 @@ Try {
         if (-not($LastExitCode -eq 0)) {
             Throw "ERROR: Failed to docker cp the daemon binary (dockerd.exe) to $env:TEMP\binary"
         }
+
+        docker cp "$COMMITHASH`:c`:\gopath\bin\gotestsum.exe" $env:TEMP\binary\
+        if (-not (Test-Path "$env:TEMP\binary\gotestsum.exe")) {
+            Throw "ERROR: gotestsum.exe not found...." `
+        }
+
         $ErrorActionPreference = "Stop"
 
         # Copy the built dockerd.exe to dockerd-$COMMITHASH.exe so that easily spotted in task manager.
@@ -774,11 +786,36 @@ Try {
     # Run the unit tests inside a container unless SKIP_UNIT_TESTS is defined
     if (($null -eq $env:LCOW_MODE) -and ($null -eq $env:LCOW_BASIC_MODE)) {
         if ($null -eq $env:SKIP_UNIT_TESTS) {
+            $ContainerNameForUnitTests = $COMMITHASH + "_UnitTests"
             Write-Host -ForegroundColor Cyan "INFO: Running unit tests at $(Get-Date)..."
             $ErrorActionPreference = "SilentlyContinue"
-            $Duration=$(Measure-Command {docker run -e DOCKER_GITCOMMIT=$COMMITHASH$CommitUnsupported docker hack\make.ps1 -TestUnit | Out-Host })
+            $Duration=$(Measure-Command {docker run --name $ContainerNameForUnitTests -e DOCKER_GITCOMMIT=$COMMITHASH$CommitUnsupported docker hack\make.ps1 -TestUnit | Out-Host })
+            $TestRunExitCode = $LastExitCode
             $ErrorActionPreference = "Stop"
+
+            # Saving for artifacts......
+            $unitTestsContPath="$ContainerNameForUnitTests`:c`:\gopath\src\github.com\docker\docker\bundles"
+            $JunitExpectedContFilePath = "$unitTestsContPath\junit-report-unit-tests.xml"
+            docker cp $JunitExpectedContFilePath "$TEMPORIG"
             if (-not($LastExitCode -eq 0)) {
+                Throw "ERROR: Failed to docker cp the unit tests report ($JunitExpectedContFilePath) to $TEMPORIG"
+            }
+
+            if (Test-Path "$TEMPORIG\junit-report-unit-tests.xml") {
+                Write-Host -ForegroundColor Magenta "INFO: Unit tests results($TEMPORIG\junit-report-unit-tests.xml) exist. pwd=$pwd"
+            } else {
+                Write-Host -ForegroundColor Magenta "ERROR: Unit tests results($TEMPORIG\junit-report-unit-tests.xml) do not exist. pwd=$pwd"
+            }
+            
+            # Saving where jenkins will take a look at.....
+            $bundlesDir = "bundles"
+            New-Item -Force -ItemType Directory $bundlesDir | Out-Null
+            docker cp $JunitExpectedContFilePath "$bundlesDir"
+            if (-not($LastExitCode -eq 0)) {
+                Throw "ERROR: Failed to docker cp the unit tests report ($JunitExpectedContFilePath) to $bundlesDir"
+            }
+
+            if (-not($TestRunExitCode -eq 0)) {
                 Throw "ERROR: Unit tests failed"
             }
             Write-Host  -ForegroundColor Green "INFO: Unit tests ended at $(Get-Date). Duration`:$Duration"
@@ -790,7 +827,9 @@ Try {
     # Add the Windows busybox image. Needed for WCOW integration tests
     if (($null -eq $env:LCOW_MODE) -and ($null -eq $env:LCOW_BASIC_MODE)) {
         if ($null -eq $env:SKIP_INTEGRATION_TESTS) {
+            Write-Host -ForegroundColor Green "INFO: Building busybox"
             $ErrorActionPreference = "SilentlyContinue"
+<<<<<<< HEAD
             # Build it regardless while switching between nanoserver and windowsservercore
             #$bbCount = $(& "$env:TEMP\binary\docker-$COMMITHASH" "-H=$($DASHH_CUT)" images | Select-String "busybox" | Measure-Object -line).Lines
             #$ErrorActionPreference = "Stop"
@@ -807,6 +846,13 @@ Try {
                 }
             #}
 
+=======
+            $(& "$env:TEMP\binary\docker-$COMMITHASH" "-H=$($DASHH_CUT)" build  -t busybox --build-arg WINDOWS_BASE_IMAGE --build-arg WINDOWS_BASE_IMAGE_TAG "$env:SOURCES_DRIVE`:\$env:SOURCES_SUBDIR\src\github.com\docker\docker\contrib\busybox\" | Out-Host)
+            $ErrorActionPreference = "Stop"
+            if (-not($LastExitCode -eq 0)) {
+                Throw "ERROR: Failed to build busybox image"
+            }
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
 
             Write-Host -ForegroundColor Green "INFO: Docker images of the daemon under test"
             Write-Host 
@@ -830,7 +876,13 @@ Try {
             $env:OrigDOCKER_HOST="$env:DOCKER_HOST"
     
             #https://blogs.technet.microsoft.com/heyscriptingguy/2011/09/20/solve-problems-with-external-command-lines-in-powershell/ is useful to see tokenising
+<<<<<<< HEAD
             $c = "go test "
+=======
+            $jsonFilePath = "..\\bundles\\go-test-report-intcli-tests.json"
+            $xmlFilePath = "..\\bundles\\junit-report-intcli-tests.xml"
+            $c = "gotestsum --format=standard-quiet --jsonfile=$jsonFilePath --junitfile=$xmlFilePath -- "
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
             $c += "`"-test.v`" "
             if ($null -ne $env:INTEGRATION_TEST_NAME) { # Makes is quicker for debugging to be able to run only a subset of the integration tests
                 $c += "`"-test.run`" "
@@ -864,10 +916,19 @@ Try {
                 if (!($env:INTEGRATION_TESTFLAGS)) {
                     $env:INTEGRATION_TESTFLAGS = "-test.v"
                 }
+<<<<<<< HEAD
                 Set-Location "$env:SOURCES_DRIVE`:\$env:SOURCES_SUBDIR\src\github.com\docker\docker"
                 $start=(Get-Date); Invoke-Expression ".\hack\make.ps1 -TestIntegration"; $Duration=New-Timespan -Start $start -End (Get-Date)
                 $ErrorActionPreference = "Stop"
                 if (-not($LastExitCode -eq 0)) {
+=======
+                $start=(Get-Date); Invoke-Expression ".\hack\make.ps1 -TestIntegration"; $Duration=New-Timespan -Start $start -End (Get-Date)
+                $IntTestsRunResult = $LastExitCode
+                $ErrorActionPreference = "Stop"
+                # Copy all the test results to TEMPORIG for archival
+                Copy-Item -Path "$env:SOURCES_DRIVE`:\$env:SOURCES_SUBDIR\src\github.com\docker\docker\bundles\junit-report*xml" -Destination $TEMPORIG
+                if (-not($IntTestsRunResult -eq 0)) {
+>>>>>>> 0906c7fae9345571e51d6103eb90774d5f408375
                     Throw "ERROR: Integration API tests failed at $(Get-Date). Duration`:$Duration"
                 }
 
@@ -877,6 +938,7 @@ Try {
                 Set-Location "$env:SOURCES_DRIVE`:\$env:SOURCES_SUBDIR\src\github.com\docker\docker\integration-cli"
                 # Explicit to not use measure-command otherwise don't get output as it goes
                 $start=(Get-Date); Invoke-Expression $c; $Duration=New-Timespan -Start $start -End (Get-Date)
+                Copy-Item -Path $xmlFilePath -Destination $TEMPORIG
             }
             $ErrorActionPreference = "Stop"
             if (-not($LastExitCode -eq 0)) {
