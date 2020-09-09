@@ -20,6 +20,7 @@ func (cli *Client) ImageList(ctx context.Context, options types.ImageListOptions
 	optionFilters := options.Filters
 	// 获取 reference(引用)
 	referenceFilters := optionFilters.Get("reference")
+	// ???
 	if versions.LessThan(cli.version, "1.25") && len(referenceFilters) > 0 {
 		query.Set("filter", referenceFilters[0])
 		for _, filterValue := range referenceFilters {

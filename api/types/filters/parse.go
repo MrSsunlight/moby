@@ -67,6 +67,7 @@ func ToJSON(a Args) (string, error) {
 // list of strings, instead of a set.
 //
 // Deprecated: do not use in any new code; use ToJSON instead
+// 将Args编码为JSON字符串。 如果version小于1.22，则编码格式将使用较旧的旧格式，其中值是字符串列表，而不是集合。 改用ToJSON
 func ToParamWithVersion(version string, a Args) (string, error) {
 	if a.Len() == 0 {
 		return "", nil
