@@ -207,6 +207,7 @@ func (cli *Client) ClientVersion() string {
 // was initialized with a fixed version (`opts.WithVersion(xx)`), no negotiation
 // will be performed.
 func (cli *Client) NegotiateAPIVersion(ctx context.Context) {
+	// 如果没有开启版本检测
 	if !cli.manualOverride {
 		ping, _ := cli.Ping(ctx)
 		cli.negotiateAPIVersionPing(ping)
@@ -226,6 +227,7 @@ func (cli *Client) NegotiateAPIVersionPing(p types.Ping) {
 
 // negotiateAPIVersionPing queries the API and updates the version to match the
 // API version. Any errors are silently ignored.
+// 查询API并更新版本以匹配API版本
 func (cli *Client) negotiateAPIVersionPing(p types.Ping) {
 	// try the latest version before versioning headers existed
 	if p.APIVersion == "" {
@@ -238,6 +240,7 @@ func (cli *Client) negotiateAPIVersionPing(p types.Ping) {
 	}
 
 	// if server version is lower than the client version, downgrade
+	// 如果服务器版本低于客户端版本，降级
 	if versions.LessThan(p.APIVersion, cli.version) {
 		cli.version = p.APIVersion
 	}
@@ -250,18 +253,21 @@ func (cli *Client) negotiateAPIVersionPing(p types.Ping) {
 }
 
 // DaemonHost returns the host address used by the client
+// 返回客户端主机地址
 func (cli *Client) DaemonHost() string {
 	return cli.host
 }
 
 // HTTPClient returns a copy of the HTTP client bound to the server
+// 返回绑定到服务器的HTTP客户机的副本
 func (cli *Client) HTTPClient() *http.Client {
 	c := *cli.client
 	return &c
 }
 
 // ParseHostURL parses a url string, validates the string is a host url, and
-// returns the parsed URL 主机URL解析
+// returns the parsed URL
+// 主机URL解析
 func ParseHostURL(host string) (*url.URL, error) {
 	protoAddrParts := strings.SplitN(host, "://", 2)
 	if len(protoAddrParts) == 1 {
@@ -286,6 +292,7 @@ func ParseHostURL(host string) (*url.URL, error) {
 }
 
 // CustomHTTPHeaders returns the custom http headers stored by the client.
+// 返回客户端存储的自定义http头
 func (cli *Client) CustomHTTPHeaders() map[string]string {
 	m := make(map[string]string)
 	for k, v := range cli.customHTTPHeaders {
@@ -296,6 +303,7 @@ func (cli *Client) CustomHTTPHeaders() map[string]string {
 
 // SetCustomHTTPHeaders that will be set on every HTTP request made by the client.
 // Deprecated: use WithHTTPHeaders when creating the client.
+// 设置http头 已弃用
 func (cli *Client) SetCustomHTTPHeaders(headers map[string]string) {
 	cli.customHTTPHeaders = headers
 }

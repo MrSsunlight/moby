@@ -237,12 +237,14 @@ type ImageImportOptions struct {
 }
 
 // ImageListOptions holds parameters to filter the list of images with.
+// 保存用于筛选图像列表的参数
 type ImageListOptions struct {
 	All     bool
 	Filters filters.Args
 }
 
 // ImageLoadResponse returns information to the client about a load process.
+// 向客户端返回有关加载进程的信息
 type ImageLoadResponse struct {
 	// Body must be closed to avoid a resource leak
 	Body io.ReadCloser

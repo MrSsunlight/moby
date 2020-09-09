@@ -11,11 +11,14 @@ import (
 )
 
 // ImageList returns a list of images in the docker host.
+// 返回主机镜像列表  ImageSummary每个镜像参数
 func (cli *Client) ImageList(ctx context.Context, options types.ImageListOptions) ([]types.ImageSummary, error) {
 	var images []types.ImageSummary
 	query := url.Values{}
 
+	// 键值对
 	optionFilters := options.Filters
+	// 获取 reference(引用)
 	referenceFilters := optionFilters.Get("reference")
 	if versions.LessThan(cli.version, "1.25") && len(referenceFilters) > 0 {
 		query.Set("filter", referenceFilters[0])

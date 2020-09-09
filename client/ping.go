@@ -13,6 +13,7 @@ import (
 // "Builder-Version", "OS-Type" & "API-Version" headers. It attempts to use
 // a HEAD request on the endpoint, but falls back to GET if HEAD is not supported
 // by the daemon.
+// 对服务器执行ping操作，并返回“ Docker-Experimental”，“ Builder-Version”，“ OS-Type”和“ API-Version”标头的值
 func (cli *Client) Ping(ctx context.Context) (types.Ping, error) {
 	var ping types.Ping
 

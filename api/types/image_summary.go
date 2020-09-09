@@ -27,11 +27,11 @@ type ImageSummary struct {
 	// Required: true
 	ParentID string `json:"ParentId"`
 
-	// repo digests
+	// repo digests 回购摘要
 	// Required: true
 	RepoDigests []string `json:"RepoDigests"`
 
-	// repo tags
+	// repo tags 回购标签
 	// Required: true
 	RepoTags []string `json:"RepoTags"`
 
@@ -43,7 +43,7 @@ type ImageSummary struct {
 	// Required: true
 	Size int64 `json:"Size"`
 
-	// virtual size
+	// virtual size 镜像的大小
 	// Required: true
 	VirtualSize int64 `json:"VirtualSize"`
 }
