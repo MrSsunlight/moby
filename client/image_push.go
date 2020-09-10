@@ -15,6 +15,8 @@ import (
 // It executes the privileged function if the operation is unauthorized
 // and it tries one more time.
 // It's up to the caller to handle the io.ReadCloser and close it properly.
+// docker主机将一个映像推送到远程注册表
+// 由调用方处理io.ReadCloser并正确关闭它
 func (cli *Client) ImagePush(ctx context.Context, image string, options types.ImagePushOptions) (io.ReadCloser, error) {
 	ref, err := reference.ParseNormalizedNamed(image)
 	if err != nil {
@@ -48,7 +50,7 @@ func (cli *Client) ImagePush(ctx context.Context, image string, options types.Im
 	return resp.body, nil
 }
 
-func (cli *Client) tryImagePush(ctx context.Context, imageID string, query url.Values, registryAuth string) (serverResponse, error) {
+func (cli *Client) tryImagePush(ctx context.Context, imageID string, query url.Values, registryAuth string/*注册表验证*/) (serverResponse, error) {
 	headers := map[string][]string{"X-Registry-Auth": {registryAuth}}
 	return cli.post(ctx, "/images/"+imageID+"/push", query, nil, headers)
 }

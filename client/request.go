@@ -28,6 +28,7 @@ type serverResponse struct {
 }
 
 // head sends an http request to the docker API using the method HEAD.
+// head使用方法head向docker API发送http请求
 func (cli *Client) head(ctx context.Context, path string, query url.Values, headers map[string][]string) (serverResponse, error) {
 	return cli.sendRequest(ctx, http.MethodHead, path, query, nil, headers)
 }
@@ -38,6 +39,7 @@ func (cli *Client) get(ctx context.Context, path string, query url.Values, heade
 }
 
 // post sends an http request to the docker API using the method POST with a specific Go context.
+// post使用带有特定Go上下文的post方法向docker API发送http请求
 func (cli *Client) post(ctx context.Context, path string, query url.Values, obj interface{}, headers map[string][]string) (serverResponse, error) {
 	body, headers, err := encodeBody(obj, headers)
 	if err != nil {
@@ -62,6 +64,7 @@ func (cli *Client) delete(ctx context.Context, path string, query url.Values, he
 
 type headers map[string][]string
 
+// body 得编码
 func encodeBody(obj interface{}, headers headers) (io.Reader, headers, error) {
 	if obj == nil {
 		return nil, headers, nil
@@ -78,6 +81,7 @@ func encodeBody(obj interface{}, headers headers) (io.Reader, headers, error) {
 	return body, headers, nil
 }
 
+// 构造请求体
 func (cli *Client) buildRequest(method, path string, body io.Reader, headers headers) (*http.Request, error) {
 	expectedPayload := (method == http.MethodPost || method == http.MethodPut)
 	if expectedPayload && body == nil {
@@ -105,15 +109,19 @@ func (cli *Client) buildRequest(method, path string, body io.Reader, headers hea
 	return req, nil
 }
 
+// 发送请求
 func (cli *Client) sendRequest(ctx context.Context, method, path string, query url.Values, body io.Reader, headers headers) (serverResponse, error) {
+	// 构造请求体
 	req, err := cli.buildRequest(method, cli.getAPIPath(ctx, path, query), body, headers)
 	if err != nil {
 		return serverResponse{}, err
 	}
+	// 发送请求
 	resp, err := cli.doRequest(ctx, req)
 	if err != nil {
 		return resp, errdefs.FromStatusCode(err, resp.statusCode)
 	}
+	// 检测应答
 	err = cli.checkResponseErr(resp)
 	return resp, errdefs.FromStatusCode(err, resp.statusCode)
 }
@@ -249,6 +257,7 @@ func (cli *Client) addHeaders(req *http.Request, headers headers) *http.Request 
 	}
 	return req
 }
+
 
 func encodeData(data interface{}) (*bytes.Buffer, error) {
 	params := bytes.NewBuffer(nil)
