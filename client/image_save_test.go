@@ -24,6 +24,7 @@ func TestImageSaveError(t *testing.T) {
 }
 
 func TestImageSave(t *testing.T) {
+	// 预期url
 	expectedURL := "/images/get"
 	client := &Client{
 		client: newMockClient(func(r *http.Request) (*http.Response, error) {

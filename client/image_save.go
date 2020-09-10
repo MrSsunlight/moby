@@ -8,6 +8,7 @@ import (
 
 // ImageSave retrieves one or more images from the docker host as an io.ReadCloser.
 // It's up to the caller to store the images and close the stream.
+// 从docker主机中检索一个或多个图像作为io.ReadCloser
 func (cli *Client) ImageSave(ctx context.Context, imageIDs []string) (io.ReadCloser, error) {
 	query := url.Values{
 		"names": imageIDs,
